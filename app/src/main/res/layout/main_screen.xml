@@ -4,35 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainScreen">
+    tools:context=".mainscreen.MainScreen">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#363F44"
-        android:gravity="center">
+        android:gravity="center"
+        tools:ignore="UselessParent">
 
         <EditText
             android:id="@+id/et_TimKiem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="80dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="80dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/bg_edit_text"
             android:gravity="center"
-            android:hint="Nhập tên truyện cần tìm"
+            android:hint="@string/KhungTimKiem"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="#B3ADAD"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/menu"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_more_vert_24" />
     </RelativeLayout>
 
-    <GridView
-        android:id="@+id/gvDSTruyen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3">
-
-    </GridView>
 </LinearLayout>
