@@ -2,6 +2,8 @@ package com.example.mangaapp.mainscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,9 @@ public class MainScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Full màn hình
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main_screen);
         init();
         //Điều hướng thanh menu
@@ -28,4 +33,5 @@ public class MainScreen extends AppCompatActivity {
     public void init() {
         menu = findViewById(R.id.iv_menu);
     }
+
 }
