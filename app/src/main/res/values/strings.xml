@@ -5,6 +5,23 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_menu">menu</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- cho navigation drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--cho form đăng ký đăng nhập-->
+    <string name="dn_tendangnhap">Tên đăng nhập</string>
+    <string name="dn_matkhau">Mật khẩu</string>
+    <string name="dn_quenmatkhau">Quên mật khẩu?</string>
+    <string name="dn_dangnhap">Đăng nhập</string>
+    <string name="dn_chuacotaikhoan">Chưa có tài khoản?</string>
+    <string name="dn_dangky">Đăng ký</string>
+    <string name="dk_hovate">Họ và tên</string>
+    <string name="dk_email">Email</string>
+    <string name="dk_sdt">Số điện thoại</string>
+    <string name="dk_tendangnhap">Tên đăng nhập</string>
+    <string name="dk_matkhau">Mật khẩu</string>
+    <string name="dk_nhaplaimatkhau">Nhập lại mật khẩu</string>
+    <string name="dk_dangky">Đăng ký</string>
+    <string name="dk_dacotaikhoan">Đã có tài khoản?</string>
+    <string name="dk_dangnhap">Đăng nhập</string>
 </resources>
