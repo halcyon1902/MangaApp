@@ -5,126 +5,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:gravity="center"
     tools:context=".function.SignUp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/et_dk_hvt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:background="#ffffff"
-            android:ems="15"
-            android:hint="@string/dk_hovate"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="5dp"
-            android:paddingEnd="-5dp"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/et_dk_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:ems="15"
-            android:hint="@string/dk_email"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            android:paddingStart="5dp"
-            android:paddingEnd="-5dp"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/et_dk_sdt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:ems="15"
-            android:hint="@string/dk_sdt"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="5dp"
-            android:paddingEnd="-5dp"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/et_dk_tdn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:ems="15"
-            android:hint="@string/dk_tendangnhap"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="5dp"
-            android:paddingEnd="-5dp"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+        android:gravity="bottom"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/white"
+            app:boxStrokeColor="@color/goldenrod"
+            app:endIconMode="clear_text"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/white">
 
-            <EditText
-                android:id="@+id/et_dk_mk"
-                android:layout_width="355dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="7dp"
-                android:background="#ffffff"
-                android:ems="15"
-                android:hint="@string/dk_matkhau"
-                android:importantForAutofill="no"
-                android:inputType="textPassword"
-                android:paddingStart="5dp"
-                android:paddingEnd="-5dp"
-                android:textColor="#000000"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeStepGranularity="20sp"
+                android:drawableStart="@drawable/ic_email_yellow"
+                android:drawablePadding="10dp"
+                android:hint="@string/dn_tendangnhap"
+                android:inputType="text"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/white"
+            app:boxStrokeColor="@color/goldenrod"
+            app:endIconMode="clear_text"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/white">
 
-            <EditText
-                android:id="@+id/et_dk_nlmk"
-                android:layout_width="355dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="7dp"
-                android:background="#ffffff"
-                android:ems="15"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_TenTaiKhoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeStepGranularity="20sp"
+                android:drawableStart="@drawable/ic_baseline_person_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/dn_tendangnhap"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/white"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/goldenrod"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_MatKhau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeStepGranularity="20sp"
+                android:drawableStart="@drawable/ic_baseline_lock_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/dn_matkhau"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/white"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/goldenrod"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_NhapLaiMatKhau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeStepGranularity="20sp"
+                android:drawableStart="@drawable/ic_baseline_lock_24"
+                android:drawablePadding="10dp"
                 android:hint="@string/dk_nhaplaimatkhau"
-                android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:paddingStart="5dp"
-                android:paddingEnd="-5dp"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btn_DangNhap"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button"
-            android:text="@string/dn_dangnhap"
-            android:textColor="@color/orange"
-            android:textSize="18sp" />
+            android:layout_margin="20dp"
+            android:gravity="bottom|center">
+
+            <Button
+                android:id="@+id/btn_QuayLai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                android:text="Quay lại"
+                android:textSize="15sp"
+                tools:ignore="ButtonStyle,HardcodedText,TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/btn_DangKy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@id/btn_QuayLai"
+                android:background="@drawable/button"
+                android:text="@string/dk_dangky"
+                android:textSize="15sp"
+                tools:ignore="ButtonStyle,TouchTargetSizeCheck" />
+
+        </RelativeLayout>
     </LinearLayout>
 
 

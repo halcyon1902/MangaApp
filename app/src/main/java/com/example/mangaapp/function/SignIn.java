@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -45,16 +44,11 @@ public class SignIn extends AppCompatActivity {
         getTaiKhoan();
         init();
         btnDangNhap.setOnClickListener(v -> clickDangNhap());
-        dangky.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickDangKy();
-            }
-        });
+        dangky.setOnClickListener(v -> clickDangKy());
     }
 
     private void clickDangKy() {
-        startActivity(new Intent(this, SignIn.class));
+        startActivity(new Intent(this, SignUp.class));
         finish();
     }
 
@@ -119,7 +113,7 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
                 assert list != null;
-                Log.e("List có bao nhiêu phần tử", list.size() + "");
+                //Log.e("List có bao nhiêu phần tử", list.size() + "");
             }
 
             @Override
