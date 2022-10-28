@@ -1,4 +1,4 @@
-package com.example.mangaapp;
+package com.example.mangaapp.api;
 
 import com.example.mangaapp.model.TaiKhoan;
 import com.google.gson.Gson;
@@ -10,7 +10,6 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();

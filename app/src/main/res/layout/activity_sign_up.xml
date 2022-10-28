@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".function.SignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_dk_hvt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:background="#ffffff"
+            android:ems="15"
+            android:hint="@string/dk_hovate"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="5dp"
+            android:paddingEnd="-5dp"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_dk_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:ems="15"
+            android:hint="@string/dk_email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:paddingStart="5dp"
+            android:paddingEnd="-5dp"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_dk_sdt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:ems="15"
+            android:hint="@string/dk_sdt"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="5dp"
+            android:paddingEnd="-5dp"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_dk_tdn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:ems="15"
+            android:hint="@string/dk_tendangnhap"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="5dp"
+            android:paddingEnd="-5dp"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_dk_mk"
+                android:layout_width="355dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="7dp"
+                android:background="#ffffff"
+                android:ems="15"
+                android:hint="@string/dk_matkhau"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingStart="5dp"
+                android:paddingEnd="-5dp"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_dk_nlmk"
+                android:layout_width="355dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="7dp"
+                android:background="#ffffff"
+                android:ems="15"
+                android:hint="@string/dk_nhaplaimatkhau"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingStart="5dp"
+                android:paddingEnd="-5dp"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_DangNhap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button"
+            android:text="@string/dn_dangnhap"
+            android:textColor="@color/orange"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>
