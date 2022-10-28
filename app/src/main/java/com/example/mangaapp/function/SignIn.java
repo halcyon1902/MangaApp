@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.md5.MD5;
 import com.example.mangaapp.model.TaiKhoan;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class SignIn extends AppCompatActivity {
     private List<TaiKhoan> list;
     private Button btnDangNhap;
-    private EditText matkhau, tendangnhap;
+    private TextInputEditText matkhau, tentaikhoan;
     private TextView dangky;
 
     @Override
@@ -53,7 +53,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void clickDangNhap() {
-        String name = tendangnhap.getText().toString().trim();
+        String name = tentaikhoan.getText().toString().trim();
         String pass = matkhau.getText().toString().trim();
         //mã hóa md5 cho mật khẩu
         byte[] md5Input = pass.getBytes();
@@ -108,7 +108,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void getTaiKhoan() {
-        ApiService.apiService.GetTaiKHoan().enqueue(new Callback<List<TaiKhoan>>() {
+        ApiService.apiService.GetTaiKhoan().enqueue(new Callback<List<TaiKhoan>>() {
             @Override
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
@@ -124,7 +124,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void init() {
-        tendangnhap = findViewById(R.id.edt_TenTaiKhoan);
+        tentaikhoan = findViewById(R.id.edt_TenTaiKhoan);
         matkhau = findViewById(R.id.edt_MatKhau);
         btnDangNhap = findViewById(R.id.btn_DangNhap);
         dangky = findViewById(R.id.et_DangKy);

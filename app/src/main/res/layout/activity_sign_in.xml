@@ -35,7 +35,7 @@
                 android:autoSizeStepGranularity="20sp"
                 android:drawableStart="@drawable/ic_baseline_person_24"
                 android:drawablePadding="10dp"
-                android:hint="@string/dn_tendangnhap"
+                android:hint="@string/dn_tentaikhoan"
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

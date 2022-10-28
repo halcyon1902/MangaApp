@@ -1,7 +1,8 @@
 package com.example.mangaapp.model;
 
+import java.util.Arrays;
+
 public class TaiKhoan {
-    private String ID;
     private String TaiKhoan;
     private String MatKhau;
     private String Email;
@@ -10,26 +11,17 @@ public class TaiKhoan {
     private String[] BinhLuans;
     private String NgayTao;
 
-    public TaiKhoan() {
-    }
-
-    public TaiKhoan(String ID, String taiKhoan, String matKhau, String email, boolean phanQuyen, boolean trangThai, String[] binhLuans, String ngayTao) {
-        this.ID = ID;
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-        PhanQuyen = phanQuyen;
-        TrangThai = trangThai;
-        BinhLuans = binhLuans;
-        NgayTao = ngayTao;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
+    @Override
+    public String toString() {
+        return "TaiKhoan{" +
+                "TaiKhoan='" + TaiKhoan + '\'' +
+                ", MatKhau='" + MatKhau + '\'' +
+                ", Email='" + Email + '\'' +
+                ", PhanQuyen=" + PhanQuyen +
+                ", TrangThai=" + TrangThai +
+                ", BinhLuans=" + Arrays.toString(BinhLuans) +
+                ", NgayTao='" + NgayTao + '\'' +
+                '}';
     }
 
     public String getTaiKhoan() {
@@ -87,4 +79,18 @@ public class TaiKhoan {
     public void setNgayTao(String ngayTao) {
         NgayTao = ngayTao;
     }
+
+    public TaiKhoan(String taiKhoan, String matKhau, String email, boolean phanQuyen, boolean trangThai, String[] binhLuans, String ngayTao) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+        PhanQuyen = phanQuyen;
+        TrangThai = trangThai;
+        BinhLuans = binhLuans;
+        NgayTao = ngayTao;
+    }
+
+    public TaiKhoan() {
+    }
+
 }
