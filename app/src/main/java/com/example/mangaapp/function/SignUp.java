@@ -2,7 +2,9 @@ package com.example.mangaapp.function;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,29 +42,69 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void clickDangKy() {
-        String name = tentaikhoan.getText().toString().trim();
-        String pass = matkhau.getText().toString().trim();
-        String mail = email.getText().toString().trim();
+        String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
+        String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
+        String mail = Objects.requireNonNull(email.getText()).toString().trim();
         boolean isTrangThai = true;
         boolean isPhanQuyen = false;
         String[] binhluan = new String[0];
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        TaiKhoan taiKhoan = new TaiKhoan(name, pass, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
-        ApiService.apiService.PostTaiKhoan(taiKhoan).enqueue(new Callback<TaiKhoan>() {
-            @Override
-            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                Log.e("Tài khoản đã tạo bao gồm", taiKhoan.toString());
-            }
+        if (Validation()) {
+            TaiKhoan taiKhoan = new TaiKhoan(name, pass, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
+            ApiService.apiService.PostTaiKhoan(taiKhoan).enqueue(new Callback<TaiKhoan>() {
+                @Override
+                public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                    Log.e("Tài khoản đã tạo bao gồm", taiKhoan.toString());
+                }
 
-            @Override
-            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-                Toast.makeText(SignUp.this, "Error", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+                    Toast.makeText(SignUp.this, "Error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private boolean Validation() {
+        String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
+        String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
+        String repass = Objects.requireNonNull(nhaplaimatkhau.getText()).toString().trim();
+        String mail = Objects.requireNonNull(email.getText()).toString().trim();
+        if (TextUtils.isEmpty(mail)) {
+            email.setError("Email không được để trống");
+            email.requestFocus();
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
+            email.setError("Email không đúng định dạng");
+            email.requestFocus();
+            return false;
+        }
+        if (TextUtils.isEmpty(name)) {
+            tentaikhoan.setError("Tên tài khoản không được để trống");
+            tentaikhoan.requestFocus();
+            return false;
+        }
+        if (pass.length() < 6) {
+            matkhau.setError("Mật khẩu không được ít hơn 6 kí tự !!!");
+            matkhau.requestFocus();
+            return false;
+        }
+        if (TextUtils.isEmpty(pass)) {
+            matkhau.setError("Mật khẩu không được để trống");
+            matkhau.requestFocus();
+            return false;
+        }
+        if (!repass.equals(pass)) {
+            nhaplaimatkhau.setError("Mật khẩu không trùng khớp");
+            nhaplaimatkhau.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private void clickQuayLai() {
-        startActivity(new Intent(this, SignUp.class));
+        startActivity(new Intent(this, SignIn.class));
         finish();
     }
 
