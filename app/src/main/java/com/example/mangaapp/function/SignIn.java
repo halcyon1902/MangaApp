@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,8 +54,8 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void clickDangNhap() {
-        String name = tentaikhoan.getText().toString().trim();
-        String pass = matkhau.getText().toString().trim();
+        String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
+        String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
         //mã hóa md5 cho mật khẩu
         byte[] md5Input = pass.getBytes();
         BigInteger md5Data = null;

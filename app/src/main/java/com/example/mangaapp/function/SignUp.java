@@ -15,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.md5.MD5;
 import com.example.mangaapp.model.TaiKhoan;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -49,8 +51,19 @@ public class SignUp extends AppCompatActivity {
         boolean isPhanQuyen = false;
         String[] binhluan = new String[0];
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        //mã hóa md5 cho mật khẩu
+        byte[] md5Input = pass.getBytes();
+        BigInteger md5Data = null;
+        try {
+            md5Data = new BigInteger(1, MD5.encryptMD5(md5Input));
+        } catch (Exception e) {
+            Log.e("Lỗi md5:", e.toString());
+        }
+        assert md5Data != null;
+        String passMD5 = md5Data.toString();
+        Log.e("MD5 mã hóa", passMD5);
         if (Validation()) {
-            TaiKhoan taiKhoan = new TaiKhoan(name, pass, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
+            TaiKhoan taiKhoan = new TaiKhoan(name, passMD5, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
             ApiService.apiService.PostTaiKhoan(taiKhoan).enqueue(new Callback<TaiKhoan>() {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
