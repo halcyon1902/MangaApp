@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class Truyen implements Serializable {
-
     private String TenTruyen;
     private String[] TheLoai;
     private boolean TrangThai;
@@ -17,11 +16,7 @@ public class Truyen implements Serializable {
     private String[] TacGias;
     private Chapter[] Chapters;
 
-    public Truyen() {
-    }
-
-    public Truyen(String tenTruyen, String[] theLoai, boolean trangThai, boolean tinhTrang, String gioiThieu
-            , String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacGias, Chapter[] chapters) {
+    public Truyen(String tenTruyen, String[] theLoai, boolean trangThai, boolean tinhTrang, String gioiThieu, String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacGias, Chapter[] chapters) {
         TenTruyen = tenTruyen;
         TheLoai = theLoai;
         TrangThai = trangThai;
@@ -33,6 +28,9 @@ public class Truyen implements Serializable {
         LuotTheoDoi = luotTheoDoi;
         TacGias = tacGias;
         Chapters = chapters;
+    }
+
+    public Truyen(String tenTruyen, String[] theloai, boolean trangThai, boolean tinhTrang, String gioiThieu, String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacgia, String[] chapter) {
     }
 
     public String getTenTruyen() {
