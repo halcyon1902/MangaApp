@@ -15,7 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.mangaapp.R;
-import com.example.mangaapp.function.Login;
+import com.example.mangaapp.function.SignIn;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +62,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.account:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, SignIn.class));
                 finish();
                 break;
         }

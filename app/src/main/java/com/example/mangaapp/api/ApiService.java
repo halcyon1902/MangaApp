@@ -1,4 +1,4 @@
-package com.example.mangaapp;
+package com.example.mangaapp.api;
 
 import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
@@ -14,8 +14,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.POST;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -25,8 +26,11 @@ public interface ApiService {
             .build()
             .create(ApiService.class);
 
+    //Tài khoản
     @GET("TaiKhoan")
-    Call<List<TaiKhoan>> GetTaiKHoan();
+    Call<List<TaiKhoan>> GetTaiKhoan();
+    @POST("TaiKhoan")
+    Call<TaiKhoan> PostTaiKhoan(@Body TaiKhoan taiKhoan);
 
     @GET("Chapter/{id}")
     Call<Chapter> GetChapter(@Path("id") String ChapterID);

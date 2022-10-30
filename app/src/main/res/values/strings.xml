@@ -9,7 +9,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--cho form đăng ký đăng nhập-->
-    <string name="dn_tendangnhap">Tên đăng nhập</string>
+    <string name="dn_tentaikhoan">Tên tài khoản</string>
     <string name="dn_matkhau">Mật khẩu</string>
     <string name="dn_quenmatkhau">Quên mật khẩu?</string>
     <string name="dn_dangnhap">Đăng nhập</string>
