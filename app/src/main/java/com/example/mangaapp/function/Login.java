@@ -1,5 +1,6 @@
 package com.example.mangaapp.function;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mangaapp.ApiService;
 import com.example.mangaapp.R;
+import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.TaiKhoan;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class Login extends AppCompatActivity {
         }
         if (coTaiKhoan){
             Toast.makeText(Login.this, "DangNhap", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MainScreen.class));
         }else {
             Toast.makeText(Login.this, "Error", Toast.LENGTH_LONG).show();
         }

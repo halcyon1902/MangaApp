@@ -1,6 +1,11 @@
 package com.example.mangaapp;
 
+import com.example.mangaapp.function.GetChapter;
+import com.example.mangaapp.model.Chapter;
+import com.example.mangaapp.model.TacGia;
 import com.example.mangaapp.model.TaiKhoan;
+import com.example.mangaapp.model.TheLoai;
+import com.example.mangaapp.model.Truyen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,5 +27,18 @@ public interface ApiService {
 
     @GET("TaiKhoan")
     Call<List<TaiKhoan>> GetTaiKHoan();
+
+    @GET("Chapter/{id}")
+    Call<Chapter> GetChapter(@Path("id") String ChapterID);
+
+    @GET("Truyen/{id}")
+    Call<Truyen> GetTruyen(@Path("id") String truyenID);
+
+    @GET("TheLoai/{id}")
+    Call<TheLoai> GetTheLoai(@Path("id") String theLoaiID);
+
+    @GET("TacGia/{id}")
+    Call<TacGia> GetTacGia(@Path("id") String tacGiaID);
+
 
 }
