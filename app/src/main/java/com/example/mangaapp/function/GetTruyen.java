@@ -1,10 +1,5 @@
 package com.example.mangaapp.function;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,14 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mangaapp.ApiService;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
-import com.example.mangaapp.adapter.BinhLuanAdapter;
 import com.example.mangaapp.adapter.ChapterAdapter;
-import com.example.mangaapp.adapter.LinkAnhAdapter;
 import com.example.mangaapp.adapter.TacGiaAdapter;
 import com.example.mangaapp.adapter.TheLoaiAdapter;
-import com.example.mangaapp.model.BinhLuan;
+import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.TacGia;
 import com.example.mangaapp.model.TheLoai;
@@ -30,31 +25,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GetTruyen extends AppCompatActivity {
-
-
     private TextView tvTenTruyen, tvTinhTrang, tvFollow, tvLike, tvNoiDung, tvTongChuong;
     private ImageView imgAnhBia, imgAnhNen;
-    private RecyclerView rcvTheLoai, rcvTacGia,rcvChapter;
+    private RecyclerView rcvTheLoai, rcvTacGia, rcvChapter;
     private List<String> mListIDTheLoai, mListIDTacGia;
     private List<TheLoai> mlistTheLoai;
     private List<TacGia> mlistTacGia;
     private List<Chapter> mlistChapter;
     private Context context = this;
-
     private ChapterAdapter chapterAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_truyen);
-
-
         rcvTheLoai = findViewById(R.id.rcv_The_Loai);
         rcvTacGia = findViewById(R.id.rcv_tac_gia);
         rcvChapter = findViewById(R.id.rcv_chapter);
@@ -62,18 +51,6 @@ public class GetTruyen extends AppCompatActivity {
         mlistTheLoai = new ArrayList<>();
         mListIDTacGia = new ArrayList<>();
         mlistTacGia = new ArrayList<>();
-
-//        mlistTheLoai.add(new TheLoai("Fantasy", true));
-//        mlistTheLoai.add(new TheLoai("The loai 1", true));
-//        mlistTheLoai.add(new TheLoai("The loai 1", true));
-//        mlistTheLoai.add(new TheLoai("The loai 1", true));
-//        mlistTheLoai.add(new TheLoai("The loai 1", true));
-//        mlistTacGia.add(new TacGia("Fantasy", true));
-//        mlistTacGia.add(new TacGia("The loai 1", true));
-//        mlistTacGia.add(new TacGia("The loai 1", true));
-//        mlistTacGia.add(new TacGia("The loai 1", true));
-//        mlistTacGia.add(new TacGia("The loai 1", true));
-
         tvTenTruyen = findViewById(R.id.tv_ten_truyen);
         tvTinhTrang = findViewById(R.id.tv_tinhtrang_truyen);
         tvFollow = findViewById(R.id.tv_follow);
@@ -82,16 +59,12 @@ public class GetTruyen extends AppCompatActivity {
         tvTongChuong = findViewById(R.id.tv_tong_chapter);
         imgAnhBia = findViewById(R.id.manga_cover);
         imgAnhNen = findViewById(R.id.backdrop);
-
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
-
         rcvTheLoai.setLayoutManager(linearLayoutManager);
         rcvTacGia.setLayoutManager(linearLayoutManager1);
         rcvChapter.setLayoutManager(linearLayoutManager2);
-
         String idTruyen = "633d367957af4f7cb1764810";
         callAPI(idTruyen);
 
@@ -144,6 +117,7 @@ public class GetTruyen extends AppCompatActivity {
                                 TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia);
                                 rcvTacGia.setAdapter(tacGiaAdapter);
                             }
+
                             @Override
                             public void onFailure(Call<TacGia> call, Throwable t) {
                                 Toast.makeText(GetTruyen.this, "Get tac gia that bai", Toast.LENGTH_SHORT).show();
@@ -164,7 +138,7 @@ public class GetTruyen extends AppCompatActivity {
                     tvFollow.setText("" + truyen.getLuotTheoDoi());
                     tvLike.setText("" + truyen.getLuotThich());
                     tvNoiDung.setText(truyen.getGioiThieu());
-                    tvTongChuong.setText(mlistChapter.size()+" Chương");
+                    tvTongChuong.setText(mlistChapter.size() + " Chương");
                     Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
                     Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
                 }
@@ -180,7 +154,7 @@ public class GetTruyen extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(chapterAdapter != null)
+        if (chapterAdapter != null)
             chapterAdapter.release();
     }
 }

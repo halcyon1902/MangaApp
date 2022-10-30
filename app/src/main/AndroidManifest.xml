@@ -25,6 +25,12 @@
         </activity>
         <activity
             android:name=".function.SignIn"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".function.GetChapter"
             android:exported="false">
             <meta-data
@@ -32,7 +38,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".function.Login"
+            android:name=".function.GetTruyen"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -40,13 +46,6 @@
         </activity>
         <activity
             android:name=".mainscreen.MainScreen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".function.GetTruyen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

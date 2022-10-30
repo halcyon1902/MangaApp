@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mangaapp.ApiService;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.BinhLuanAdapter;
 import com.example.mangaapp.adapter.LinkAnhAdapter;
@@ -51,19 +50,10 @@ public class GetChapter extends AppCompatActivity {
         tvChapter = findViewById(R.id.tv_chapter);
         mListLinkAnh = new ArrayList<>();
         mListBinhLuan = new ArrayList<>();
-
-//        linkAnhAdapter = new LinkAnhAdapter();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvLinkAnh.setLayoutManager(linearLayoutManager);
-//        rcvLinkAnh.setFocusable(false);
-//        rcvLinkAnh.setNestedScrollingEnabled(false);
-
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         rcvBinhLuan.setLayoutManager(linearLayoutManager1);
-//        rcvBinhLuan.setFocusable(false);
-//        rcvBinhLuan.setNestedScrollingEnabled(false);
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rcvLinkAnh.addItemDecoration(dividerItemDecoration);
@@ -80,31 +70,5 @@ public class GetChapter extends AppCompatActivity {
             rcvBinhLuan.setAdapter(binhLuanAdapter);
 
         }
-   //     callApi();
-
     }
-
-//    private void callApi(){
-//        ApiService.apiService.GetChapter("6358d3ed7bfd0c7df215ff3e").enqueue(new Callback<Chapter>() {
-//            @Override
-//            public void onResponse(Call<Chapter> call, Response<Chapter> response) {
-//                Chapter chapter = response.body();
-//                if (chapter!=null&&chapter.isTrangThai()){
-//                    tvChapter.setText(chapter.getTenChapter());
-//                    mListLinkAnh = new ArrayList<String>(Arrays.asList(chapter.getLinkAnh()));
-//                    LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(mListLinkAnh);
-//                    rcvLinkAnh.setAdapter(linkAnhAdapter);
-//
-//                    mListBinhLuan = new ArrayList<BinhLuan>(Arrays.asList(chapter.getBinhLuans()));
-//                    BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
-//                    rcvBinhLuan.setAdapter(binhLuanAdapter);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Chapter> call, Throwable t) {
-//                Toast.makeText(GetChapter.this, "Get thất bại",Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 }

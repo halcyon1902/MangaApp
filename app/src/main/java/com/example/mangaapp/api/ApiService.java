@@ -1,6 +1,5 @@
 package com.example.mangaapp.api;
 
-import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.TacGia;
 import com.example.mangaapp.model.TaiKhoan;
@@ -17,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -43,6 +43,5 @@ public interface ApiService {
 
     @GET("TacGia/{id}")
     Call<TacGia> GetTacGia(@Path("id") String tacGiaID);
-
 
 }

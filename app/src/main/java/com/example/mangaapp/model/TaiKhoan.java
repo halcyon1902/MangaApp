@@ -1,12 +1,8 @@
 package com.example.mangaapp.model;
 
-import java.io.Serializable;
 import java.util.Arrays;
-public class TaiKhoan implements Serializable {
-    private String ID;
 
-
-
+public class TaiKhoan {
     private String TaiKhoan;
     private String MatKhau;
     private String Email;
@@ -94,6 +90,7 @@ public class TaiKhoan implements Serializable {
         NgayTao = ngayTao;
     }
 
-
+    public TaiKhoan() {
+    }
 
 }

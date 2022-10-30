@@ -100,7 +100,7 @@ public class SignIn extends AppCompatActivity {
                 dialog.dismiss();
                 t.cancel();
             }
-        }, 1000);
+        }, 1500);
     }
 
     private void setFullScreen() {
@@ -114,7 +114,7 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
                 assert list != null;
-                //Log.e("List có bao nhiêu phần tử", list.size() + "");
+                Log.e("List có bao nhiêu phần tử", list.size() + "");
             }
 
             @Override
