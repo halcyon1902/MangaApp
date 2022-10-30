@@ -1,6 +1,7 @@
 package com.example.mangaapp.function;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +24,14 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
+    private final String messageAdmin = "Đăng nhập với quyền Admin thành công";
+    private final String messageUser = "Đăng nhập thàng công";
     private List<TaiKhoan> list;
     private Button btnDangNhap;
     private TextInputEditText matkhau, tentaikhoan;
@@ -65,42 +66,46 @@ public class SignIn extends AppCompatActivity {
             Toast.makeText(SignIn.this, e.toString(), Toast.LENGTH_LONG).show();
         }
         assert md5Data != null;
-        String passMD5 = md5Data.toString();
+        String passMD5 = md5Data.toString(16);
+        if (passMD5.length() < 32) {
+            passMD5 = 0 + passMD5;
+        }
         Log.e("MD5 mã hóa", passMD5);
         //kiểm tra lấy được tài khoản
         if (list == null || list.isEmpty()) {
             return;
         }
-        String messageAdmin = "Đăng nhập với quyền Admin thành công";
-        String message = "Đăng nhập thàng công";
         for (TaiKhoan taiKhoan : list) {
             if (name.equals(taiKhoan.getTaiKhoan()) && passMD5.equals(taiKhoan.getMatKhau()) && taiKhoan.isTrangThai()) {
                 if (taiKhoan.isPhanQuyen()) {
                     Dialog(messageAdmin);
-                    startActivity(new Intent(this, SignIn.class));
                 } else {
-                    Dialog(message);
+                    Dialog(messageUser);
                 }
                 break;
             }
         }
     }
 
-    //thông báo đăng nhập thành công
+    //Tạo dialog thông báo
     private void Dialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message)
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            if (message.equals(messageAdmin)) {
+                startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoanAdmin.class));
+                finish();
+            }
+            if (message.equals(messageUser)) {
+                startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoan.class));
+                finish();
+            }
+
+        });
         AlertDialog dialog = builder.create();
         dialog.show();
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            public void run() {
-                dialog.dismiss();
-                t.cancel();
-            }
-        }, 1500);
     }
 
     private void setFullScreen() {
@@ -113,8 +118,6 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
-                assert list != null;
-                Log.e("List có bao nhiêu phần tử", list.size() + "");
             }
 
             @Override

@@ -1,9 +1,10 @@
 package com.example.mangaapp.function;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -32,6 +34,7 @@ import retrofit2.Response;
 public class SignUp extends AppCompatActivity {
     private Button dangky, quaylai;
     private TextInputEditText matkhau, tentaikhoan, nhaplaimatkhau, email;
+    private List<TaiKhoan> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class SignUp extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.activity_sign_up);
         init();
+        getTaiKhoan();//lấy danh sách các tài khoản
         quaylai.setOnClickListener(v -> clickQuayLai());
         dangky.setOnClickListener(v -> clickDangKy());
     }
@@ -57,22 +61,24 @@ public class SignUp extends AppCompatActivity {
         try {
             md5Data = new BigInteger(1, MD5.encryptMD5(md5Input));
         } catch (Exception e) {
-            Log.e("Lỗi md5:", e.toString());
+            Toast.makeText(SignUp.this, e.toString(), Toast.LENGTH_LONG).show();
         }
         assert md5Data != null;
-        String passMD5 = md5Data.toString();
-        Log.e("MD5 mã hóa", passMD5);
+        String passMD5 = md5Data.toString(16);
+        if (passMD5.length() < 32) {
+            passMD5 = 0 + passMD5;
+        }
         if (Validation()) {
-            TaiKhoan taiKhoan = new TaiKhoan(name, passMD5, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
-            ApiService.apiService.PostTaiKhoan(taiKhoan).enqueue(new Callback<TaiKhoan>() {
+            TaiKhoan taikhoan = new TaiKhoan(name, passMD5, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
+            ApiService.apiService.PostTaiKhoan(taikhoan).enqueue(new Callback<TaiKhoan>() {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                    Log.e("Tài khoản đã tạo bao gồm", taiKhoan.toString());
+                    Dialog();
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-                    Toast.makeText(SignUp.this, "Error", Toast.LENGTH_LONG).show();
+
                 }
             });
         }
@@ -93,10 +99,24 @@ public class SignUp extends AppCompatActivity {
             email.requestFocus();
             return false;
         }
+        for (TaiKhoan taiKhoan : list) {
+            if (mail.equals(taiKhoan.getEmail())) {
+                email.setError("Email đã được sử dụng");
+                email.requestFocus();
+                return false;
+            }
+        }
         if (TextUtils.isEmpty(name)) {
             tentaikhoan.setError("Tên tài khoản không được để trống");
             tentaikhoan.requestFocus();
             return false;
+        }
+        for (TaiKhoan taiKhoan : list) {
+            if (name.equals(taiKhoan.getTaiKhoan())) {
+                tentaikhoan.setError("Tên tài khoản đã được sử dụng");
+                tentaikhoan.requestFocus();
+                return false;
+            }
         }
         if (pass.length() < 6) {
             matkhau.setError("Mật khẩu không được ít hơn 6 kí tự !!!");
@@ -133,6 +153,33 @@ public class SignUp extends AppCompatActivity {
         nhaplaimatkhau = findViewById(R.id.edt_NhapLaiMatKhau);
         quaylai = findViewById(R.id.btn_QuayLai);
         dangky = findViewById(R.id.btn_DangKy);
+    }
+
+    private void Dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tạo tài khoản thành công")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoan.class));
+            finish();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void getTaiKhoan() {
+        ApiService.apiService.GetTaiKhoan().enqueue(new Callback<List<TaiKhoan>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
+                list = response.body();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<TaiKhoan>> call, @NonNull Throwable t) {
+                Toast.makeText(SignUp.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

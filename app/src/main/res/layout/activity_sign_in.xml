@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeStepGranularity="20sp"
-                android:drawableStart="@drawable/ic_baseline_lock_24"
+                android:drawableStart="@drawable/ic_lock_yellow"
                 android:drawablePadding="10dp"
                 android:hint="@string/dn_matkhau"
                 android:inputType="textPassword"
