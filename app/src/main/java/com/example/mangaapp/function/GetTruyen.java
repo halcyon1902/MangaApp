@@ -62,7 +62,8 @@ public class GetTruyen extends AppCompatActivity {
         rcvTheLoai.setLayoutManager(linearLayoutManager);
         rcvTacGia.setLayoutManager(linearLayoutManager1);
         rcvChapter.setLayoutManager(linearLayoutManager2);
-        String idTruyen = "634fdf351d4952e1bdf34a82";
+        String idTruyen = "633d367957af4f7cb1764810";
+        // 633d367957af4f7cb1764810 cua tien
         callAPI(idTruyen);
 
     }
