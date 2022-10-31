@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +42,7 @@ public class GetChapter extends AppCompatActivity {
         mListBinhLuan = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvLinkAnh.setLayoutManager(linearLayoutManager);
+
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         rcvBinhLuan.setLayoutManager(linearLayoutManager1);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);

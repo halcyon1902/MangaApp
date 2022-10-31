@@ -2,6 +2,7 @@ package com.example.mangaapp.function;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -51,6 +52,11 @@ public class GetTruyen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_get_truyen);
+
+        // lay intent
+        Intent intent = getIntent();
+        Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
+
         init();
         mListIDTheLoai = new ArrayList<>();
         mlistTheLoai = new ArrayList<>();
@@ -62,11 +68,82 @@ public class GetTruyen extends AppCompatActivity {
         rcvTheLoai.setLayoutManager(linearLayoutManager);
         rcvTacGia.setLayoutManager(linearLayoutManager1);
         rcvChapter.setLayoutManager(linearLayoutManager2);
-        String idTruyen = "633d367957af4f7cb1764810";
-        // 633d367957af4f7cb1764810 cua tien
-        callAPI(idTruyen);
+
+        hienThiTruyen(truyen);
+
+
+
 
     }
+
+    private void hienThiTruyen(Truyen truyen) {
+        if (truyen != null && truyen.isTrangThai()) {
+
+            mListIDTheLoai = Arrays.asList(truyen.getTheLoai());
+            mListIDTacGia = Arrays.asList(truyen.getTacGias());
+            mlistChapter = Arrays.asList(truyen.getChapters());
+            Log.e("list api the loai", "" + mlistChapter.size());
+
+
+            //Hiển thị thể loại
+            for (int i = 0; i < mListIDTheLoai.size(); i++) {
+                ApiService.apiService.GetTheLoai(mListIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
+                    @Override
+                    public void onResponse(@NonNull Call<TheLoai> call, @NonNull Response<TheLoai> response) {
+                        TheLoai theLoai = response.body();
+                        if (theLoai != null && theLoai.isTrangThai()) {
+                            mlistTheLoai.add(theLoai);
+                        }
+
+                        TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai);
+                        rcvTheLoai.setAdapter(theLoaiAdapter);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<TheLoai> call, @NonNull Throwable t) {
+                        Toast.makeText(GetTruyen.this, "Get the loai that bai", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            //Hiển thị tác giả
+            for (int i = 0; i < mListIDTacGia.size(); i++) {
+                ApiService.apiService.GetTacGia(mListIDTacGia.get(i)).enqueue(new Callback<TacGia>() {
+                    @Override
+                    public void onResponse(@NonNull Call<TacGia> call, @NonNull Response<TacGia> response) {
+                        TacGia tacGia = response.body();
+                        if (tacGia != null && tacGia.isTrangThai()) {
+                            mlistTacGia.add(tacGia);
+                        }
+                        TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia);
+                        rcvTacGia.setAdapter(tacGiaAdapter);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<TacGia> call, @NonNull Throwable t) {
+                        Toast.makeText(GetTruyen.this, "Get tac gia that bai", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            //Hien tat ca chapter
+            Collections.reverse(mlistChapter);
+            chapterAdapter = new ChapterAdapter(mlistChapter, context);
+            rcvChapter.setAdapter(chapterAdapter);
+            tvTenTruyen.setText(truyen.getTenTruyen());
+            if (truyen.isTrangThai())
+                tvTinhTrang.setText("Hoàn thành!");
+            else
+                tvTinhTrang.setText("Đang tiến thành!");
+            tvFollow.setText("" + truyen.getLuotTheoDoi());
+            tvLike.setText("" + truyen.getLuotThich());
+            tvNoiDung.setText(truyen.getGioiThieu());
+            tvTongChuong.setText(mlistChapter.size() + " Chương");
+            Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
+            Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
+        }
+    }
+
 
     private void callAPI(String idTruyen) {
         ApiService.apiService.GetTruyen(idTruyen).enqueue(new Callback<Truyen>() {

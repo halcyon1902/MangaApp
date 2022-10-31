@@ -35,6 +35,9 @@ public interface ApiService {
     @GET("Chapter/{id}")
     Call<Chapter> GetChapter(@Path("id") String ChapterID);
 
+    // truyen
+    @GET("Truyen")
+    Call<List<Truyen>> GetTatCaTruyen();
     @GET("Truyen/{id}")
     Call<Truyen> GetTruyen(@Path("id") String truyenID);
 

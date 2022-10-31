@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,23 +15,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
+import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.function.GetTruyen;
 import com.example.mangaapp.function.SignIn;
+import com.example.mangaapp.model.TaiKhoan;
+import com.example.mangaapp.model.Truyen;
 import com.example.mangaapp.model.TruyenTranh;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     NavigationView navigationView;
     Toolbar toolbar;
     //để test
-    GridView gvDSTruyen;
-    TruyenTranhAdapter adapter;
-    ArrayList<TruyenTranh> truyenTranhArrayList;
+    RecyclerView rcvDSTruyen;
+    TruyenTranhAdapter truyenTranhAdapter;
+    List<Truyen> mListTruyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +53,9 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         setFullScreen();
         setContentView(R.layout.drawer_layout);
         init();
+        GetTatCaTruyen();
         initNavigationDrawer();
-        truyen();
-        setUp();
+
     }
 
     //Full màn hình
@@ -54,7 +69,35 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-        gvDSTruyen = findViewById(R.id.gvDSTruyen);
+        rcvDSTruyen = findViewById(R.id.rcv_DSTruyen);
+        mListTruyen = new ArrayList<>();
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 2);
+        rcvDSTruyen.setLayoutManager(gridLayoutManager);
+        rcvDSTruyen.setNestedScrollingEnabled(false);
+        rcvDSTruyen.setFocusable(false);
+//        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        rcvDSTruyen.addItemDecoration(dividerItemDecoration1);
+
+    }
+
+    private void GetTatCaTruyen() {
+        ApiService.apiService.GetTatCaTruyen().enqueue(new Callback<List<Truyen>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
+
+                mListTruyen = response.body();
+                truyenTranhAdapter = new TruyenTranhAdapter(MainScreen.this,mListTruyen);
+                rcvDSTruyen.setAdapter(truyenTranhAdapter);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
+
+                Toast.makeText(MainScreen.this, "Get tat ca truyen that bai", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void initNavigationDrawer() {
@@ -89,41 +132,10 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
-    //để test
-    private void truyen() {
-        truyenTranhArrayList = new ArrayList<>();
-        truyenTranhArrayList.add(new TruyenTranh("Danh Môn Chí Ái", "Chapter 359.2", "https://i.truyenvua.xyz/ebook/190x247/danh-mon-chi-ai_1567691484.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Attack On Titan", "Chapter 141", "https://i.truyenvua.xyz/ebook/190x247/attack-on-titan_1552228880.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Hakaijuu", "Chapter 83", "https://3.bp.blogspot.com/-0HvXfl4yywU/V5ZMEkAuHZI/AAAAAAAAA0w/RZ-6yrtx8-M/hakaijuu.jpg"));
-        truyenTranhArrayList.add(new TruyenTranh("Nghịch Thiên Tà Thần", "Chapter 556", "https://i.truyenvua.xyz/ebook/190x247/nghich-thien-ta-than_1537240417.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Vua Sinh Tồn", "Chapter 76", "https://3.bp.blogspot.com/-SZp0rjc6udI/W27dOU44XoI/AAAAAAAAYoM/T9MzAUxGfsw9O4KpPELkd9DBFMrytnHjQCHMYCw/vua-sinh-ton"));
-        truyenTranhArrayList.add(new TruyenTranh("One Piece", "Chapter 1060", "https://i.truyenvua.xyz/ebook/190x247/dao-hai-tac_1552224567.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Onepunch Man", "Chapter 217", "https://i.truyenvua.xyz/ebook/190x247/onepunch-man_1552232163.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Danh Môn Chí Ái", "Chapter 359.2", "https://i.truyenvua.xyz/ebook/190x247/danh-mon-chi-ai_1567691484.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Attack On Titan", "Chapter 141", "https://i.truyenvua.xyz/ebook/190x247/attack-on-titan_1552228880.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Hakaijuu", "Chapter 83", "https://3.bp.blogspot.com/-0HvXfl4yywU/V5ZMEkAuHZI/AAAAAAAAA0w/RZ-6yrtx8-M/hakaijuu.jpg"));
-        truyenTranhArrayList.add(new TruyenTranh("Nghịch Thiên Tà Thần", "Chapter 556", "https://i.truyenvua.xyz/ebook/190x247/nghich-thien-ta-than_1537240417.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Vua Sinh Tồn", "Chapter 76", "https://3.bp.blogspot.com/-SZp0rjc6udI/W27dOU44XoI/AAAAAAAAYoM/T9MzAUxGfsw9O4KpPELkd9DBFMrytnHjQCHMYCw/vua-sinh-ton"));
-        truyenTranhArrayList.add(new TruyenTranh("One Piece", "Chapter 1060", "https://i.truyenvua.xyz/ebook/190x247/dao-hai-tac_1552224567.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Onepunch Man", "Chapter 217", "https://i.truyenvua.xyz/ebook/190x247/onepunch-man_1552232163.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Danh Môn Chí Ái", "Chapter 359.2", "https://i.truyenvua.xyz/ebook/190x247/danh-mon-chi-ai_1567691484.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Attack On Titan", "Chapter 141", "https://i.truyenvua.xyz/ebook/190x247/attack-on-titan_1552228880.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Hakaijuu", "Chapter 83", "https://3.bp.blogspot.com/-0HvXfl4yywU/V5ZMEkAuHZI/AAAAAAAAA0w/RZ-6yrtx8-M/hakaijuu.jpg"));
-        truyenTranhArrayList.add(new TruyenTranh("Nghịch Thiên Tà Thần", "Chapter 556", "https://i.truyenvua.xyz/ebook/190x247/nghich-thien-ta-than_1537240417.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Vua Sinh Tồn", "Chapter 76", "https://3.bp.blogspot.com/-SZp0rjc6udI/W27dOU44XoI/AAAAAAAAYoM/T9MzAUxGfsw9O4KpPELkd9DBFMrytnHjQCHMYCw/vua-sinh-ton"));
-        truyenTranhArrayList.add(new TruyenTranh("One Piece", "Chapter 1060", "https://i.truyenvua.xyz/ebook/190x247/dao-hai-tac_1552224567.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Onepunch Man", "Chapter 217", "https://i.truyenvua.xyz/ebook/190x247/onepunch-man_1552232163.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Danh Môn Chí Ái", "Chapter 359.2", "https://i.truyenvua.xyz/ebook/190x247/danh-mon-chi-ai_1567691484.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Attack On Titan", "Chapter 141", "https://i.truyenvua.xyz/ebook/190x247/attack-on-titan_1552228880.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Hakaijuu", "Chapter 83", "https://3.bp.blogspot.com/-0HvXfl4yywU/V5ZMEkAuHZI/AAAAAAAAA0w/RZ-6yrtx8-M/hakaijuu.jpg"));
-        truyenTranhArrayList.add(new TruyenTranh("Nghịch Thiên Tà Thần", "Chapter 556", "https://i.truyenvua.xyz/ebook/190x247/nghich-thien-ta-than_1537240417.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Vua Sinh Tồn", "Chapter 76", "https://3.bp.blogspot.com/-SZp0rjc6udI/W27dOU44XoI/AAAAAAAAYoM/T9MzAUxGfsw9O4KpPELkd9DBFMrytnHjQCHMYCw/vua-sinh-ton"));
-        truyenTranhArrayList.add(new TruyenTranh("One Piece", "Chapter 1060", "https://i.truyenvua.xyz/ebook/190x247/dao-hai-tac_1552224567.jpg?gf=hdfgdfg&mobile=2"));
-        truyenTranhArrayList.add(new TruyenTranh("Onepunch Man", "Chapter 217", "https://i.truyenvua.xyz/ebook/190x247/onepunch-man_1552232163.jpg?gf=hdfgdfg&mobile=2"));
-        adapter = new TruyenTranhAdapter(this, 0, truyenTranhArrayList);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (truyenTranhAdapter != null)
+            truyenTranhAdapter.release();
     }
-
-    private void setUp() {
-        gvDSTruyen.setAdapter(adapter);
-    }//để test
 }
