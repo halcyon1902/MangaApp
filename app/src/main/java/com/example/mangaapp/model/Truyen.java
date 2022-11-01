@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Truyen implements Serializable {
     private String TenTruyen;
-    private String[] TheLoai;
+    private String[] TheLoais;
     private boolean TrangThai;
     private boolean TinhTrang;
     private String GioiThieu;
@@ -16,9 +16,14 @@ public class Truyen implements Serializable {
     private String[] TacGias;
     private Chapter[] Chapters;
 
-    public Truyen(String tenTruyen, String[] theLoai, boolean trangThai, boolean tinhTrang, String gioiThieu, String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacGias, Chapter[] chapters) {
+    public Truyen() {
+    }
+
+    public Truyen(String tenTruyen, String[] theLoais, boolean trangThai, boolean tinhTrang, String gioiThieu,
+                  String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacGias, Chapter[]
+                          chapters) {
         TenTruyen = tenTruyen;
-        TheLoai = theLoai;
+        TheLoais = theLoais;
         TrangThai = trangThai;
         TinhTrang = tinhTrang;
         GioiThieu = gioiThieu;
@@ -30,9 +35,6 @@ public class Truyen implements Serializable {
         Chapters = chapters;
     }
 
-    public Truyen(String tenTruyen, String[] theloai, boolean trangThai, boolean tinhTrang, String gioiThieu, String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacgia, String[] chapter) {
-    }
-
     public String getTenTruyen() {
         return TenTruyen;
     }
@@ -41,12 +43,12 @@ public class Truyen implements Serializable {
         TenTruyen = tenTruyen;
     }
 
-    public String[] getTheLoai() {
-        return TheLoai;
+    public String[] getTheLoais() {
+        return TheLoais;
     }
 
-    public void setTheLoai(String[] theLoai) {
-        TheLoai = theLoai;
+    public void setTheLoais(String[] theLoais) {
+        TheLoais = theLoais;
     }
 
     public boolean isTrangThai() {
@@ -125,7 +127,7 @@ public class Truyen implements Serializable {
     public String toString() {
         return "Truyen{" +
                 "TenTruyen='" + TenTruyen + '\'' +
-                ", TheLoai=" + Arrays.toString(TheLoai) +
+                ", TheLoais=" + Arrays.toString(TheLoais) +
                 ", TrangThai=" + TrangThai +
                 ", TinhTrang=" + TinhTrang +
                 ", GioiThieu='" + GioiThieu + '\'' +

@@ -79,7 +79,7 @@ public class GetTruyen extends AppCompatActivity {
     private void hienThiTruyen(Truyen truyen) {
         if (truyen != null && truyen.isTrangThai()) {
 
-            mListIDTheLoai = Arrays.asList(truyen.getTheLoai());
+            mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
             mListIDTacGia = Arrays.asList(truyen.getTacGias());
             mlistChapter = Arrays.asList(truyen.getChapters());
             Log.e("list api the loai", "" + mlistChapter.size());
@@ -153,7 +153,7 @@ public class GetTruyen extends AppCompatActivity {
                 Truyen truyen = response.body();
                 if (truyen != null && truyen.isTrangThai()) {
 
-                    mListIDTheLoai = Arrays.asList(truyen.getTheLoai());
+                    mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
                     mListIDTacGia = Arrays.asList(truyen.getTacGias());
                     mlistChapter = Arrays.asList(truyen.getChapters());
                     Log.e("list api the loai", "" + mlistChapter.size());

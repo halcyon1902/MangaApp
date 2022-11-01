@@ -10,18 +10,18 @@ public class Chapter implements Serializable {
     private String NgayNhap;
     private boolean TrangThai;
     private String Truyen;
-    private String[] LinkAnh;
+    private String[] LinkAnhs;
     private BinhLuan[] BinhLuans;
 
     public Chapter() {
     }
 
-    public Chapter(String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnh, BinhLuan[] binhLuans) {
+    public Chapter(String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, BinhLuan[] binhLuans) {
         TenChapter = tenChapter;
         NgayNhap = ngayNhap;
         TrangThai = trangThai;
         Truyen = truyen;
-        LinkAnh = linkAnh;
+        LinkAnhs = linkAnhs;
         BinhLuans = binhLuans;
     }
 
@@ -57,12 +57,12 @@ public class Chapter implements Serializable {
         Truyen = truyen;
     }
 
-    public String[] getLinkAnh() {
-        return LinkAnh;
+    public String[] getLinkAnhs() {
+        return LinkAnhs;
     }
 
-    public void setLinkAnh(String[] linkAnh) {
-        LinkAnh = linkAnh;
+    public void setLinkAnhs(String[] linkAnhs) {
+        LinkAnhs = linkAnhs;
     }
 
     public BinhLuan[] getBinhLuans() {
@@ -80,7 +80,7 @@ public class Chapter implements Serializable {
                 ", NgayNhap='" + NgayNhap + '\'' +
                 ", TrangThai=" + TrangThai +
                 ", Truyen='" + Truyen + '\'' +
-                ", LinkAnh=" + Arrays.toString(LinkAnh) +
+                ", LinkAnhs=" + Arrays.toString(LinkAnhs) +
                 ", BinhLuans=" + Arrays.toString(BinhLuans) +
                 '}';
     }

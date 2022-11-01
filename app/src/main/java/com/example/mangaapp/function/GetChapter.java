@@ -51,7 +51,7 @@ public class GetChapter extends AppCompatActivity {
         rcvBinhLuan.addItemDecoration(dividerItemDecoration1);
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
-            mListLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnh()));
+            mListLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
             LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(mListLinkAnh);
             rcvLinkAnh.setAdapter(linkAnhAdapter);
             mListBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));

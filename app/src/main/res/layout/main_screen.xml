@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
     tools:context=".mainscreen.MainScreen">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -40,7 +39,7 @@
         android:gravity="center">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:id="@+id/rcv_DSTruyen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
