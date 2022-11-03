@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,20 +34,14 @@ public class GetChapter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_get_chapter);
+        //lấy thông tin từ intent
         Intent intent = getIntent();
         Chapter chapter = (Chapter) intent.getSerializableExtra("clickchapter");
         init();
         mListLinkAnh = new ArrayList<>();
         mListBinhLuan = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvLinkAnh.setLayoutManager(linearLayoutManager);
-
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        rcvLinkAnh.addItemDecoration(dividerItemDecoration);
-        rcvBinhLuan.addItemDecoration(dividerItemDecoration1);
+        initLinearLayout();
+        itemDecoration();
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
             mListLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
@@ -58,6 +51,22 @@ public class GetChapter extends AppCompatActivity {
             BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
             rcvBinhLuan.setAdapter(binhLuanAdapter);
         }
+    }
+
+    private void itemDecoration() {
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rcvLinkAnh.addItemDecoration(dividerItemDecoration);
+        rcvBinhLuan.addItemDecoration(dividerItemDecoration1);
+    }
+
+    private void initLinearLayout() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvLinkAnh.setLayoutManager(linearLayoutManager);
+        rcvLinkAnh.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
+        rcvBinhLuan.setHasFixedSize(true);
     }
 
     private void init() {

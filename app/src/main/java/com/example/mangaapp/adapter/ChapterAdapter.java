@@ -1,5 +1,6 @@
 package com.example.mangaapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -15,52 +16,45 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
-import com.example.mangaapp.model.TheLoai;
 
 import java.util.List;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
+    private final List<Chapter> mListChapter;
+    private Context context;
 
     public ChapterAdapter(List<Chapter> mListChapter, Context context) {
         this.mListChapter = mListChapter;
         this.context = context;
     }
 
-    private List<Chapter> mListChapter;
-    private Context context;
-
-
-
-
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter, parent, false);
         return new ChapterViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = mListChapter.get(position);
-        if(chapter == null)
+        if (chapter == null)
             return;
         holder.tvTenChapter.setText(chapter.getTenChapter());
-        holder.tvNgayNhap.setText(chapter.getNgayNhap());
-        holder.cvChapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // chuyen chapter click qua trang GetChapter
-                Intent intent = new Intent(context, GetChapter.class);
-                intent.putExtra("clickchapter", chapter);
-                Log.e("onClick: ",""+chapter.toString() );
-                context.startActivity(intent);
-            }
+        holder.tvNgayNhap.setText("Ngày đăng: "+chapter.getNgayNhap());
+        holder.cvChapter.setOnClickListener(v -> {
+            Intent intent = new Intent(context, GetChapter.class);
+            intent.putExtra("clickchapter", chapter);
+            Log.e("Sau khi click vào chapter: ", "" + chapter);
+            context.startActivity(intent);
         });
     }
 
-    public void release(){
+    public void release() {
         context = null;
     }
+
     @Override
     public int getItemCount() {
         if (mListChapter != null)
@@ -68,10 +62,11 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         return 0;
     }
 
-    public class ChapterViewHolder extends RecyclerView.ViewHolder {
+    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvTenChapter;
+        private final TextView tvNgayNhap;
+        private final CardView cvChapter;
 
-        private TextView tvTenChapter, tvNgayNhap;
-        private CardView cvChapter;
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenChapter = itemView.findViewById(R.id.tv_item_ten_chapter);

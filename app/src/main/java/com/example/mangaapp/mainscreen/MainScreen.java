@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,23 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
-import com.example.mangaapp.function.GetTruyen;
 import com.example.mangaapp.function.SignIn;
-import com.example.mangaapp.model.TaiKhoan;
 import com.example.mangaapp.model.Truyen;
-import com.example.mangaapp.model.TruyenTranh;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,6 +48,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         init();
         GetTatCaTruyen();
         initNavigationDrawer();
+        initGridView();
 
     }
 
@@ -70,31 +64,27 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         rcvDSTruyen = findViewById(R.id.rcv_DSTruyen);
-        mListTruyen = new ArrayList<>();
+    }
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 2);
+    private void initGridView() {
+        mListTruyen = new ArrayList<>();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvDSTruyen.setLayoutManager(gridLayoutManager);
         rcvDSTruyen.setNestedScrollingEnabled(false);
         rcvDSTruyen.setFocusable(false);
-//        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        rcvDSTruyen.addItemDecoration(dividerItemDecoration1);
-
     }
 
     private void GetTatCaTruyen() {
         ApiService.apiService.GetTatCaTruyen().enqueue(new Callback<List<Truyen>>() {
             @Override
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
-
                 mListTruyen = response.body();
-                truyenTranhAdapter = new TruyenTranhAdapter(MainScreen.this,mListTruyen);
+                truyenTranhAdapter = new TruyenTranhAdapter(MainScreen.this, mListTruyen);
                 rcvDSTruyen.setAdapter(truyenTranhAdapter);
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
-
-                Toast.makeText(MainScreen.this, "Get tat ca truyen that bai", Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -70,7 +69,6 @@ public class SignIn extends AppCompatActivity {
         if (passMD5.length() < 32) {
             passMD5 = 0 + passMD5;
         }
-        Log.e("MD5 mã hóa", passMD5);
         //kiểm tra lấy được tài khoản
         if (list == null || list.isEmpty()) {
             return;

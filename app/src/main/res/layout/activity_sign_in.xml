@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -117,8 +117,6 @@
                 android:id="@+id/et_DangKy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:importantForAutofill="no"
-                android:inputType="text"
                 android:text="@string/dn_dangky"
                 android:textColor="@color/orange"
                 android:textSize="20sp"

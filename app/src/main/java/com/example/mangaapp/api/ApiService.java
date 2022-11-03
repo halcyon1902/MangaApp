@@ -29,21 +29,26 @@ public interface ApiService {
     //Tài khoản
     @GET("TaiKhoan")
     Call<List<TaiKhoan>> GetTaiKhoan();
+
     @POST("TaiKhoan")
     Call<TaiKhoan> PostTaiKhoan(@Body TaiKhoan taiKhoan);
 
+    //Chapter
     @GET("Chapter/{id}")
     Call<Chapter> GetChapter(@Path("id") String ChapterID);
 
-    // truyen
+    //Truyện
     @GET("Truyen")
     Call<List<Truyen>> GetTatCaTruyen();
+
     @GET("Truyen/{id}")
     Call<Truyen> GetTruyen(@Path("id") String truyenID);
 
+    //Thể loại
     @GET("TheLoai/{id}")
     Call<TheLoai> GetTheLoai(@Path("id") String theLoaiID);
 
+    //Tác giả
     @GET("TacGia/{id}")
     Call<TacGia> GetTacGia(@Path("id") String tacGiaID);
 

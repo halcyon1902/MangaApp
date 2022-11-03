@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +42,6 @@ public class GetTruyen extends AppCompatActivity {
     private List<String> mListIDTheLoai, mListIDTacGia;
     private List<TheLoai> mlistTheLoai;
     private List<TacGia> mlistTacGia;
-    private List<Chapter> mlistChapter;
     private ChapterAdapter chapterAdapter;
 
     @Override
@@ -53,38 +50,33 @@ public class GetTruyen extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.activity_get_truyen);
 
-        // lay intent
+        // lấy intent
         Intent intent = getIntent();
         Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
-
         init();
         mListIDTheLoai = new ArrayList<>();
         mlistTheLoai = new ArrayList<>();
         mListIDTacGia = new ArrayList<>();
         mlistTacGia = new ArrayList<>();
+        initLinearLayout();
+        hienThiTruyen(truyen);
+    }
+
+    private void initLinearLayout() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         rcvTheLoai.setLayoutManager(linearLayoutManager);
         rcvTacGia.setLayoutManager(linearLayoutManager1);
         rcvChapter.setLayoutManager(linearLayoutManager2);
-
-        hienThiTruyen(truyen);
-
-
-
-
     }
 
+    @SuppressLint("SetTextI18n")
     private void hienThiTruyen(Truyen truyen) {
         if (truyen != null && truyen.isTrangThai()) {
-
             mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
             mListIDTacGia = Arrays.asList(truyen.getTacGias());
-            mlistChapter = Arrays.asList(truyen.getChapters());
-            Log.e("list api the loai", "" + mlistChapter.size());
-
-
+            List<Chapter> mlistChapter = Arrays.asList(truyen.getChapters());
             //Hiển thị thể loại
             for (int i = 0; i < mListIDTheLoai.size(); i++) {
                 ApiService.apiService.GetTheLoai(mListIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
@@ -94,14 +86,13 @@ public class GetTruyen extends AppCompatActivity {
                         if (theLoai != null && theLoai.isTrangThai()) {
                             mlistTheLoai.add(theLoai);
                         }
-
                         TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai);
                         rcvTheLoai.setAdapter(theLoaiAdapter);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<TheLoai> call, @NonNull Throwable t) {
-                        Toast.makeText(GetTruyen.this, "Get the loai that bai", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
@@ -121,108 +112,28 @@ public class GetTruyen extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<TacGia> call, @NonNull Throwable t) {
-                        Toast.makeText(GetTruyen.this, "Get tac gia that bai", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
 
-            //Hien tat ca chapter
+            //Hiển thị chapter
             Collections.reverse(mlistChapter);
             chapterAdapter = new ChapterAdapter(mlistChapter, context);
             rcvChapter.setAdapter(chapterAdapter);
             tvTenTruyen.setText(truyen.getTenTruyen());
-            if (truyen.isTrangThai())
-                tvTinhTrang.setText("Hoàn thành!");
-            else
-                tvTinhTrang.setText("Đang tiến thành!");
+            if (truyen.isTrangThai()) {
+                tvTinhTrang.setText("Tình trạng: Hoàn thành");
+            } else {
+                tvTinhTrang.setText("Tình trạng: Đang tiến thành");
+            }
             tvFollow.setText("" + truyen.getLuotTheoDoi());
             tvLike.setText("" + truyen.getLuotThich());
             tvNoiDung.setText(truyen.getGioiThieu());
-            tvTongChuong.setText(mlistChapter.size() + " Chương");
+            tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
         }
-    }
-
-
-    private void callAPI(String idTruyen) {
-        ApiService.apiService.GetTruyen(idTruyen).enqueue(new Callback<Truyen>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-                Truyen truyen = response.body();
-                if (truyen != null && truyen.isTrangThai()) {
-
-                    mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
-                    mListIDTacGia = Arrays.asList(truyen.getTacGias());
-                    mlistChapter = Arrays.asList(truyen.getChapters());
-                    Log.e("list api the loai", "" + mlistChapter.size());
-
-
-                    //Hiển thị thể loại
-                    for (int i = 0; i < mListIDTheLoai.size(); i++) {
-                        ApiService.apiService.GetTheLoai(mListIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
-                            @Override
-                            public void onResponse(@NonNull Call<TheLoai> call, @NonNull Response<TheLoai> response) {
-                                TheLoai theLoai = response.body();
-                                if (theLoai != null && theLoai.isTrangThai()) {
-                                    mlistTheLoai.add(theLoai);
-                                }
-
-                                TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai);
-                                rcvTheLoai.setAdapter(theLoaiAdapter);
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<TheLoai> call, @NonNull Throwable t) {
-                                Toast.makeText(GetTruyen.this, "Get the loai that bai", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    //Hiển thị tác giả
-                    for (int i = 0; i < mListIDTacGia.size(); i++) {
-                        ApiService.apiService.GetTacGia(mListIDTacGia.get(i)).enqueue(new Callback<TacGia>() {
-                            @Override
-                            public void onResponse(@NonNull Call<TacGia> call, @NonNull Response<TacGia> response) {
-                                TacGia tacGia = response.body();
-                                if (tacGia != null && tacGia.isTrangThai()) {
-                                    mlistTacGia.add(tacGia);
-                                }
-                                TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia);
-                                rcvTacGia.setAdapter(tacGiaAdapter);
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<TacGia> call, @NonNull Throwable t) {
-                                Toast.makeText(GetTruyen.this, "Get tac gia that bai", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    //Hien tat ca chapter
-                    Collections.reverse(mlistChapter);
-                    chapterAdapter = new ChapterAdapter(mlistChapter, context);
-                    rcvChapter.setAdapter(chapterAdapter);
-                    tvTenTruyen.setText(truyen.getTenTruyen());
-                    if (truyen.isTrangThai())
-                        tvTinhTrang.setText("Hoàn thành!");
-                    else
-                        tvTinhTrang.setText("Đang tiến thành!");
-                    tvFollow.setText("" + truyen.getLuotTheoDoi());
-                    tvLike.setText("" + truyen.getLuotThich());
-                    tvNoiDung.setText(truyen.getGioiThieu());
-                    tvTongChuong.setText(mlistChapter.size() + " Chương");
-                    Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
-                    Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-                Toast.makeText(GetTruyen.this, "Get truyen thất bại", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override

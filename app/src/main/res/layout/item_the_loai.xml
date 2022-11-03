@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#D3D3D3"
-    android:layout_marginTop="5dp"
-    android:layout_marginStart="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="9dp">
-    
+    app:cardBackgroundColor="@color/white"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp">
+
     <TextView
         android:id="@+id/tv_item_the_loai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="Adventure"/>
+        android:text="Adventure"
+        android:layout_margin="5dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:ignore="HardcodedText" />
 </androidx.cardview.widget.CardView>
