@@ -18,25 +18,13 @@
         tools:targetApi="31">
         <activity
             android:name=".function.GetTaiKhoan"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".function.PutTaiKhoan"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".function.PostTruyen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".display.TaiKhoanAdmin"
             android:exported="true">
@@ -63,7 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".mainscreen.MainScreen"
-            android:exported="false">
+            android:exported="true">
 
         </activity>
     </application>

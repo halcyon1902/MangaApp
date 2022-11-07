@@ -1,17 +1,12 @@
 package com.example.mangaapp.mainscreen;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +17,7 @@ import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.function.SignIn;
 import com.example.mangaapp.model.Truyen;
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +26,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainScreen extends AppCompatActivity {
     DrawerLayout drawer;
-    NavigationView navigationView;
-    Toolbar toolbar;
-    //để test
+    BottomNavigationView bottomNavigationView;
     RecyclerView rcvDSTruyen;
     TruyenTranhAdapter truyenTranhAdapter;
     List<Truyen> mListTruyen;
@@ -44,12 +37,11 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.drawer_layout);
+        setContentView(R.layout.main_screen);
         init();
         GetTatCaTruyen();
-        initNavigationDrawer();
         initGridView();
-
+        initBottomNavigation();
     }
 
     //Full màn hình
@@ -58,12 +50,25 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
+    //khởi tạo bottom navigation
+    private void initBottomNavigation() {
+        bottomNavigationView.setSelected(false);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.account:
+                    startActivity(new Intent(MainScreen.this, SignIn.class));
+                    finish();
+                case R.id.favorite:
+                    break;
+            }
+            return false;
+        });
+    }
+
     //Khởi tạo
     public void init() {
-        drawer = findViewById(R.id.drawer);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
         rcvDSTruyen = findViewById(R.id.rcv_DSTruyen);
+        bottomNavigationView = findViewById(R.id.bottom_nav_view);
     }
 
     private void initGridView() {
@@ -88,29 +93,6 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
 
             }
         });
-    }
-
-    private void initNavigationDrawer() {
-        navigationView.setNavigationItemSelectedListener(this);
-        //tạo menu mở drawer trên toolbar
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        toggle.getDrawerArrowDrawable().setColor(getColor(R.color.goldenrod));
-        navigationView.setItemIconTintList(null);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.account:
-                startActivity(new Intent(this, SignIn.class));
-                finish();
-                break;
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override

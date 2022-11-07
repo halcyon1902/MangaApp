@@ -24,4 +24,7 @@
     <string name="dk_dangky">Đăng ký</string>
     <string name="dk_dacotaikhoan">Đã có tài khoản?</string>
     <string name="dk_dangnhap">Đăng nhập</string>
+    <!--    cho menu-->
+    <string name="menu_TaiKhoan">Tài khoản</string>
+    <string name="menu_YeuThich">Yêu thích</string>
 </resources>
