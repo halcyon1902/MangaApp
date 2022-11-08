@@ -30,10 +30,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Chapter"
+                android:text="@string/get_chapter"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                android:textStyle="bold"/>
 
             <ImageView
                 android:layout_width="30dp"
@@ -52,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Bình Luận"
+            android:text="@string/get_binhluan"
             android:textSize="30sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />

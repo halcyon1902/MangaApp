@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="112dp"
         android:layout_marginTop="16dp"
-        android:text="Phan Loai"
+        android:text="@string/get_phanloai"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +25,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/img_luive"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,6 +36,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_search"
+        android:contentDescription="@string/img_timkiem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.879"
         app:layout_constraintStart_toEndOf="@+id/textView"
