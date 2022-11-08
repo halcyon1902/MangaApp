@@ -17,16 +17,30 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".function.GetAllTheLoai"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".function.SearchTruyen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".function.GetTaiKhoan"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".function.PutTaiKhoan"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".function.PostTruyen"
             android:exported="false" />
         <activity
-            android:name=".display.TaiKhoanAdmin"
+            android:name=".mainscreen.MainScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,10 +64,8 @@
             android:name=".function.GetTruyen"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.MainScreen"
-            android:exported="true">
-
-        </activity>
+            android:name=".display.TaiKhoanAdmin"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

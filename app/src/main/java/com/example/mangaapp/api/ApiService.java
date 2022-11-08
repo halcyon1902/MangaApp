@@ -44,9 +44,21 @@ public interface ApiService {
     @GET("Truyen/{id}")
     Call<Truyen> GetTruyen(@Path("id") String truyenID);
 
+    @GET("Truyen/SearchTruyenTheoTacGia/{id}")
+    Call<List<Truyen>> GetTruyenTheoTacGia(@Path("id") String truyenID);
+
+    @GET("Truyen/SearchTruyenTheoTheLoai/{id}")
+    Call<List<Truyen>> GetTruyenTheoTheLoai(@Path("id") String truyenID);
+
+    @GET("Truyen/SearchTruyen/{id}")
+    Call<List<Truyen>> GetTruyenTheoTenTruyenOrTacGia(@Path("id") String truyenID);
+
     //Thể loại
     @GET("TheLoai/{id}")
     Call<TheLoai> GetTheLoai(@Path("id") String theLoaiID);
+
+    @GET("TheLoai")
+    Call<List<TheLoai>> GetTatCaTheLoai();
 
     //Tác giả
     @GET("TacGia/{id}")

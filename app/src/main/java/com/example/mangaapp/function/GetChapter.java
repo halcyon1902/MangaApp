@@ -2,6 +2,7 @@ package com.example.mangaapp.function;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class GetChapter extends AppCompatActivity {
         //lấy thông tin từ intent
         Intent intent = getIntent();
         Chapter chapter = (Chapter) intent.getSerializableExtra("clickchapter");
+        Log.e("chapter la: ",chapter.toString());
         init();
         mListLinkAnh = new ArrayList<>();
         mListBinhLuan = new ArrayList<>();

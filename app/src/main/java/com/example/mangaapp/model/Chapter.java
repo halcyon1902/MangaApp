@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Chapter implements Serializable {
 
+    private String _id;
     private String TenChapter;
     private String NgayNhap;
     private boolean TrangThai;
@@ -23,6 +24,24 @@ public class Chapter implements Serializable {
         Truyen = truyen;
         LinkAnhs = linkAnhs;
         BinhLuans = binhLuans;
+    }
+
+    public Chapter(String _id, String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, BinhLuan[] binhLuans) {
+        this._id = _id;
+        TenChapter = tenChapter;
+        NgayNhap = ngayNhap;
+        TrangThai = trangThai;
+        Truyen = truyen;
+        LinkAnhs = linkAnhs;
+        BinhLuans = binhLuans;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTenChapter() {
@@ -76,7 +95,8 @@ public class Chapter implements Serializable {
     @Override
     public String toString() {
         return "Chapter{" +
-                "TenChapter='" + TenChapter + '\'' +
+                "_id='" + _id + '\'' +
+                ", TenChapter='" + TenChapter + '\'' +
                 ", NgayNhap='" + NgayNhap + '\'' +
                 ", TrangThai=" + TrangThai +
                 ", Truyen='" + Truyen + '\'' +

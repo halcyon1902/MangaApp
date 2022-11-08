@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class Truyen implements Serializable {
+
+    private String _id;
     private String TenTruyen;
     private String[] TheLoais;
     private boolean TrangThai;
@@ -33,6 +35,31 @@ public class Truyen implements Serializable {
         LuotTheoDoi = luotTheoDoi;
         TacGias = tacGias;
         Chapters = chapters;
+    }
+
+    public Truyen(String _id, String tenTruyen, String[] theLoais, boolean trangThai, boolean tinhTrang,
+                  String gioiThieu, String anhBia, int luotThich, int luotXem, int luotTheoDoi, String[] tacGias,
+                  Chapter[] chapters) {
+        this._id = _id;
+        TenTruyen = tenTruyen;
+        TheLoais = theLoais;
+        TrangThai = trangThai;
+        TinhTrang = tinhTrang;
+        GioiThieu = gioiThieu;
+        AnhBia = anhBia;
+        LuotThich = luotThich;
+        LuotXem = luotXem;
+        LuotTheoDoi = luotTheoDoi;
+        TacGias = tacGias;
+        Chapters = chapters;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTenTruyen() {
@@ -126,7 +153,8 @@ public class Truyen implements Serializable {
     @Override
     public String toString() {
         return "Truyen{" +
-                "TenTruyen='" + TenTruyen + '\'' +
+                "_id='" + _id + '\'' +
+                ", TenTruyen='" + TenTruyen + '\'' +
                 ", TheLoais=" + Arrays.toString(TheLoais) +
                 ", TrangThai=" + TrangThai +
                 ", TinhTrang=" + TinhTrang +

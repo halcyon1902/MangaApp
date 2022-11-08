@@ -19,11 +19,12 @@ import com.example.mangaapp.function.GetTruyen;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.Truyen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.TruyenTranhViewHolder> {
     private Context context;
-    private final List<Truyen> mListTruyenTranh;
+    private List<Truyen> mListTruyenTranh;
 
     @SuppressLint("NotifyDataSetChanged")
     public TruyenTranhAdapter(Context context, List<Truyen> mListTruyenTranh) {
@@ -78,6 +79,11 @@ public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.
             tenTruyebTranh = itemView.findViewById(R.id.tv_TenTruyen);
             imgAnhBia = itemView.findViewById(R.id.imgv_AnhBia);
         }
+    }
+
+    public void filterList(ArrayList<Truyen> filteredList) {
+        mListTruyenTranh = filteredList;
+        notifyDataSetChanged();
     }
 }
 

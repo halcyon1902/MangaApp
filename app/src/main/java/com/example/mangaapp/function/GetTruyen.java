@@ -86,7 +86,7 @@ public class GetTruyen extends AppCompatActivity {
                         if (theLoai != null && theLoai.isTrangThai()) {
                             mlistTheLoai.add(theLoai);
                         }
-                        TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai);
+                        TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai, GetTruyen.this);
                         rcvTheLoai.setAdapter(theLoaiAdapter);
                     }
 
@@ -106,7 +106,7 @@ public class GetTruyen extends AppCompatActivity {
                         if (tacGia != null && tacGia.isTrangThai()) {
                             mlistTacGia.add(tacGia);
                         }
-                        TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia);
+                        TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia, context);
                         rcvTacGia.setAdapter(tacGiaAdapter);
                     }
 

@@ -3,6 +3,7 @@ package com.example.mangaapp.model;
 import java.io.Serializable;
 
 public class TacGia implements Serializable {
+    private String _id;
     private String TenTacGia;
     private boolean TrangThai;
 
@@ -12,6 +13,20 @@ public class TacGia implements Serializable {
     public TacGia(String tenTacGia, boolean trangThai) {
         TenTacGia = tenTacGia;
         TrangThai = trangThai;
+    }
+
+    public TacGia(String _id, String tenTacGia, boolean trangThai) {
+        this._id = _id;
+        TenTacGia = tenTacGia;
+        TrangThai = trangThai;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTenTacGia() {
@@ -33,7 +48,8 @@ public class TacGia implements Serializable {
     @Override
     public String toString() {
         return "TacGia{" +
-                "TenTacGia='" + TenTacGia + '\'' +
+                "_id='" + _id + '\'' +
+                ", TenTacGia='" + TenTacGia + '\'' +
                 ", TrangThai=" + TrangThai +
                 '}';
     }

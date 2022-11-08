@@ -26,6 +26,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     public ChapterAdapter(List<Chapter> mListChapter, Context context) {
         this.mListChapter = mListChapter;
         this.context = context;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,7 +43,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         if (chapter == null)
             return;
         holder.tvTenChapter.setText(chapter.getTenChapter());
-        holder.tvNgayNhap.setText("Ngày đăng: "+chapter.getNgayNhap());
+        holder.tvNgayNhap.setText("Ngày đăng: " + chapter.getNgayNhap());
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);

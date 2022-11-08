@@ -2,8 +2,11 @@ package com.example.mangaapp.mainscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.function.GetAllTheLoai;
+import com.example.mangaapp.function.SearchTruyen;
 import com.example.mangaapp.function.SignIn;
 import com.example.mangaapp.model.Truyen;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +37,8 @@ public class MainScreen extends AppCompatActivity {
     RecyclerView rcvDSTruyen;
     TruyenTranhAdapter truyenTranhAdapter;
     List<Truyen> mListTruyen;
+    ImageView imgSearch;
+    TextView tvPhanLoai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +70,27 @@ public class MainScreen extends AppCompatActivity {
             }
             return false;
         });
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainScreen.this, SearchTruyen.class));
+            }
+        });
+        tvPhanLoai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainScreen.this, GetAllTheLoai.class));
+            }
+        });
+
     }
 
     //Khởi tạo
     public void init() {
         rcvDSTruyen = findViewById(R.id.rcv_DSTruyen);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
+        imgSearch = findViewById(R.id.img_search_main);
+        tvPhanLoai = findViewById(R.id.tv_phanloai);
     }
 
     private void initGridView() {

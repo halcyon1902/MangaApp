@@ -2,18 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crd_theloai"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white"
     android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="5dp">
 
     <TextView
         android:id="@+id/tv_item_the_loai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adventure"
         android:layout_margin="5dp"
+        android:text="Adventure"
         android:textColor="@color/black"
         android:textSize="15sp"
         tools:ignore="HardcodedText" />
