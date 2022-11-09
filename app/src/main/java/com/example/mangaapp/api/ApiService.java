@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -32,6 +33,10 @@ public interface ApiService {
 
     @POST("TaiKhoan")
     Call<TaiKhoan> PostTaiKhoan(@Body TaiKhoan taiKhoan);
+
+    //
+    @PUT("TaiKhoan/{id}")
+    Call<TaiKhoan> PutTaiKhoan(@Path("id") String taikhoanID, @Body TaiKhoan taiKhoan);
 
     //Chapter
     @GET("Chapter/{id}")

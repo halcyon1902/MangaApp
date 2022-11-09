@@ -53,7 +53,6 @@ public class SignUp extends AppCompatActivity {
         String mail = Objects.requireNonNull(email.getText()).toString().trim();
         boolean isTrangThai = true;
         boolean isPhanQuyen = false;
-        String[] binhluan = new String[0];
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         //mã hóa md5 cho mật khẩu
         byte[] md5Input = pass.getBytes();
@@ -69,7 +68,7 @@ public class SignUp extends AppCompatActivity {
             passMD5 = 0 + passMD5;
         }
         if (Validation()) {
-            TaiKhoan taikhoan = new TaiKhoan(name, passMD5, mail, isPhanQuyen, isTrangThai, binhluan, currentDate);
+            TaiKhoan taikhoan = new TaiKhoan(null, name, passMD5, mail, isPhanQuyen, isTrangThai, null, currentDate);
             ApiService.apiService.PostTaiKhoan(taikhoan).enqueue(new Callback<TaiKhoan>() {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {

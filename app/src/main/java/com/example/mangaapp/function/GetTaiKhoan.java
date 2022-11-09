@@ -53,6 +53,7 @@ public class GetTaiKhoan extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
+                assert list != null;
                 Log.e("Lấy được tài khoản", list.toString());
                 TaiKhoanAdapter taiKhoanAdapter = new TaiKhoanAdapter(list, context);
                 recyclerView.setAdapter(taiKhoanAdapter);

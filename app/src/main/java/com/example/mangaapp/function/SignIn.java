@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -116,6 +117,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
+                Log.e("Có bao nhiêu tài khoản",list.toString());
             }
 
             @Override

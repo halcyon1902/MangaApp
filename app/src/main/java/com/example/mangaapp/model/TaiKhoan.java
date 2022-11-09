@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class TaiKhoan implements Serializable {
+    private String _id;
     private String TaiKhoan;
     private String MatKhau;
     private String Email;
@@ -15,7 +16,8 @@ public class TaiKhoan implements Serializable {
     @Override
     public String toString() {
         return "TaiKhoan{" +
-                "TaiKhoan='" + TaiKhoan + '\'' +
+                "_id='" + _id + '\'' +
+                ", TaiKhoan='" + TaiKhoan + '\'' +
                 ", MatKhau='" + MatKhau + '\'' +
                 ", Email='" + Email + '\'' +
                 ", PhanQuyen=" + PhanQuyen +
@@ -23,6 +25,25 @@ public class TaiKhoan implements Serializable {
                 ", BinhLuans=" + Arrays.toString(BinhLuans) +
                 ", NgayTao='" + NgayTao + '\'' +
                 '}';
+    }
+
+    public TaiKhoan(String _id, String taiKhoan, String matKhau, String email, boolean phanQuyen, boolean trangThai, String[] binhLuans, String ngayTao) {
+        this._id = _id;
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+        PhanQuyen = phanQuyen;
+        TrangThai = trangThai;
+        BinhLuans = binhLuans;
+        NgayTao = ngayTao;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTaiKhoan() {
@@ -78,16 +99,6 @@ public class TaiKhoan implements Serializable {
     }
 
     public void setNgayTao(String ngayTao) {
-        NgayTao = ngayTao;
-    }
-
-    public TaiKhoan(String taiKhoan, String matKhau, String email, boolean phanQuyen, boolean trangThai, String[] binhLuans, String ngayTao) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-        PhanQuyen = phanQuyen;
-        TrangThai = trangThai;
-        BinhLuans = binhLuans;
         NgayTao = ngayTao;
     }
 
