@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PutTaiKhoan extends AppCompatActivity {
+public class CT_TaiKhoan extends AppCompatActivity {
     private TextView tv_ten, tv_email;
     private CheckBox cb1, cb2, cb3, cb4;
     private RecyclerView rcvBinhLuan;
@@ -34,7 +34,7 @@ public class PutTaiKhoan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.activity_put_tai_khoan);
+        setContentView(R.layout.activity_ct_tai_khoan);
         //lấy thông tin từ intent
         Intent intent = getIntent();
         TaiKhoan taiKhoan = (TaiKhoan) intent.getSerializableExtra("clickTaiKhoan");
@@ -58,7 +58,6 @@ public class PutTaiKhoan extends AppCompatActivity {
             cb3.setChecked(false);
         }
         btn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 boolean temp = false;
@@ -87,7 +86,7 @@ public class PutTaiKhoan extends AppCompatActivity {
 
                     }
                 });
-                startActivity(new Intent(PutTaiKhoan.this, GetTaiKhoan.class));
+                startActivity(new Intent(CT_TaiKhoan.this, QL_TaiKhoan.class));
                 finish();
             }
         });

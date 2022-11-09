@@ -17,24 +17,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".function.GetAllTheLoai"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".function.SearchTruyen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".function.GetTaiKhoan"
+            android:name=".function.QL_TacGia"
             android:exported="false" />
         <activity
-            android:name=".function.PutTaiKhoan"
+            android:name=".function.QL_TheLoai"
+            android:exported="false" />
+        <activity
+            android:name=".function.GetAllTheLoai"
+            android:exported="false" />
+        <activity
+            android:name=".function.SearchTruyen"
+            android:exported="false" />
+        <activity
+            android:name=".function.QL_TaiKhoan"
+            android:exported="false" />
+        <activity
+            android:name=".function.CT_TaiKhoan"
             android:exported="false" />
         <activity
             android:name=".function.PostTruyen"
@@ -42,6 +40,7 @@
         <activity
             android:name=".mainscreen.MainScreen"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".display.TaiKhoan"

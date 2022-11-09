@@ -1,5 +1,6 @@
 package com.example.mangaapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,16 +15,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
-import com.example.mangaapp.function.PutTaiKhoan;
+import com.example.mangaapp.function.CT_TaiKhoan;
 import com.example.mangaapp.model.TaiKhoan;
 
 import java.util.List;
 
-public class TaiKhoanAdapter extends RecyclerView.Adapter<TaiKhoanAdapter.TacGiaViewHolder> {
-    private List<TaiKhoan> list;
-    private Context context;
+public class TaiKhoanAdminAdapter extends RecyclerView.Adapter<TaiKhoanAdminAdapter.TacGiaViewHolder> {
+    private final List<TaiKhoan> list;
+    private final Context context;
 
-    public TaiKhoanAdapter(List<TaiKhoan> listTaiKhoan,Context context) {
+    @SuppressLint("NotifyDataSetChanged")
+    public TaiKhoanAdminAdapter(List<TaiKhoan> listTaiKhoan, Context context) {
         this.list = listTaiKhoan;
         this.context = context;
         notifyDataSetChanged();
@@ -33,10 +35,11 @@ public class TaiKhoanAdapter extends RecyclerView.Adapter<TaiKhoanAdapter.TacGia
     @NonNull
     @Override
     public TacGiaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_taikhoan, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_taikhoan, parent, false);
         return new TacGiaViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TacGiaViewHolder holder, int position) {
         TaiKhoan taiKhoan = list.get(position);
@@ -58,14 +61,11 @@ public class TaiKhoanAdapter extends RecyclerView.Adapter<TaiKhoanAdapter.TacGia
             holder.tv_TrangThai.setText("Bị cấm");
             holder.tv_TrangThai.setTextColor(Color.parseColor("#FF0000"));
         }
-        holder.cv_TaiKhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PutTaiKhoan.class);
-                intent.putExtra("clickTaiKhoan", taiKhoan);
-                Log.e("Sau khi click vào tài khoản: ", "" + taiKhoan);
-                context.startActivity(intent);
-            }
+        holder.cv_TaiKhoan.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CT_TaiKhoan.class);
+            intent.putExtra("clickTaiKhoan", taiKhoan);
+            Log.e("Sau khi click vào tài khoản: ", "" + taiKhoan);
+            context.startActivity(intent);
         });
 
     }
@@ -78,17 +78,19 @@ public class TaiKhoanAdapter extends RecyclerView.Adapter<TaiKhoanAdapter.TacGia
         return 0;
     }
 
-    public class TacGiaViewHolder extends RecyclerView.ViewHolder {
+    public static class TacGiaViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView cv_TaiKhoan;
-        private TextView tv_TenTaiKhoan, tv_PhanQuyen, tv_TrangThai;
+        private final TextView tv_TenTaiKhoan;
+        private final TextView tv_PhanQuyen;
+        private final TextView tv_TrangThai;
 
         public TacGiaViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_TenTaiKhoan = itemView.findViewById(R.id.tv_tenTaiKhoan);
-            tv_TrangThai = itemView.findViewById(R.id.tv_trangThai);
-            tv_PhanQuyen = itemView.findViewById(R.id.tv_phanQuyen);
-            cv_TaiKhoan = itemView.findViewById(R.id.cv_item_TaiKhoan);
+            tv_TenTaiKhoan = itemView.findViewById(R.id.tv_item_admin_taikhoan_tentaikhoan);
+            tv_TrangThai = itemView.findViewById(R.id.tv_item_admin_taikhoan_trangthai);
+            tv_PhanQuyen = itemView.findViewById(R.id.tv_item_admin_taikhoan_phanquyen);
+            cv_TaiKhoan = itemView.findViewById(R.id.cv_item_admin_taikhoan);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mangaapp.function;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
-import com.example.mangaapp.adapter.TaiKhoanAdapter;
+import com.example.mangaapp.adapter.TheLoaiAdminAdapter;
 import com.example.mangaapp.api.ApiService;
-import com.example.mangaapp.model.TaiKhoan;
+import com.example.mangaapp.model.TheLoai;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +25,30 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GetTaiKhoan extends AppCompatActivity {
-    private final Context context = this;
+public class QL_TheLoai extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private List<TaiKhoan> list;
+    private List<TheLoai> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.activity_get_tai_khoan);
-        recyclerView = findViewById(R.id.rcv_taikhoan);
+        setContentView(R.layout.activity_ql_the_loai);
         list = new ArrayList<>();
+        init();
+        initLinearLayout();
+        getTheLoai();
+    }
+
+    private void initLinearLayout() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
-        getTaiKhoan();
+    }
+
+    private void init() {
+        recyclerView = findViewById(R.id.rcv_admin_theloai);
     }
 
     private void setFullScreen() {
@@ -48,20 +56,23 @@ public class GetTaiKhoan extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    private void getTaiKhoan() {
-        ApiService.apiService.GetTaiKhoan().enqueue(new Callback<List<TaiKhoan>>() {
+    private void getTheLoai() {
+        ApiService.apiService.GetTatCaTheLoai().enqueue(new Callback<List<TheLoai>>() {
             @Override
-            public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
+            public void onResponse(@NonNull Call<List<TheLoai>> call, @NonNull Response<List<TheLoai>> response) {
                 list = response.body();
                 assert list != null;
-                Log.e("Lấy được tài khoản", list.toString());
-                TaiKhoanAdapter taiKhoanAdapter = new TaiKhoanAdapter(list, context);
-                recyclerView.setAdapter(taiKhoanAdapter);
+                Log.e("Lấy được thể loại", list.toString());
+                TheLoaiAdminAdapter adapter = new TheLoaiAdminAdapter(list);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<TaiKhoan>> call, @NonNull Throwable t) {
-                Log.e("Bị lỗi gì ", t.toString());
+            public void onFailure(@NonNull Call<List<TheLoai>> call, @NonNull Throwable t) {
+
+                Log.e("Lỗi", t.toString());
             }
         });
     }

@@ -27,7 +27,7 @@
     <!--    cho menu-->
     <string name="menu_TaiKhoan">Tài khoản</string>
     <string name="menu_YeuThich">Yêu thích</string>
-    <!--    cho thongtintaikhoan-->
+    <!--    cho thông tin tài khỏan-->
     <string name="ttcn_hovaten">Họ và tên</string>
     <string name="ttcn_email">Email</string>
     <string name="ttcn_doimatkhau">Đổi mật khẩu</string>
@@ -63,11 +63,13 @@
     <string name="img_timkiem">Tìm kiếm</string>
     <string name="img_trai">Sang trái</string>
     <string name="img_phai">Sang phải</string>
-    <!--   cho get-->
+    <!--   admin-->
     <string name="get_phanloai">Phân loại</string>
     <string name="get_chapter">Chapter</string>
     <string name="get_binhluan">Bình luận</string>
     <string name="get_danhsachtaikhoan">Danh sách tài khoản</string>
+    <string name="get_danhsachtheloai">Danh sách thể loại</string>
+    <string name="get_danhsachtacgia">Danh sách tác giả</string>
     <string name="get_tentruyen">Tên truyện</string>
 
 </resources>

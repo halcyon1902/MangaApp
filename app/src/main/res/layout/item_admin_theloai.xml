@@ -8,7 +8,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv_item_TaiKhoan"
         android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="2dp"
@@ -33,42 +32,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên tài khoản: "
+                    android:text="Tên thể loại: "
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
                 <TextView
-                    android:id="@+id/tv_tenTaiKhoan"
+                    android:id="@+id/tv_item_admin_theloai_tentheloai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Admin"
                     android:textColor="@color/goldenrod"
                     android:textSize="25sp"
-                    tools:ignore="HardcodedText" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phân quyền: "
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:id="@+id/tv_phanQuyen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Admin"
-                    android:textSize="18sp"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 
@@ -87,24 +63,33 @@
                     tools:ignore="HardcodedText" />
 
                 <TextView
-                    android:id="@+id/tv_trangThai"
+                    android:id="@+id/tv_item_admin_theloai_trangthai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin"
+                    android:text="Bị cấm"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btn_admin_theloai_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_edit_black"
+            tools:ignore="ContentDescription" />
     </androidx.cardview.widget.CardView>
+
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:elevation="13dp"
-        android:src="@drawable/user"
+        android:src="@drawable/categorize"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>

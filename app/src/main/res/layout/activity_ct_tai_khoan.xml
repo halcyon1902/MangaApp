@@ -6,7 +6,7 @@
     android:layout_gravity="center|top"
     android:layout_margin="10dp"
     android:orientation="vertical"
-    tools:context=".function.PutTaiKhoan">
+    tools:context=".function.CT_TaiKhoan">
 
     <TextView
         android:layout_width="wrap_content"

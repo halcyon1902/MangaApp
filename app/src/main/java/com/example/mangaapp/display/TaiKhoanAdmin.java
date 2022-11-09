@@ -10,9 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.mangaapp.R;
-import com.example.mangaapp.function.GetTaiKhoan;
 import com.example.mangaapp.function.PostTruyen;
-import com.example.mangaapp.function.PutTaiKhoan;
+import com.example.mangaapp.function.QL_TacGia;
+import com.example.mangaapp.function.QL_TaiKhoan;
+import com.example.mangaapp.function.QL_TheLoai;
 
 public class TaiKhoanAdmin extends AppCompatActivity {
     CardView cv_truyen, cv_taciga, cv_theloai, cv_taikhoan;
@@ -23,20 +24,10 @@ public class TaiKhoanAdmin extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.activity_tai_khoan_admin);
         init();
-        cv_truyen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TaiKhoanAdmin.this, PostTruyen.class));
-                finish();
-            }
-        });
-        cv_taikhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TaiKhoanAdmin.this, GetTaiKhoan.class));
-                finish();
-            }
-        });
+        cv_truyen.setOnClickListener(v -> startActivity(new Intent(TaiKhoanAdmin.this, PostTruyen.class)));
+        cv_taikhoan.setOnClickListener(v -> startActivity(new Intent(TaiKhoanAdmin.this, QL_TaiKhoan.class)));
+        cv_taciga.setOnClickListener(v -> startActivity(new Intent(TaiKhoanAdmin.this, QL_TacGia.class)));
+        cv_theloai.setOnClickListener(v -> startActivity(new Intent(TaiKhoanAdmin.this, QL_TheLoai.class)));
     }
 
     //Full màn hình
