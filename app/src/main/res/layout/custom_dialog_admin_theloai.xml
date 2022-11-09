@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_custom_dialog_admin_theloai_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -40,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="Admin"
+                android:text="action"
                 android:textColor="@color/goldenrod"
                 android:textSize="25sp"
                 tools:ignore="HardcodedText" />

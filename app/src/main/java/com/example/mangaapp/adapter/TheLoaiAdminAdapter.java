@@ -59,7 +59,7 @@ public class TheLoaiAdminAdapter extends RecyclerView.Adapter<TheLoaiAdminAdapte
         }
         holder.btn_edit.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-            View dialogView = LayoutInflater.from(v.getRootView().getContext()).inflate(R.layout.custom_dialog_admin_theloai_adapter, null);
+            View dialogView = LayoutInflater.from(v.getRootView().getContext()).inflate(R.layout.custom_dialog_admin_theloai, null);
             //init
             TextView tv_customdialog_tentheloai;
             CheckBox cb1, cb2;

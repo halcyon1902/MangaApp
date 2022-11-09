@@ -64,6 +64,9 @@ public interface ApiService {
     @PUT("TheLoai/{id}")
     Call<TheLoai> PutTheLoai(@Path("id") String theLoaiID, @Body TheLoai theLoai);
 
+    @POST("TheLoai")
+    Call<TheLoai> PostTheLoai(@Body TheLoai theLoai);
+
     @GET("TheLoai")
     Call<List<TheLoai>> GetTatCaTheLoai();
 

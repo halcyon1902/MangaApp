@@ -1,11 +1,17 @@
 package com.example.mangaapp.function;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +34,7 @@ import retrofit2.Response;
 public class QL_TheLoai extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<TheLoai> list;
+    private ImageView btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,48 @@ public class QL_TheLoai extends AppCompatActivity {
         init();
         initLinearLayout();
         getTheLoai();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View alertLayout = inflater.inflate(R.layout.custom_dialog_admin_theloai, null);
+                final TextView title = alertLayout.findViewById(R.id.tv_custom_dialog_admin_theloai_title);
+                final EditText tentheloai = alertLayout.findViewById(R.id.et_custom_dialog_admin_theloai_tentheloai);
+                final CheckBox cb1 = alertLayout.findViewById(R.id.cb_custom_dialog_admin_theloai_trangthai_true);
+                final CheckBox cb2 = alertLayout.findViewById(R.id.cb_custom_dialog_admin_theloai_trangthai_false);
+                title.setText("Thêm thể loại");
+                AlertDialog.Builder builder = new AlertDialog.Builder(QL_TheLoai.this);
+                builder.setView(alertLayout);
+                builder.setCancelable(true);
+                builder.setPositiveButton("Cập nhật", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String ten=tentheloai.getText().toString().trim();
+                        boolean trangthai = true;
+                        if (cb1.isChecked()){
+                            trangthai=true;
+                        }
+                        if (cb2.isChecked()){
+                            trangthai=false;
+                        }
+                        TheLoai theLoai=new TheLoai(ten,trangthai);
+                        ApiService.apiService.PostTheLoai(theLoai).enqueue(new Callback<TheLoai>() {
+                            @Override
+                            public void onResponse(Call<TheLoai> call, Response<TheLoai> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<TheLoai> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void initLinearLayout() {
@@ -49,6 +98,8 @@ public class QL_TheLoai extends AppCompatActivity {
 
     private void init() {
         recyclerView = findViewById(R.id.rcv_admin_theloai);
+        btn = findViewById(R.id.btn_admin_theloai_add);
+
     }
 
     private void setFullScreen() {
@@ -71,8 +122,7 @@ public class QL_TheLoai extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<TheLoai>> call, @NonNull Throwable t) {
-
-                Log.e("Lỗi", t.toString());
+                Log.e("Lỗi ở quản lý thể loại:", t.toString());
             }
         });
     }
