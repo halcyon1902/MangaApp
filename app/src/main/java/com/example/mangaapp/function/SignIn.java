@@ -51,7 +51,6 @@ public class SignIn extends AppCompatActivity {
         ApiService.apiService.Login(taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                Log.e("Sign in:Thông báo", response.body().toString());
                 Dialog();
 
 

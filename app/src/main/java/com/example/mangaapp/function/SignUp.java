@@ -89,6 +89,12 @@ public class SignUp extends AppCompatActivity {
             tentaikhoan.requestFocus();
             return false;
         }
+        if (name.length() < 6 || name.length() > 20) {
+            tentaikhoan.setError("Tên tài khoản không được ít hơn 6 kí tự và lớn hơn 20 kí tự");
+            tentaikhoan.requestFocus();
+            return false;
+        }
+
         for (TaiKhoan taiKhoan : list) {
             if (name.equals(taiKhoan.getTaiKhoan())) {
                 tentaikhoan.setError("Tên tài khoản đã được sử dụng");
@@ -96,13 +102,13 @@ public class SignUp extends AppCompatActivity {
                 return false;
             }
         }
-        if (pass.length() < 6) {
-            matkhau.setError("Mật khẩu không được ít hơn 6 kí tự !!!");
+        if (TextUtils.isEmpty(pass)) {
+            matkhau.setError("Mật khẩu không được để trống");
             matkhau.requestFocus();
             return false;
         }
-        if (TextUtils.isEmpty(pass)) {
-            matkhau.setError("Mật khẩu không được để trống");
+        if (pass.length() < 6) {
+            matkhau.setError("Mật khẩu không được ít hơn 6 kí tự");
             matkhau.requestFocus();
             return false;
         }
