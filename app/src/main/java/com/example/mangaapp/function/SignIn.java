@@ -30,8 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
-    private final String messageAdmin = "Đăng nhập với quyền Admin thành công";
-    private final String messageUser = "Đăng nhập thàng công";
     private List<TaiKhoan> list;
     private Button btnDangNhap;
     private TextInputEditText matkhau, tentaikhoan;
@@ -76,10 +74,8 @@ public class SignIn extends AppCompatActivity {
         }
         for (TaiKhoan taiKhoan : list) {
             if (name.equals(taiKhoan.getTaiKhoan()) && passMD5.equals(taiKhoan.getMatKhau()) && taiKhoan.isTrangThai()) {
-                if (taiKhoan.isPhanQuyen()) {
-                    Dialog(messageAdmin);
-                } else {
-                    Dialog(messageUser);
+                if (!taiKhoan.isPhanQuyen()) {
+                    Dialog();
                 }
                 break;
             }
@@ -87,20 +83,14 @@ public class SignIn extends AppCompatActivity {
     }
 
     //Tạo dialog thông báo
-    private void Dialog(String message) {
+    private void Dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message)
+        builder.setMessage("Đăng nhập thàng công")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
-            if (message.equals(messageAdmin)) {
-                startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoanAdmin.class));
-                finish();
-            }
-            if (message.equals(messageUser)) {
-                startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoan.class));
-                finish();
-            }
+            startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoan.class));
+            finish();
 
         });
         AlertDialog dialog = builder.create();
@@ -117,7 +107,8 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<TaiKhoan>> call, @NonNull Response<List<TaiKhoan>> response) {
                 list = response.body();
-                Log.e("Có bao nhiêu tài khoản",list.toString());
+                assert list != null;
+                Log.e("Có bao nhiêu tài khoản", list.toString());
             }
 
             @Override

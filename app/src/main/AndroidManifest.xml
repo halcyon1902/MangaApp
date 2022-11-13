@@ -17,22 +17,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".function.QL_TacGia"
-            android:exported="false" />
-        <activity
-            android:name=".function.QL_TheLoai"
-            android:exported="false" />
-        <activity
             android:name=".function.GetAllTheLoai"
             android:exported="false" />
         <activity
             android:name=".function.SearchTruyen"
-            android:exported="false" />
-        <activity
-            android:name=".function.QL_TaiKhoan"
-            android:exported="false" />
-        <activity
-            android:name=".function.CT_TaiKhoan"
             android:exported="false" />
         <activity
             android:name=".function.PostTruyen"
@@ -61,10 +49,6 @@
         <activity
             android:name=".function.GetTruyen"
             android:exported="false" />
-        <activity
-            android:name=".display.TaiKhoanAdmin"
-            android:exported="true">
-        </activity>
     </application>
 
 </manifest>

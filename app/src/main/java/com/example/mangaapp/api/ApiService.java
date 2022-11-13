@@ -34,9 +34,6 @@ public interface ApiService {
     @POST("TaiKhoan")
     Call<TaiKhoan> PostTaiKhoan(@Body TaiKhoan taiKhoan);
 
-    @PUT("TaiKhoan/{id}")
-    Call<TaiKhoan> PutTaiKhoan(@Path("id") String taikhoanID, @Body TaiKhoan taiKhoan);
-
     //Chapter
     @GET("Chapter/{id}")
     Call<Chapter> GetChapter(@Path("id") String ChapterID);
@@ -61,11 +58,6 @@ public interface ApiService {
     @GET("TheLoai/{id}")
     Call<TheLoai> GetTheLoai(@Path("id") String theLoaiID);
 
-    @PUT("TheLoai/{id}")
-    Call<TheLoai> PutTheLoai(@Path("id") String theLoaiID, @Body TheLoai theLoai);
-
-    @POST("TheLoai")
-    Call<TheLoai> PostTheLoai(@Body TheLoai theLoai);
 
     @GET("TheLoai")
     Call<List<TheLoai>> GetTatCaTheLoai();
