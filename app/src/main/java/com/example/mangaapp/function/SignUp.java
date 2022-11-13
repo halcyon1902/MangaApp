@@ -16,15 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
-import com.example.mangaapp.md5.MD5;
 import com.example.mangaapp.model.TaiKhoan;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -51,24 +46,8 @@ public class SignUp extends AppCompatActivity {
         String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
         String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
         String mail = Objects.requireNonNull(email.getText()).toString().trim();
-        boolean isTrangThai = true;
-        boolean isPhanQuyen = false;
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        //mã hóa md5 cho mật khẩu
-        byte[] md5Input = pass.getBytes();
-        BigInteger md5Data = null;
-        try {
-            md5Data = new BigInteger(1, MD5.encryptMD5(md5Input));
-        } catch (Exception e) {
-            Toast.makeText(SignUp.this, e.toString(), Toast.LENGTH_LONG).show();
-        }
-        assert md5Data != null;
-        String passMD5 = md5Data.toString(16);
-        if (passMD5.length() < 32) {
-            passMD5 = 0 + passMD5;
-        }
         if (Validation()) {
-            TaiKhoan taikhoan = new TaiKhoan(null, name, passMD5, mail, isPhanQuyen, isTrangThai, null, currentDate);
+            TaiKhoan taikhoan = new TaiKhoan(name, pass, mail);
             ApiService.apiService.PostTaiKhoan(taikhoan).enqueue(new Callback<TaiKhoan>() {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {

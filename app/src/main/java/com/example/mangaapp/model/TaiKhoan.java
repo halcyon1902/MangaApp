@@ -13,6 +13,17 @@ public class TaiKhoan implements Serializable {
     private String[] BinhLuans;
     private String NgayTao;
 
+    public TaiKhoan(String taiKhoan, String matKhau, String email) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+    }
+
+    public TaiKhoan(String taiKhoan, String matKhau) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+    }
+
     @Override
     public String toString() {
         return "TaiKhoan{" +
