@@ -27,6 +27,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.example.mangaapp'
 }
 
 dependencies {
@@ -53,5 +54,6 @@ dependencies {
     //recyclerview
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 
+    implementation 'kr.co.prnd:readmore-textview:1.0.0'
 
 }

@@ -36,19 +36,7 @@
         tools:ignore="ContentDescription"
         tools:layout_height="133dp" />
 
-    <TextView
-        android:id="@+id/tv_noi_dung_truyen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center|start"
-        android:justificationMode="inter_word"
-        android:text=""
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liiner1" />
+
 
     <TextView
         android:id="@+id/tv_tong_chapter"
@@ -63,6 +51,24 @@
         app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_noi_dung_truyen" />
+
+
+    <kr.co.prnd.readmore.ReadMoreTextView
+        android:id="@+id/tv_noi_dung_truyen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_margin="10dp"
+        android:text="Mô tả"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:gravity="center|start"
+        android:justificationMode="inter_word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liiner1"
+        app:readMoreColor="#1E90FF"
+        app:readMoreMaxLine="4"
+        app:readMoreText=" Xem thêm" />
 
     <LinearLayout
         android:id="@+id/liiner1"

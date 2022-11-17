@@ -52,7 +52,7 @@ public class GetAllTheLoai extends AppCompatActivity {
         rcvTheloai = findViewById(R.id.rcv_all_theloai);
         imgSearch = findViewById(R.id.img_search);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvTheloai.setLayoutManager(gridLayoutManager);
         rcvTheloai.setNestedScrollingEnabled(false);
         rcvTheloai.setFocusable(false);

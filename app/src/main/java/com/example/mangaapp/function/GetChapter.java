@@ -15,12 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.BinhLuanAdapter;
 import com.example.mangaapp.adapter.LinkAnhAdapter;
+import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.model.BinhLuan;
 import com.example.mangaapp.model.Chapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GetChapter extends AppCompatActivity {
 
@@ -52,6 +57,8 @@ public class GetChapter extends AppCompatActivity {
             mListBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
             BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
             rcvBinhLuan.setAdapter(binhLuanAdapter);
+
+
         }
     }
 

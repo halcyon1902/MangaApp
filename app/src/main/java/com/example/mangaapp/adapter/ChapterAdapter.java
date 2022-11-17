@@ -14,10 +14,16 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
+import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
+import com.example.mangaapp.model.Truyen;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
     private final List<Chapter> mListChapter;
@@ -47,8 +53,57 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);
+
+            Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
+            ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
+                @Override
+                public void onResponse(Call<Chapter> call, Response<Chapter> response) {
+                    Log.e("luot xem: ", "" + updateChap.getLuotXem());
+                }
+
+                @Override
+                public void onFailure(Call<Chapter> call, Throwable t) {
+                    Log.e("luot xem: ", "fail");
+                }
+            });
+
+            UpdateLuotXemTruyen(chapter.getTruyen());
+
             Log.e("Sau khi click vào chapter: ", "" + chapter);
             context.startActivity(intent);
+        });
+    }
+
+    private void UpdateLuotXemTruyen(String truyen) {
+        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+                Truyen truyen1 = response.body();
+                if (truyen1 == null) {
+                    return;
+                } else {
+                    truyen1.setLuotXem(truyen1.getLuotXem() + 1);
+                    Truyen upTruyen = new Truyen(truyen1.getLuotXem(),truyen1.isTrangThai(),truyen1.isTinhTrang());
+                    ApiService.apiService.UpdateTruyen(truyen, upTruyen).enqueue(new Callback<Truyen>() {
+                        @Override
+                        public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+                            Log.e("update truyen: ", "update truyen thanh ong" );
+                        }
+
+                        @Override
+                        public void onFailure(Call<Truyen> call, Throwable t) {
+                            Log.e("update truyen: ", "update truyen that bai" );
+                        }
+                    });
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Truyen> call, Throwable t) {
+
+            }
         });
     }
 

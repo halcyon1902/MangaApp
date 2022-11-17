@@ -12,28 +12,34 @@ public class Chapter implements Serializable {
     private boolean TrangThai;
     private String Truyen;
     private String[] LinkAnhs;
+    private int LuotXem;
     private BinhLuan[] BinhLuans;
 
     public Chapter() {
     }
 
-    public Chapter(String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, BinhLuan[] binhLuans) {
-        TenChapter = tenChapter;
-        NgayNhap = ngayNhap;
+    public Chapter(int luotXem, boolean trangThai) {
+        LuotXem = luotXem;
         TrangThai = trangThai;
-        Truyen = truyen;
-        LinkAnhs = linkAnhs;
-        BinhLuans = binhLuans;
     }
 
-    public Chapter(String _id, String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, BinhLuan[] binhLuans) {
+    public Chapter(String _id, String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, int luotXem, BinhLuan[] binhLuans) {
         this._id = _id;
         TenChapter = tenChapter;
         NgayNhap = ngayNhap;
         TrangThai = trangThai;
         Truyen = truyen;
         LinkAnhs = linkAnhs;
+        LuotXem = luotXem;
         BinhLuans = binhLuans;
+    }
+
+    public int getLuotXem() {
+        return LuotXem;
+    }
+
+    public void setLuotXem(int luotXem) {
+        LuotXem = luotXem;
     }
 
     public String get_id() {
@@ -101,6 +107,7 @@ public class Chapter implements Serializable {
                 ", TrangThai=" + TrangThai +
                 ", Truyen='" + Truyen + '\'' +
                 ", LinkAnhs=" + Arrays.toString(LinkAnhs) +
+                ", LuotXem=" + LuotXem +
                 ", BinhLuans=" + Arrays.toString(BinhLuans) +
                 '}';
     }

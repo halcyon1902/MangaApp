@@ -127,7 +127,7 @@ public class GetTruyen extends AppCompatActivity {
             } else {
                 tvTinhTrang.setText("Tình trạng: Đang tiến thành");
             }
-            tvFollow.setText("" + truyen.getLuotTheoDoi());
+            tvFollow.setText("" + truyen.getLuotXem());
             tvLike.setText("" + truyen.getLuotThich());
             tvNoiDung.setText(truyen.getGioiThieu());
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());

@@ -48,7 +48,7 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
             return;
         holder.tvTenTheLoai.setText(theLoai.getTenTheLoai());
         // hien gach chan o duoi text
-        holder.tvTenTheLoai.setPaintFlags(holder.tvTenTheLoai.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        holder.tvTenTheLoai.setPaintFlags(holder.tvTenTheLoai.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
