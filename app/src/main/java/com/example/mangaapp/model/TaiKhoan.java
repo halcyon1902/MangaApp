@@ -2,6 +2,7 @@ package com.example.mangaapp.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 
 public class TaiKhoan implements Serializable {
     private String _id;
@@ -11,43 +12,8 @@ public class TaiKhoan implements Serializable {
     private boolean PhanQuyen;
     private boolean TrangThai;
     private String[] BinhLuans;
-    private String NgayTao;
-
-    public TaiKhoan(String taiKhoan, String matKhau, String email) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-    }
-
-    public TaiKhoan(String taiKhoan, String matKhau) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-    }
-
-    @Override
-    public String toString() {
-        return "TaiKhoan{" +
-                "_id='" + _id + '\'' +
-                ", TaiKhoan='" + TaiKhoan + '\'' +
-                ", MatKhau='" + MatKhau + '\'' +
-                ", Email='" + Email + '\'' +
-                ", PhanQuyen=" + PhanQuyen +
-                ", TrangThai=" + TrangThai +
-                ", BinhLuans=" + Arrays.toString(BinhLuans) +
-                ", NgayTao='" + NgayTao + '\'' +
-                '}';
-    }
-
-    public TaiKhoan(String _id, String taiKhoan, String matKhau, String email, boolean phanQuyen, boolean trangThai, String[] binhLuans, String ngayTao) {
-        this._id = _id;
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-        PhanQuyen = phanQuyen;
-        TrangThai = trangThai;
-        BinhLuans = binhLuans;
-        NgayTao = ngayTao;
-    }
+    private Date NgayTao;
+    private  String HoTen;
 
     public String get_id() {
         return _id;
@@ -105,15 +71,46 @@ public class TaiKhoan implements Serializable {
         BinhLuans = binhLuans;
     }
 
-    public String getNgayTao() {
+    public Date getNgayTao() {
         return NgayTao;
     }
 
-    public void setNgayTao(String ngayTao) {
+    public void setNgayTao(Date ngayTao) {
         NgayTao = ngayTao;
     }
 
-    public TaiKhoan() {
+    public String getHoTen() {
+        return HoTen;
     }
+
+    public void setHoTen(String hoTen) {
+        HoTen = hoTen;
+    }
+
+    public TaiKhoan(String taiKhoan, String matKhau, String email) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+    }
+
+    public TaiKhoan(String taiKhoan, String matKhau) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+    }
+
+    @Override
+    public String toString() {
+        return "TaiKhoan{" +
+                "_id='" + _id + '\'' +
+                ", TaiKhoan='" + TaiKhoan + '\'' +
+                ", MatKhau='" + MatKhau + '\'' +
+                ", Email='" + Email + '\'' +
+                ", PhanQuyen=" + PhanQuyen +
+                ", TrangThai=" + TrangThai +
+                ", BinhLuans=" + Arrays.toString(BinhLuans) +
+                ", NgayTao='" + NgayTao + '\'' +
+                '}';
+    }
+
 
 }

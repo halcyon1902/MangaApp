@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".display.TaiKhoan"
+            android:name=".display.ThongTinTaiKhoan"
             android:exported="false" />
         <activity
             android:name=".function.SignUp"

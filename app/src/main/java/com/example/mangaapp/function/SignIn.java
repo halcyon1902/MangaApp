@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.display.ThongTinTaiKhoan;
 import com.example.mangaapp.model.TaiKhoan;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -70,7 +71,7 @@ public class SignIn extends AppCompatActivity {
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
-            startActivity(new Intent(((Dialog) dialog).getContext(), com.example.mangaapp.display.TaiKhoan.class));
+            startActivity(new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class));
             finish();
 
         });
