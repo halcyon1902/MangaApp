@@ -1,6 +1,7 @@
 package com.example.mangaapp.api;
 
 import com.example.mangaapp.model.Chapter;
+import com.example.mangaapp.model.PostBinhLuan;
 import com.example.mangaapp.model.TacGia;
 import com.example.mangaapp.model.TaiKhoan;
 import com.example.mangaapp.model.TheLoai;
@@ -22,7 +23,7 @@ import retrofit2.http.Path;
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.8:8000/")
+            .baseUrl("http://192.168.1.6:8000/")
 //            .baseUrl("https://manga.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -86,5 +87,9 @@ public interface ApiService {
     //Tác giả
     @GET("TacGia/{id}")
     Call<TacGia> GetTacGia(@Path("id") String tacGiaID);
+
+    //BinhLuan
+    @POST("BinhLuan")
+    Call<PostBinhLuan> ThemBinhLuan(@Body PostBinhLuan postBinhLuan);
 
 }

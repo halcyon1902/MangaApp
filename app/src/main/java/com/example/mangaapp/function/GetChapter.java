@@ -3,9 +3,13 @@ package com.example.mangaapp.function;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,6 +22,7 @@ import com.example.mangaapp.adapter.LinkAnhAdapter;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.model.BinhLuan;
 import com.example.mangaapp.model.Chapter;
+import com.example.mangaapp.model.PostBinhLuan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +39,9 @@ public class GetChapter extends AppCompatActivity {
     private RecyclerView rcvBinhLuan;
     private List<String> mListLinkAnh;
     private List<BinhLuan> mListBinhLuan;
+    private EditText edtNoiDung;
+    private Button btnThemBL;
+    private Chapter chapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,7 @@ public class GetChapter extends AppCompatActivity {
         setContentView(R.layout.activity_get_chapter);
         //lấy thông tin từ intent
         Intent intent = getIntent();
-        Chapter chapter = (Chapter) intent.getSerializableExtra("clickchapter");
+        chapter = (Chapter) intent.getSerializableExtra("clickchapter");
         Log.e("chapter la: ",chapter.toString());
         init();
         mListLinkAnh = new ArrayList<>();
@@ -57,9 +65,36 @@ public class GetChapter extends AppCompatActivity {
             mListBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
             BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
             rcvBinhLuan.setAdapter(binhLuanAdapter);
-
-
         }
+
+        btnThemBL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickThemBinhLuan();
+            }
+        });
+
+    }
+
+    private void clickThemBinhLuan() {
+        String noiDung = edtNoiDung.getText().toString();
+        PostBinhLuan postBinhLuan = new PostBinhLuan(noiDung, true, chapter.get_id(), "637bad6f9005ed0599ec0eb1");
+
+        ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
+            @Override
+            public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
+                Toast.makeText(getApplicationContext(), "Them Binh Luan Thanh cong", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<PostBinhLuan> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Them Binh Luan That bai", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //reload activity nhung ma chua co finish cai cu nen no k load lai dung, chay lai app de kiem tra binh luan
+        finish();
+        startActivity(getIntent());
     }
 
     private void itemDecoration() {
@@ -79,9 +114,12 @@ public class GetChapter extends AppCompatActivity {
     }
 
     private void init() {
+
         rcvLinkAnh = findViewById(R.id.rcv_linkanh);
         rcvBinhLuan = findViewById(R.id.rcv_binhluan);
         tvChapter = findViewById(R.id.tv_chapter);
+        btnThemBL = findViewById(R.id.btn_ThemBinhLuan);
+        edtNoiDung = findViewById(R.id.edt_ThemBinhLuan);
     }
 
     private void setFullScreen() {
