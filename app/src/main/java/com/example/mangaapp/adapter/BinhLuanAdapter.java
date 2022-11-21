@@ -12,6 +12,7 @@ import com.example.mangaapp.R;
 import com.example.mangaapp.model.BinhLuan;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class BinhLuanAdapter extends RecyclerView.Adapter<BinhLuanAdapter.BinhLuanApdaterViewHolder> {
@@ -38,8 +39,8 @@ public class BinhLuanAdapter extends RecyclerView.Adapter<BinhLuanAdapter.BinhLu
         holder.tvTenTaiKhoan.setText(binhLuan.getTaiKhoan().getTaiKhoan().toString()); // tai khoan dau la cua Binh Luan. tai khoan lan sau la ten dangnhap
         String ngaynhap = binhLuan.getNgayNhap().toString();
 
-        holder.tvNgayNhap.setText(ngaynhap.substring(0,10));
-        holder.tvNgayNhap.setText(binhLuan.getNgayNhap().toString());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(binhLuan.getNgayNhap()));
         holder.tvNoiDung.setText(binhLuan.getNoiDungBL().toString().trim());
     }
 

@@ -108,10 +108,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/get_tentruyen"
+            android:text="tham tu lung danh co nan"
+            android:gravity="center"
             android:textColor="@color/goldenrod"
             android:textIsSelectable="false"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 

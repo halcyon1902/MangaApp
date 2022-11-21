@@ -19,6 +19,7 @@ import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.Truyen;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,7 +50,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         if (chapter == null)
             return;
         holder.tvTenChapter.setText(chapter.getTenChapter());
-        holder.tvNgayNhap.setText("Ngày đăng: " + chapter.getNgayNhap());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(chapter.getNgayNhap()));
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);

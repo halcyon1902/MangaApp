@@ -2,13 +2,14 @@ package com.example.mangaapp.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class Chapter implements Serializable {
 
     private String _id;
     private String TenChapter;
-    private String NgayNhap;
+    private Date NgayNhap;
     private boolean TrangThai;
     private String Truyen;
     private String[] LinkAnhs;
@@ -23,7 +24,7 @@ public class Chapter implements Serializable {
         TrangThai = trangThai;
     }
 
-    public Chapter(String _id, String tenChapter, String ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, int luotXem, BinhLuan[] binhLuans) {
+    public Chapter(String _id, String tenChapter, Date ngayNhap, boolean trangThai, String truyen, String[] linkAnhs, int luotXem, BinhLuan[] binhLuans) {
         this._id = _id;
         TenChapter = tenChapter;
         NgayNhap = ngayNhap;
@@ -58,11 +59,11 @@ public class Chapter implements Serializable {
         TenChapter = tenChapter;
     }
 
-    public String getNgayNhap() {
+    public Date getNgayNhap() {
         return NgayNhap;
     }
 
-    public void setNgayNhap(String ngayNhap) {
+    public void setNgayNhap(Date ngayNhap) {
         NgayNhap = ngayNhap;
     }
 

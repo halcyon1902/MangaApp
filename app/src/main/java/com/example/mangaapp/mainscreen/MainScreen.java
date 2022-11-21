@@ -34,9 +34,9 @@ import retrofit2.Response;
 public class MainScreen extends AppCompatActivity {
     DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
-    RecyclerView rcvDSTruyen;
-    TruyenTranhAdapter truyenTranhAdapter;
-    List<Truyen> mListTruyen;
+    RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi, rcvDSTruyen;
+    TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;
+    List<Truyen> mListTruyen, mListTruyenMoi, mlistTruyenHot;
     ImageView imgSearch;
     TextView tvPhanLoai;
 
@@ -46,7 +46,9 @@ public class MainScreen extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.main_screen);
         init();
-        GetTatCaTruyen();
+//        GetTatCaTruyen();
+        GetTruyenHot();
+        GetTruyenMoi();
         initGridView();
         initBottomNavigation();
     }
@@ -87,7 +89,8 @@ public class MainScreen extends AppCompatActivity {
 
     //Khởi tạo
     public void init() {
-        rcvDSTruyen = findViewById(R.id.rcv_DSTruyen);
+        rcvDSTruyenMoi = findViewById(R.id.rcv_DSTruyenMoi);
+        rcvDSTruyenHot = findViewById(R.id.rcv_DSTruyenHot);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
         imgSearch = findViewById(R.id.img_search_main);
         tvPhanLoai = findViewById(R.id.tv_phanloai);
@@ -95,10 +98,17 @@ public class MainScreen extends AppCompatActivity {
 
     private void initGridView() {
         mListTruyen = new ArrayList<>();
+        mlistTruyenHot = new ArrayList<>();
+        mListTruyenMoi = new ArrayList<>();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        rcvDSTruyen.setLayoutManager(gridLayoutManager);
-        rcvDSTruyen.setNestedScrollingEnabled(false);
-        rcvDSTruyen.setFocusable(false);
+        rcvDSTruyenMoi.setLayoutManager(gridLayoutManager);
+        rcvDSTruyenMoi.setNestedScrollingEnabled(false);
+        rcvDSTruyenMoi.setFocusable(false);
+
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 3);
+        rcvDSTruyenHot.setLayoutManager(gridLayoutManager2);
+        rcvDSTruyenHot.setNestedScrollingEnabled(false);
+        rcvDSTruyenHot.setFocusable(false);
     }
 
     private void GetTatCaTruyen() {
@@ -112,6 +122,38 @@ public class MainScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void GetTruyenHot(){
+        ApiService.apiService.GetTruyenHot().enqueue(new Callback<List<Truyen>>() {
+            @Override
+            public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {
+                mlistTruyenHot = response.body();
+                truyenTranhHotAdapter = new TruyenTranhAdapter(MainScreen.this, mlistTruyenHot);
+                rcvDSTruyenHot.setAdapter(truyenTranhHotAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Truyen>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void GetTruyenMoi(){
+        ApiService.apiService.GetTruyenMoi().enqueue(new Callback<List<Truyen>>() {
+            @Override
+            public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {
+                mListTruyenMoi = response.body();
+                truyenTranhMoiAdapter = new TruyenTranhAdapter(MainScreen.this, mListTruyenMoi);
+                rcvDSTruyenMoi.setAdapter(truyenTranhMoiAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Truyen>> call, Throwable t) {
 
             }
         });
