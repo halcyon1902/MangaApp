@@ -87,6 +87,12 @@ public class TaiKhoan implements Serializable {
         HoTen = hoTen;
     }
 
+    public TaiKhoan(boolean phanQuyen, boolean trangThai, String hoTen) {
+        PhanQuyen = phanQuyen;
+        TrangThai = trangThai;
+        HoTen = hoTen;
+    }
+
     public TaiKhoan(String taiKhoan, String matKhau, String email) {
         TaiKhoan = taiKhoan;
         MatKhau = matKhau;

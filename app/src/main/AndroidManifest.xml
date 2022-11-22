@@ -25,7 +25,7 @@
             android:name=".function.PostTruyen"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.MainScreen"
+            android:name=".display.ThongTinTaiKhoan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".display.ThongTinTaiKhoan"
+            android:name=".mainscreen.MainScreen"
             android:exported="false" />
         <activity
             android:name=".function.SignUp"

@@ -23,7 +23,7 @@ import retrofit2.http.Path;
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
+            .baseUrl("http://192.168.1.4:8000/")
 //            .baseUrl("https://manga.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -38,6 +38,9 @@ public interface ApiService {
 
     @GET("TaiKhoan/{id}")
     Call<TaiKhoan> thongtintaikhoan(@Path("id") String ID);
+
+    @PUT("TaiKhoan/{id}")
+    Call<TaiKhoan> updateHoTen(@Path("id") String ID,@Body TaiKhoan updateTaiKhoan);
 
     @POST("TaiKhoan/login")
     Call<TaiKhoan> Login(@Body TaiKhoan taiKhoan);
