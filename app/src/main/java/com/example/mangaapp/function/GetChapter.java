@@ -1,18 +1,18 @@
 package com.example.mangaapp.function;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,17 +37,18 @@ import retrofit2.Response;
 public class GetChapter extends AppCompatActivity {
 
     private static final String MY_PREFERENCE_NAME = "USER_ID";
-    private TextView tvChapter, tvTruyen;
+    private TextView tvChapter;
     private RecyclerView rcvLinkAnh;
     private RecyclerView rcvBinhLuan;
-    private List<String> mListLinkAnh;
-    private List<BinhLuan> mListBinhLuan;
     private EditText edtNoiDung;
     private Button btnThemBL;
     private Chapter chapter;
     private String id;
     private BinhLuanAdapter binhLuanAdapter;
-    private LinkAnhAdapter linkAnhAdapter;
+    private boolean isLoading;
+    private boolean isLastPage;
+    private int totalPage;
+    private int currentPage = 1;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -60,33 +61,53 @@ public class GetChapter extends AppCompatActivity {
         chapter = (Chapter) intent.getSerializableExtra("clickchapter");
         Log.e("chapter la: ", chapter.toString());
         init();
+        //lấy thông tin từ sharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
         //
-        SharedPreferences sh = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
-        String s1 = sh.getString("value", "");
-        id = s1;
-        Log.e("test lay id", s1);
-        //
-        mListLinkAnh = new ArrayList<>();
-        mListBinhLuan = new ArrayList<>();
-        initLinearLayout();
+        List<String> listLinkAnh;
+        List<BinhLuan> listBinhLuan;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvLinkAnh.setLayoutManager(linearLayoutManager);
+        rcvLinkAnh.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
+        rcvBinhLuan.setHasFixedSize(true);
         itemDecoration();
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
-            mListLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
-            linkAnhAdapter = new LinkAnhAdapter(mListLinkAnh);
+            listLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
+            LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(listLinkAnh);
             rcvLinkAnh.setAdapter(linkAnhAdapter);
-            mListBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
-            binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
+            listBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
+            binhLuanAdapter = new BinhLuanAdapter(listBinhLuan);
             rcvBinhLuan.setAdapter(binhLuanAdapter);
             binhLuanAdapter.notifyDataSetChanged();
         }
 
-        btnThemBL.setOnClickListener(new View.OnClickListener() {
+        rcvBinhLuan.addOnScrollListener(new PaginationScrollListener(linearLayoutManager1) {
             @Override
-            public void onClick(View v) {
-                clickThemBinhLuan();
+            public void loadItem() {
+                isLoading=true;
+                currentPage+=1;
+                loadNextPage();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
             }
         });
+
+        btnThemBL.setOnClickListener(v -> clickThemBinhLuan());
+    }
+
+    private void loadNextPage() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -95,18 +116,17 @@ public class GetChapter extends AppCompatActivity {
         PostBinhLuan postBinhLuan = new PostBinhLuan(noiDung, true, chapter.get_id(), id);
         ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
             @Override
-            public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
-                Toast.makeText(getApplicationContext(), "Them Binh Luan Thanh cong", Toast.LENGTH_LONG).show();
+            public void onResponse(@NonNull Call<PostBinhLuan> call, @NonNull Response<PostBinhLuan> response) {
+
             }
 
             @Override
-            public void onFailure(Call<PostBinhLuan> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Them Binh Luan That bai", Toast.LENGTH_LONG).show();
+            public void onFailure(@NonNull Call<PostBinhLuan> call, @NonNull Throwable t) {
+
             }
         });
         binhLuanAdapter.notifyDataSetChanged();
-        finish();
-        startActivity(getIntent());
+        Dialog();
     }
 
     private void itemDecoration() {
@@ -116,17 +136,8 @@ public class GetChapter extends AppCompatActivity {
         rcvBinhLuan.addItemDecoration(dividerItemDecoration1);
     }
 
-    private void initLinearLayout() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvLinkAnh.setLayoutManager(linearLayoutManager);
-        rcvLinkAnh.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
-        rcvBinhLuan.setHasFixedSize(true);
-    }
 
     private void init() {
-
         rcvLinkAnh = findViewById(R.id.rcv_linkanh);
         rcvBinhLuan = findViewById(R.id.rcv_binhluan);
         tvChapter = findViewById(R.id.tv_chapter);
@@ -137,5 +148,18 @@ public class GetChapter extends AppCompatActivity {
     private void setFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void Dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bình luận thành công")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            startActivity(getIntent());
+            finish();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

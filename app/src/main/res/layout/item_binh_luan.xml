@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
+    android:layout_margin="10dp"
     android:orientation="vertical"
     app:cardCornerRadius="6dp">
 
@@ -23,16 +21,17 @@
                 android:id="@+id/tv_tenTaiKhoan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ten tai khoan"
-                android:textSize="20dp" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_ngayNhap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="ngay nhap"
-                android:textSize="20dp" />
+                android:layout_marginStart="50dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -43,16 +42,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="noi dung: "
-                android:textSize="20dp" />
+                android:layout_marginStart="10dp"
+                android:text="Nội dung:"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_noi_dung"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="noi dung gi do"
-                android:textSize="20dp" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

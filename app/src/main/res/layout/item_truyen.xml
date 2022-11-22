@@ -22,18 +22,6 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/background"
                 tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/tv_Chap"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/dark_midle_black"
-                android:gravity="center"
-                android:text="Chapter"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                tools:ignore="HardcodedText,SmallSp" />
         </RelativeLayout>
         <TextView
             android:id="@+id/tv_TenTruyen"

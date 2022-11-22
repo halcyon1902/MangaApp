@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,41 +38,34 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
         setContentView(R.layout.activity_tai_khoan);
         init();
         Intent intent = getIntent();
         String value = intent.getStringExtra("lấy thông tin tài khoản");
         Log.e("Lấy thông tin tài khoản", "" + value);
         getThongTinTaiKhoan(value);
-        tvCSHoTen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnXacNhanHoTen.setVisibility(View.VISIBLE);
-                tvHoVaTen1.setEnabled(true);
-            }
+        tvCSHoTen.setOnClickListener(v -> {
+            btnXacNhanHoTen.setVisibility(View.VISIBLE);
+            tvHoVaTen1.setEnabled(true);
         });
-        btnXacNhanHoTen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChinhSuaHoTen(value);
-            }
+        btnXacNhanHoTen.setOnClickListener(v -> ChinhSuaHoTen(value));
+        img_home.setOnClickListener(v -> {
+            Intent intent1 = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
+            intent1.putExtra("lấy thông tin tài khoản", user.get_id());
+            startActivity(intent1);
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
-                intent.putExtra("lấy thông tin tài khoản", user.get_id());
-                startActivity(intent);
-            }
+        btn_LogOut.setOnClickListener(v -> {
+            Intent intent12 = new Intent(ThongTinTaiKhoan.this, SignIn.class);
+            //intent.putExtra("lấy thông tin tài khoản", user.get_id());
+            startActivity(intent12);
         });
-        btn_LogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ThongTinTaiKhoan.this, SignIn.class);
-                //intent.putExtra("lấy thông tin tài khoản", user.get_id());
-                startActivity(intent);
-            }
-        });
+    }
+
+    //Full màn hình
+    private void setFullScreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void ChinhSuaHoTen(String s) {
@@ -94,7 +89,6 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan = response.body();
-                Log.e("Lấy thông tin tài khoản", "" + taiKhoan.toString());
                 user = taiKhoan;
                 if (taiKhoan != null && taiKhoan.isTrangThai()) {
                     tvHoVaTen.setText(taiKhoan.getHoTen());

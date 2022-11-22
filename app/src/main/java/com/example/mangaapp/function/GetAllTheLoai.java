@@ -1,19 +1,22 @@
 package com.example.mangaapp.function;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TheLoaiAdapter;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.TheLoai;
 
 import java.util.ArrayList;
@@ -26,7 +29,6 @@ import retrofit2.Response;
 public class GetAllTheLoai extends AppCompatActivity {
 
     private ImageView imgBack, imgSearch;
-
     private RecyclerView rcvTheloai;
     private TheLoaiAdapter theLoaiAdapter;
     private List<TheLoai> mlistTheLoai;
@@ -34,24 +36,29 @@ public class GetAllTheLoai extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
         setContentView(R.layout.activity_get_all_the_loai);
         init();
         getTatCaTheLoai();
 
-        imgSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(GetAllTheLoai.this, SearchTruyen.class));
-            }
+        imgSearch.setOnClickListener(v -> startActivity(new Intent(GetAllTheLoai.this, SearchTruyen.class)));
+        imgBack.setOnClickListener(v -> {
+            startActivity(new Intent(GetAllTheLoai.this, MainScreen.class));
+            finish();
         });
     }
 
+    //Full màn hình
+    private void setFullScreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
     private void init() {
         mlistTheLoai = new ArrayList<>();
         rcvTheloai = findViewById(R.id.rcv_all_theloai);
         imgSearch = findViewById(R.id.img_search);
-
+        imgBack = findViewById(R.id.img_back);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvTheloai.setLayoutManager(gridLayoutManager);
         rcvTheloai.setNestedScrollingEnabled(false);
@@ -61,15 +68,16 @@ public class GetAllTheLoai extends AppCompatActivity {
     private void getTatCaTheLoai() {
         ApiService.apiService.GetTatCaTheLoai().enqueue(new Callback<List<TheLoai>>() {
             @Override
-            public void onResponse(Call<List<TheLoai>> call, Response<List<TheLoai>> response) {
+            public void onResponse(@NonNull Call<List<TheLoai>> call, @NonNull Response<List<TheLoai>> response) {
                 mlistTheLoai = response.body();
+                assert mlistTheLoai != null;
                 Log.e("mlisttheloai: ", mlistTheLoai.toString());
                 theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai, GetAllTheLoai.this);
                 rcvTheloai.setAdapter(theLoaiAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<TheLoai>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<TheLoai>> call, @NonNull Throwable t) {
                 Toast.makeText(GetAllTheLoai.this, "get tat ca the loai that bai", Toast.LENGTH_LONG).show();
             }
         });

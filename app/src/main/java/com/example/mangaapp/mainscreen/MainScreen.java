@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -56,12 +54,7 @@ public class MainScreen extends AppCompatActivity {
         initGridView();
         initBottomNavigation();
         SharedPreferences sh = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
-        String value = sh.getString("value", "");
-        if (value != null) {
-            id = value;
-        }
-        Log.e("value", "" + id);
-
+        id = sh.getString("value", "");
     }
 
     //Full màn hình
@@ -90,18 +83,8 @@ public class MainScreen extends AppCompatActivity {
             }
             return false;
         });
-        imgSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainScreen.this, SearchTruyen.class));
-            }
-        });
-        imgPhanLoai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainScreen.this, GetAllTheLoai.class));
-            }
-        });
+        imgSearch.setOnClickListener(v -> startActivity(new Intent(MainScreen.this, SearchTruyen.class)));
+        imgPhanLoai.setOnClickListener(v -> startActivity(new Intent(MainScreen.this, GetAllTheLoai.class)));
 
     }
 
@@ -149,14 +132,14 @@ public class MainScreen extends AppCompatActivity {
     private void GetTruyenHot() {
         ApiService.apiService.GetTruyenHot().enqueue(new Callback<List<Truyen>>() {
             @Override
-            public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {
+            public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
                 mlistTruyenHot = response.body();
                 truyenTranhHotAdapter = new TruyenTranhAdapter(MainScreen.this, mlistTruyenHot);
                 rcvDSTruyenHot.setAdapter(truyenTranhHotAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<Truyen>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
 
             }
         });
@@ -165,14 +148,14 @@ public class MainScreen extends AppCompatActivity {
     private void GetTruyenMoi() {
         ApiService.apiService.GetTruyenMoi().enqueue(new Callback<List<Truyen>>() {
             @Override
-            public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {
+            public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
                 mListTruyenMoi = response.body();
                 truyenTranhMoiAdapter = new TruyenTranhAdapter(MainScreen.this, mListTruyenMoi);
                 rcvDSTruyenMoi.setAdapter(truyenTranhMoiAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<Truyen>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
 
             }
         });
