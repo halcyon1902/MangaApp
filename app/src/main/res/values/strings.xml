@@ -10,6 +10,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--cho form đăng ký đăng nhập-->
     <string name="dn_tentaikhoan">Tên tài khoản</string>
+    <string name="dn_ten">Tên</string>
     <string name="dn_matkhau">Mật khẩu</string>
     <string name="dn_quenmatkhau">Quên mật khẩu?</string>
     <string name="dn_dangnhap">Đăng nhập</string>
@@ -41,7 +42,6 @@
     <string name="ttcn_matkhau">Mật khẩu</string>
     <string name="ttcn_levodongdien">Lê Võ Đông Điền</string>
     <string name="ttcn_gmaillvdd">levodongdien@gmail.com</string>
-    <string name="ttcn_matkhausao">********</string>
     <string name="ttcn_thongtincanhan">Thông tin cá nhân</string>
     <string name="ttcn_binhluan">Bình luận</string>
     <string name="tdmk_matkhaucu">Mật khẩu cũ</string>

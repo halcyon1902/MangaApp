@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,7 +30,7 @@ import retrofit2.Response;
 
 public class SignUp extends AppCompatActivity {
     private Button dangky, quaylai;
-    private TextInputEditText matkhau, tentaikhoan, nhaplaimatkhau, email;
+    private TextInputEditText matkhau, tentaikhoan, nhaplaimatkhau, email, ten;
     private List<TaiKhoan> list;
 
     @Override
@@ -45,14 +46,18 @@ public class SignUp extends AppCompatActivity {
 
     private void clickDangKy() {
         String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
+        String hoten = Objects.requireNonNull(ten.getText()).toString().trim();
         String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
         String mail = Objects.requireNonNull(email.getText()).toString().trim();
         if (Validation()) {
-            TaiKhoan taikhoan = new TaiKhoan(name, pass, mail);
+            TaiKhoan taikhoan = new TaiKhoan(name, pass, mail, hoten);
             ApiService.apiService.PostTaiKhoan(taikhoan).enqueue(new Callback<TaiKhoan>() {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                    Dialog();
+                    TaiKhoan taiKhoan1 = response.body();
+                    if (taiKhoan1 != null)
+                        Log.e("", taiKhoan1.get_id());
+                    Dialog(taiKhoan1.get_id());
                 }
 
                 @Override
@@ -66,6 +71,7 @@ public class SignUp extends AppCompatActivity {
     private boolean Validation() {
         String name = Objects.requireNonNull(tentaikhoan.getText()).toString().trim();
         String pass = Objects.requireNonNull(matkhau.getText()).toString().trim();
+        String hoten = Objects.requireNonNull(ten.getText()).toString().trim();
         String repass = Objects.requireNonNull(nhaplaimatkhau.getText()).toString().trim();
         String mail = Objects.requireNonNull(email.getText()).toString().trim();
         if (TextUtils.isEmpty(mail)) {
@@ -95,13 +101,17 @@ public class SignUp extends AppCompatActivity {
             tentaikhoan.requestFocus();
             return false;
         }
-
         for (TaiKhoan taiKhoan : list) {
             if (name.equals(taiKhoan.getTaiKhoan())) {
                 tentaikhoan.setError("Tên tài khoản đã được sử dụng");
                 tentaikhoan.requestFocus();
                 return false;
             }
+        }
+        if (TextUtils.isEmpty(hoten)) {
+            ten.setError("Tên không được để trống");
+            ten.requestFocus();
+            return false;
         }
         if (TextUtils.isEmpty(pass)) {
             matkhau.setError("Mật khẩu không được để trống");
@@ -133,6 +143,7 @@ public class SignUp extends AppCompatActivity {
 
     public void init() {
         tentaikhoan = findViewById(R.id.edt_TenTaiKhoan);
+        ten = findViewById(R.id.edt_Ten);
         email = findViewById(R.id.edt_Email);
         matkhau = findViewById(R.id.edt_MatKhau);
         nhaplaimatkhau = findViewById(R.id.edt_NhapLaiMatKhau);
@@ -140,13 +151,15 @@ public class SignUp extends AppCompatActivity {
         dangky = findViewById(R.id.btn_DangKy);
     }
 
-    private void Dialog() {
+    private void Dialog(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Tạo tài khoản thành công")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
-            startActivity(new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class));
+            Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
+            intent.putExtra("lấy thông tin tài khoản", id);
+            startActivity(intent);
             finish();
         });
         AlertDialog dialog = builder.create();

@@ -30,6 +30,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     private final List<Chapter> mListChapter;
     private Context context;
 
+    @SuppressLint("NotifyDataSetChanged")
     public ChapterAdapter(List<Chapter> mListChapter, Context context) {
         this.mListChapter = mListChapter;
         this.context = context;
@@ -50,7 +51,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         if (chapter == null)
             return;
         holder.tvTenChapter.setText(chapter.getTenChapter());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(chapter.getNgayNhap()));
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
@@ -59,12 +60,12 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
             ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
                 @Override
-                public void onResponse(Call<Chapter> call, Response<Chapter> response) {
+                public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
                     Log.e("luot xem: ", "" + updateChap.getLuotXem());
                 }
 
                 @Override
-                public void onFailure(Call<Chapter> call, Throwable t) {
+                public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
                     Log.e("luot xem: ", "fail");
                 }
             });
@@ -79,22 +80,22 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     private void UpdateLuotXemTruyen(String truyen) {
         ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
             @Override
-            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
                 Truyen truyen1 = response.body();
                 if (truyen1 == null) {
-                    return;
+                    Log.e("chapter adapter: ", "truyện rỗng" );
                 } else {
                     truyen1.setLuotXem(truyen1.getLuotXem() + 1);
                     Truyen upTruyen = new Truyen(truyen1.getLuotXem(),truyen1.isTrangThai(),truyen1.isTinhTrang());
                     ApiService.apiService.UpdateTruyen(truyen, upTruyen).enqueue(new Callback<Truyen>() {
                         @Override
-                        public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-                            Log.e("update truyen: ", "update truyen thanh ong" );
+                        public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                            Log.e("chapter adapter: ", "update truyện thành công" );
                         }
 
                         @Override
-                        public void onFailure(Call<Truyen> call, Throwable t) {
-                            Log.e("update truyen: ", "update truyen that bai" );
+                        public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+                            Log.e("chapter adapter: ", "update truyện thất bại" );
                         }
                     });
                 }
@@ -103,7 +104,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             }
 
             @Override
-            public void onFailure(Call<Truyen> call, Throwable t) {
+            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
 
             }
         });

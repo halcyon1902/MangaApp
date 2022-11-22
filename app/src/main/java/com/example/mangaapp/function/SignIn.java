@@ -52,9 +52,9 @@ public class SignIn extends AppCompatActivity {
         ApiService.apiService.Login(taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                Dialog();
-
-
+                TaiKhoan taiKhoan1 = response.body();
+                if (taiKhoan1 != null)
+                    Dialog(taiKhoan1.get_id());
             }
 
             @Override
@@ -65,13 +65,15 @@ public class SignIn extends AppCompatActivity {
     }
 
     //Tạo dialog thông báo
-    private void Dialog() {
+    private void Dialog(String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Đăng nhập thàng công")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
-            startActivity(new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class));
+            Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
+            intent.putExtra("lấy thông tin tài khoản", id);
+            startActivity(intent);
             finish();
 
         });

@@ -26,16 +26,18 @@
             android:exported="false" />
         <activity
             android:name=".display.ThongTinTaiKhoan"
-            android:exported="true">
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".mainscreen.MainScreen"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".mainscreen.MainScreen"
-            android:exported="false" />
+
         <activity
             android:name=".function.SignUp"
             android:exported="false" />

@@ -37,8 +37,7 @@ public class MainScreen extends AppCompatActivity {
     RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi, rcvDSTruyen;
     TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;
     List<Truyen> mListTruyen, mListTruyenMoi, mlistTruyenHot;
-    ImageView imgSearch;
-    TextView tvPhanLoai;
+    ImageView imgSearch, imgPhanLoai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class MainScreen extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.main_screen);
         init();
-//        GetTatCaTruyen();
+        //GetTatCaTruyen();
         GetTruyenHot();
         GetTruyenMoi();
         initGridView();
@@ -78,7 +77,7 @@ public class MainScreen extends AppCompatActivity {
                 startActivity(new Intent(MainScreen.this, SearchTruyen.class));
             }
         });
-        tvPhanLoai.setOnClickListener(new View.OnClickListener() {
+        imgPhanLoai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainScreen.this, GetAllTheLoai.class));
@@ -93,13 +92,14 @@ public class MainScreen extends AppCompatActivity {
         rcvDSTruyenHot = findViewById(R.id.rcv_DSTruyenHot);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
         imgSearch = findViewById(R.id.img_search_main);
-        tvPhanLoai = findViewById(R.id.tv_phanloai);
+        imgPhanLoai = findViewById(R.id.img_phanloai);
     }
 
     private void initGridView() {
         mListTruyen = new ArrayList<>();
         mlistTruyenHot = new ArrayList<>();
         mListTruyenMoi = new ArrayList<>();
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvDSTruyenMoi.setLayoutManager(gridLayoutManager);
         rcvDSTruyenMoi.setNestedScrollingEnabled(false);
@@ -127,7 +127,7 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
-    private void GetTruyenHot(){
+    private void GetTruyenHot() {
         ApiService.apiService.GetTruyenHot().enqueue(new Callback<List<Truyen>>() {
             @Override
             public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {
@@ -143,7 +143,7 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
-    private void GetTruyenMoi(){
+    private void GetTruyenMoi() {
         ApiService.apiService.GetTruyenMoi().enqueue(new Callback<List<Truyen>>() {
             @Override
             public void onResponse(Call<List<Truyen>> call, Response<List<Truyen>> response) {

@@ -6,36 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".mainscreen.MainScreen">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#363F44"
-        android:gravity="center"
-        app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="center">
+        android:layout_gravity="top"
+        android:background="#363F44">
 
-        <TextView
-            android:id="@+id/tv_phanloai"
+        <ImageView
+            android:id="@+id/img_phanloai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="7dp"
-            android:text="Phan loai"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_alignParentStart="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/ic_menu_yellow" />
 
         <ImageView
             android:id="@+id/img_search_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="235dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="4dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
             android:src="@drawable/ic_search" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="10dp"
-                    android:text="Truyen Hot"
+                    android:text="Truyện Hot"
                     android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -69,15 +62,14 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_DSTruyenHot"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="10dp"
-                    android:text="Truyen Moi"
+                    android:text="Truyện Mới"
                     android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -86,8 +78,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_DSTruyenMoi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 

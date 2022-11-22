@@ -72,6 +72,31 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:textColorHint="@color/white"
+            app:boxStrokeColor="@color/goldenrod"
+            app:endIconMode="clear_text"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_Ten"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeStepGranularity="20sp"
+                android:drawableStart="@drawable/ic_baseline_person_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/dn_ten"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/white"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/goldenrod"
             app:endIconMode="password_toggle"

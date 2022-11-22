@@ -13,7 +13,38 @@ public class TaiKhoan implements Serializable {
     private boolean TrangThai;
     private String[] BinhLuans;
     private Date NgayTao;
-    private  String HoTen;
+    private String HoTen;
+
+    public TaiKhoan(String taiKhoan, String matKhau, String email, String hoTen) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+        HoTen = hoTen;
+    }
+
+    public TaiKhoan(String hoTen) {
+        HoTen = hoTen;
+    }
+
+    public TaiKhoan() {
+    }
+
+    public TaiKhoan(boolean phanQuyen, boolean trangThai, String hoTen) {
+        PhanQuyen = phanQuyen;
+        TrangThai = trangThai;
+        HoTen = hoTen;
+    }
+
+    public TaiKhoan(String taiKhoan, String matKhau, String email) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+        Email = email;
+    }
+
+    public TaiKhoan(String taiKhoan, String matKhau) {
+        TaiKhoan = taiKhoan;
+        MatKhau = matKhau;
+    }
 
     public String get_id() {
         return _id;
@@ -85,23 +116,6 @@ public class TaiKhoan implements Serializable {
 
     public void setHoTen(String hoTen) {
         HoTen = hoTen;
-    }
-
-    public TaiKhoan(boolean phanQuyen, boolean trangThai, String hoTen) {
-        PhanQuyen = phanQuyen;
-        TrangThai = trangThai;
-        HoTen = hoTen;
-    }
-
-    public TaiKhoan(String taiKhoan, String matKhau, String email) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-    }
-
-    public TaiKhoan(String taiKhoan, String matKhau) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
     }
 
     @Override
