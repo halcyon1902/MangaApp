@@ -39,8 +39,8 @@ public class BinhLuanAdapter extends RecyclerView.Adapter<BinhLuanAdapter.BinhLu
         holder.tvTenTaiKhoan.setText(binhLuan.getTaiKhoan().getTaiKhoan()); // tai khoan dau la cua Binh Luan. tai khoan lan sau la ten dangnhap
         String ngaynhap = binhLuan.getNgayNhap().toString();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(ngaynhap));
-        holder.tvNoiDung.setText(binhLuan.getNoiDungBL().trim());
+        holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(binhLuan.getNgayNhap()));
+        holder.tvNoiDung.setText(binhLuan.getNoiDungBL().toString().trim());
     }
 
     @Override

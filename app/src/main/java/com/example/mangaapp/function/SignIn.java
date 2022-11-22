@@ -2,7 +2,9 @@ package com.example.mangaapp.function;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -26,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
     private Button btnDangNhap;
     private TextInputEditText matkhau, tentaikhoan;
     private TextView dangky;
@@ -53,8 +56,13 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan1 = response.body();
-                if (taiKhoan1 != null)
+                if (taiKhoan1 != null) {
+                    SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("value", taiKhoan1.get_id());
+                    editor.apply();
                     Dialog(taiKhoan1.get_id());
+                }
             }
 
             @Override

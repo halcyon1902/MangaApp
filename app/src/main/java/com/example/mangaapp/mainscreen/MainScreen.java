@@ -1,12 +1,14 @@
 package com.example.mangaapp.mainscreen;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.display.ThongTinTaiKhoan;
 import com.example.mangaapp.function.GetAllTheLoai;
 import com.example.mangaapp.function.SearchTruyen;
 import com.example.mangaapp.function.SignIn;
@@ -32,12 +35,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainScreen extends AppCompatActivity {
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
     DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
     RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi, rcvDSTruyen;
     TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;
     List<Truyen> mListTruyen, mListTruyenMoi, mlistTruyenHot;
     ImageView imgSearch, imgPhanLoai;
+    String id = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,13 @@ public class MainScreen extends AppCompatActivity {
         GetTruyenMoi();
         initGridView();
         initBottomNavigation();
+        SharedPreferences sh = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        String value = sh.getString("value", "");
+        if (value != null) {
+            id = value;
+        }
+        Log.e("value", "" + id);
+
     }
 
     //Full màn hình
@@ -59,13 +71,20 @@ public class MainScreen extends AppCompatActivity {
     }
 
     //khởi tạo bottom navigation
+    @SuppressLint("NonConstantResourceId")
     private void initBottomNavigation() {
         bottomNavigationView.setSelected(false);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.account:
-                    startActivity(new Intent(MainScreen.this, SignIn.class));
-                    finish();
+                    if (id != null) {
+                        Intent intent = new Intent(MainScreen.this, ThongTinTaiKhoan.class);
+                        intent.putExtra("lấy thông tin tài khoản", id);
+                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainScreen.this, SignIn.class));
+                        finish();
+                    }
                 case R.id.favorite:
                     break;
             }

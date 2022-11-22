@@ -1,6 +1,8 @@
 package com.example.mangaapp.function;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,7 @@ import retrofit2.Response;
 
 public class GetChapter extends AppCompatActivity {
 
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
     private TextView tvChapter, tvTruyen;
     private RecyclerView rcvLinkAnh;
     private RecyclerView rcvBinhLuan;
@@ -42,7 +45,11 @@ public class GetChapter extends AppCompatActivity {
     private EditText edtNoiDung;
     private Button btnThemBL;
     private Chapter chapter;
+    private String id;
+    private BinhLuanAdapter binhLuanAdapter;
+    private LinkAnhAdapter linkAnhAdapter;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +58,14 @@ public class GetChapter extends AppCompatActivity {
         //lấy thông tin từ intent
         Intent intent = getIntent();
         chapter = (Chapter) intent.getSerializableExtra("clickchapter");
-        Log.e("chapter la: ",chapter.toString());
+        Log.e("chapter la: ", chapter.toString());
         init();
+        //
+        SharedPreferences sh = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        String s1 = sh.getString("value", "");
+        id = s1;
+        Log.e("test lay id", s1);
+        //
         mListLinkAnh = new ArrayList<>();
         mListBinhLuan = new ArrayList<>();
         initLinearLayout();
@@ -60,11 +73,12 @@ public class GetChapter extends AppCompatActivity {
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
             mListLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
-            LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(mListLinkAnh);
+            linkAnhAdapter = new LinkAnhAdapter(mListLinkAnh);
             rcvLinkAnh.setAdapter(linkAnhAdapter);
             mListBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
-            BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
+            binhLuanAdapter = new BinhLuanAdapter(mListBinhLuan);
             rcvBinhLuan.setAdapter(binhLuanAdapter);
+            binhLuanAdapter.notifyDataSetChanged();
         }
 
         btnThemBL.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +87,12 @@ public class GetChapter extends AppCompatActivity {
                 clickThemBinhLuan();
             }
         });
-
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void clickThemBinhLuan() {
         String noiDung = edtNoiDung.getText().toString();
-        PostBinhLuan postBinhLuan = new PostBinhLuan(noiDung, true, chapter.get_id(), "637bad6f9005ed0599ec0eb1");
-
+        PostBinhLuan postBinhLuan = new PostBinhLuan(noiDung, true, chapter.get_id(), id);
         ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
             @Override
             public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
@@ -91,8 +104,7 @@ public class GetChapter extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Them Binh Luan That bai", Toast.LENGTH_LONG).show();
             }
         });
-
-        //reload activity nhung ma chua co finish cai cu nen no k load lai dung, chay lai app de kiem tra binh luan
+        binhLuanAdapter.notifyDataSetChanged();
         finish();
         startActivity(getIntent());
     }
