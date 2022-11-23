@@ -1,4 +1,4 @@
-package com.example.mangaapp.function;
+package com.example.mangaapp;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,10 +17,10 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
         int visibleItemCount = linearLayoutManager.getChildCount();
         int totalItemCount = linearLayoutManager.getItemCount();
         int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        if (isLoading()||isLastPage()){
+        if (isLoading() || isLastPage()) {
             return;
         }
-        if (firstVisibleItemPosition>=0&&(visibleItemCount + firstVisibleItemPosition)>=totalItemCount){
+        if (firstVisibleItemPosition >= 0 && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
             loadItem();
         }
     }

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mangaapp.PaginationScrollListener;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.BinhLuanAdapter;
 import com.example.mangaapp.adapter.LinkAnhAdapter;
@@ -37,6 +39,7 @@ import retrofit2.Response;
 public class GetChapter extends AppCompatActivity {
 
     private static final String MY_PREFERENCE_NAME = "USER_ID";
+    private List<BinhLuan> listCommet;
     private TextView tvChapter;
     private RecyclerView rcvLinkAnh;
     private RecyclerView rcvBinhLuan;
@@ -46,9 +49,12 @@ public class GetChapter extends AppCompatActivity {
     private String id;
     private BinhLuanAdapter binhLuanAdapter;
     private boolean isLoading;
+    private List<BinhLuan> listTemp;
     private boolean isLastPage;
     private int totalPage;
     private int currentPage = 1;
+    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager1;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -67,29 +73,35 @@ public class GetChapter extends AppCompatActivity {
         //
         List<String> listLinkAnh;
         List<BinhLuan> listBinhLuan;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binhLuanAdapter = new BinhLuanAdapter();
+        //
+        linearLayoutManager = new LinearLayoutManager(this);
         rcvLinkAnh.setLayoutManager(linearLayoutManager);
         rcvLinkAnh.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        //
+        linearLayoutManager1 = new LinearLayoutManager(this);
         rcvBinhLuan.setLayoutManager(linearLayoutManager1);
+        rcvBinhLuan.setAdapter(binhLuanAdapter);
         rcvBinhLuan.setHasFixedSize(true);
+
         itemDecoration();
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
             listLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
             LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(listLinkAnh);
             rcvLinkAnh.setAdapter(linkAnhAdapter);
+            //
             listBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
-            binhLuanAdapter = new BinhLuanAdapter(listBinhLuan);
-            rcvBinhLuan.setAdapter(binhLuanAdapter);
-            binhLuanAdapter.notifyDataSetChanged();
+            listTemp = listBinhLuan;
+//            rcvBinhLuan.setAdapter(binhLuanAdapter);
+//            binhLuanAdapter.notifyDataSetChanged();
         }
 
         rcvBinhLuan.addOnScrollListener(new PaginationScrollListener(linearLayoutManager1) {
             @Override
             public void loadItem() {
-                isLoading=true;
-                currentPage+=1;
+                isLoading = true;
+                currentPage += 1;
                 loadNextPage();
             }
 
@@ -103,11 +115,40 @@ public class GetChapter extends AppCompatActivity {
                 return isLastPage;
             }
         });
-
+        setFirstPage();
         btnThemBL.setOnClickListener(v -> clickThemBinhLuan());
     }
 
+    private void setFirstPage() {
+        listCommet = getList();
+        binhLuanAdapter.setData(listCommet);
+
+    }
+
+    @NonNull
+    private List<BinhLuan> getList() {
+        List<BinhLuan> list = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            list.add(listTemp.get(i));
+        }
+        return list;
+    }
+
     private void loadNextPage() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<BinhLuan> list = getList();
+                listCommet.addAll(list);
+                binhLuanAdapter.notifyDataSetChanged();
+
+                isLoading = false;
+                if (currentPage == totalPage) {
+                    isLastPage = true;
+                }
+            }
+        }, 2000);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -135,7 +176,6 @@ public class GetChapter extends AppCompatActivity {
         rcvLinkAnh.addItemDecoration(dividerItemDecoration);
         rcvBinhLuan.addItemDecoration(dividerItemDecoration1);
     }
-
 
     private void init() {
         rcvLinkAnh = findViewById(R.id.rcv_linkanh);

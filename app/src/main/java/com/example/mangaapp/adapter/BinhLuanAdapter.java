@@ -19,11 +19,11 @@ import java.util.List;
 public class BinhLuanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE = 1;
     private static final int TYPE_LOADING = 2;
-    private final List<BinhLuan> listBinhLuan;
+    private List<BinhLuan> listBinhLuan;
     private boolean isLoadng;
 
     @SuppressLint("NotifyDataSetChanged")
-    public BinhLuanAdapter(List<BinhLuan> mListBinhLuan) {
+    public void setData(List<BinhLuan> mListBinhLuan) {
         this.listBinhLuan = mListBinhLuan;
         notifyDataSetChanged();
     }
