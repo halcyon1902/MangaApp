@@ -18,15 +18,16 @@ public class TaiKhoan implements Serializable {
     private Date NgayTao;
     private String HoTen;
 
+    public TaiKhoan(boolean trangThai, List yeuThich, List lichSu) {
+        TrangThai = trangThai;
+        YeuThich = yeuThich;
+        LichSu = lichSu;
+    }
+
     public TaiKhoan(String taiKhoan, String email, String hoTen) {
         TaiKhoan = taiKhoan;
         Email = email;
         HoTen = hoTen;
-    }
-
-    public TaiKhoan(List yeuThich, List lichSu) {
-        YeuThich = yeuThich;
-        LichSu = lichSu;
     }
 
 
@@ -36,9 +37,11 @@ public class TaiKhoan implements Serializable {
         Email = email;
         HoTen = hoTen;
     }
+
     public TaiKhoan(String matKhau) {
         MatKhau = matKhau;
     }
+
     public TaiKhoan() {
     }
 
@@ -141,6 +144,7 @@ public class TaiKhoan implements Serializable {
     public void setHoTen(String hoTen) {
         HoTen = hoTen;
     }
+
     @Override
     public String toString() {
         return "TaiKhoan{" +

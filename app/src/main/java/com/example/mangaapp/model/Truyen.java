@@ -18,8 +18,11 @@ public class Truyen implements Serializable {
     private String[] TacGias;
     private Chapter[] Chapters;
 
-    public Truyen(int luotThich) {
+    public Truyen(boolean trangThai, boolean tinhTrang, int luotThich, int luotXem) {
+        TrangThai = trangThai;
+        TinhTrang = tinhTrang;
         LuotThich = luotThich;
+        LuotXem = luotXem;
     }
 
     public Truyen() {
