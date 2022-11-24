@@ -53,8 +53,8 @@ public class MainScreen extends AppCompatActivity {
         GetTruyenMoi();
         initGridView();
         initBottomNavigation();
-        SharedPreferences sh = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
-        id = sh.getString("value", "");
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
     }
 
     //Full màn hình

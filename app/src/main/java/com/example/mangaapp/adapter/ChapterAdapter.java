@@ -69,9 +69,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
                     Log.e("luot xem: ", "fail");
                 }
             });
-
             UpdateLuotXemTruyen(chapter.getTruyen());
-
             Log.e("Sau khi click vào chapter: ", "" + chapter);
             context.startActivity(intent);
         });

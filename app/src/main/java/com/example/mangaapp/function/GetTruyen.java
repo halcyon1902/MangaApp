@@ -3,7 +3,10 @@ package com.example.mangaapp.function;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +24,7 @@ import com.example.mangaapp.adapter.TheLoaiAdapter;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.TacGia;
+import com.example.mangaapp.model.TaiKhoan;
 import com.example.mangaapp.model.TheLoai;
 import com.example.mangaapp.model.Truyen;
 import com.squareup.picasso.Picasso;
@@ -35,21 +39,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GetTruyen extends AppCompatActivity {
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
     private final Context context = this;
+    String id = null;
     private TextView tvTenTruyen, tvTinhTrang, tvFollow, tvLike, tvNoiDung, tvTongChuong;
-    private ImageView imgAnhBia, imgAnhNen;
+    private ImageView imgAnhBia, imgAnhNen, fav;
     private RecyclerView rcvTheLoai, rcvTacGia, rcvChapter;
     private List<String> mListIDTheLoai, mListIDTacGia;
     private List<TheLoai> mlistTheLoai;
     private List<TacGia> mlistTacGia;
     private ChapterAdapter chapterAdapter;
+    private boolean isfav = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_get_truyen);
-
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
         // lấy intent
         Intent intent = getIntent();
         Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
@@ -60,6 +68,51 @@ public class GetTruyen extends AppCompatActivity {
         mlistTacGia = new ArrayList<>();
         initLinearLayout();
         hienThiTruyen(truyen);
+        themLichSu(truyen);
+        isFavorite(truyen);
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isfav) {
+                    xoaYeuThich(truyen);
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                } else {
+                    themYeuThich(truyen);
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }
+
+            }
+        });
+    }
+
+    private void isFavorite(Truyen truyen) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null) {
+                    List YeuThich = taiKhoan.getYeuThich();
+                    if (YeuThich.contains(truyen.get_id())) {
+                        fav.setBackgroundResource(R.drawable.ic_favorite_red);
+                        isfav = true;
+                    } else {
+                        isfav = false;
+                        fav.setBackgroundResource(R.drawable.ic_favorite_black);
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+            }
+        });
     }
 
     private void initLinearLayout() {
@@ -136,6 +189,108 @@ public class GetTruyen extends AppCompatActivity {
         }
     }
 
+    private void themLichSu(Truyen truyen) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null) {
+                    List LichSu = taiKhoan.getLichSu();
+                    List YeuThich = taiKhoan.getYeuThich();
+                    if (!LichSu.contains(truyen.get_id())) {
+                        LichSu.add(truyen.get_id());
+                    }
+
+                    TaiKhoan taiKhoan1 = new TaiKhoan(YeuThich, LichSu);
+                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void themYeuThich(Truyen truyen) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null) {
+                    List LichSu = taiKhoan.getLichSu();
+                    List YeuThich = taiKhoan.getYeuThich();
+                    YeuThich.add(truyen.get_id());
+
+                    TaiKhoan taiKhoan1 = new TaiKhoan(YeuThich, LichSu);
+                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void xoaYeuThich(Truyen truyen) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null) {
+                    List LichSu = taiKhoan.getLichSu();
+                    List YeuThich = taiKhoan.getYeuThich();
+                    if (YeuThich.contains(truyen.get_id())) {
+                        YeuThich.remove(truyen.get_id());
+                    }
+                    TaiKhoan taiKhoan1 = new TaiKhoan(YeuThich, LichSu);
+                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -150,6 +305,7 @@ public class GetTruyen extends AppCompatActivity {
 
     private void init() {
         tvTenTruyen = findViewById(R.id.tv_ten_truyen);
+        fav = findViewById(R.id.btn_fav);
         tvTinhTrang = findViewById(R.id.tv_tinhtrang_truyen);
         tvFollow = findViewById(R.id.tv_follow);
         tvLike = findViewById(R.id.tv_like);

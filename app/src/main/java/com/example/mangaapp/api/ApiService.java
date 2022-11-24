@@ -40,10 +40,13 @@ public interface ApiService {
     Call<TaiKhoan> thongtintaikhoan(@Path("id") String ID);
 
     @PUT("TaiKhoan/{id}")
-    Call<TaiKhoan> updateHoTen(@Path("id") String ID,@Body TaiKhoan updateTaiKhoan);
+    Call<TaiKhoan> updateTaiKhoan(@Path("id") String ID, @Body TaiKhoan updateTaiKhoan);
 
     @POST("TaiKhoan/login")
     Call<TaiKhoan> Login(@Body TaiKhoan taiKhoan);
+
+    @PUT("TaiKhoan/UpdateMatKhau/{id}")
+    Call<TaiKhoan> updateMatKHau(@Path("id") String ID, @Body TaiKhoan taiKhoan);
 
     //Chapter
     @GET("Chapter/{id}")
@@ -76,7 +79,6 @@ public interface ApiService {
 
     @PUT("Truyen/{id}")
     Call<Truyen> UpdateTruyen(@Path("id") String truyenID, @Body Truyen truyen);
-
 
 
     //Thể loại

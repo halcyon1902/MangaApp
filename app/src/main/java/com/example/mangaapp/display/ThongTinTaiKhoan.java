@@ -1,6 +1,7 @@
 package com.example.mangaapp.display;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,15 +26,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ThongTinTaiKhoan extends AppCompatActivity {
-    private TextView tvHoVaTen;
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
+    private final String pass = "*********";
+    String id = null;
     private EditText tvHoVaTen1;
-    private TextView tvEmail;
-    private TextView tvEmail1;
-    private TextView tvCSHoTen;
-    private TextView tvCSMatKhau;
+    private TextView tvEmail, tvEmail1, tvCSHoTen, tvCSMatKhau, lichsu, tv_TaiKhoan, yeuthich, tv_MatKhau;
     private ImageView img_home;
     private TaiKhoan user;
-    private Button btnXacNhanHoTen, btn_LogOut;
+    private Button btnXacNhanHoTen, btn_LogOut, btnXacNhanPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,25 +41,46 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.activity_tai_khoan);
         init();
-        Intent intent = getIntent();
-        String value = intent.getStringExtra("lấy thông tin tài khoản");
-        Log.e("Lấy thông tin tài khoản", "" + value);
-        getThongTinTaiKhoan(value);
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
+        Log.e("Lấy thông tin tài khoản", "" + id);
+        getThongTinTaiKhoan(id);
         tvCSHoTen.setOnClickListener(v -> {
             btnXacNhanHoTen.setVisibility(View.VISIBLE);
             tvHoVaTen1.setEnabled(true);
         });
-        btnXacNhanHoTen.setOnClickListener(v -> ChinhSuaHoTen(value));
+        tvCSMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnXacNhanPass.setVisibility(View.VISIBLE);
+                tv_MatKhau.setEnabled(true);
+            }
+        });
+        btnXacNhanHoTen.setOnClickListener(v -> ChinhSuaHoTen(id));
+        btnXacNhanPass.setOnClickListener(v -> updatePassword(id));
         img_home.setOnClickListener(v -> {
-            Intent intent1 = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
-            intent1.putExtra("lấy thông tin tài khoản", user.get_id());
-            startActivity(intent1);
+            Intent intent = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
+            startActivity(intent);
         });
         btn_LogOut.setOnClickListener(v -> {
-            Intent intent12 = new Intent(ThongTinTaiKhoan.this, SignIn.class);
-            //intent.putExtra("lấy thông tin tài khoản", user.get_id());
-            startActivity(intent12);
+            Intent intent = new Intent(ThongTinTaiKhoan.this, SignIn.class);
+            startActivity(intent);
         });
+        lichsu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ThongTinTaiKhoan.this, LichSu.class);
+                startActivity(intent);
+            }
+        });
+        yeuthich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ThongTinTaiKhoan.this, Favorite.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     //Full màn hình
@@ -70,8 +91,8 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
 
     private void ChinhSuaHoTen(String s) {
         String newHoTen = tvHoVaTen1.getText().toString();
-        TaiKhoan taiKhoan = new TaiKhoan(newHoTen);
-        ApiService.apiService.updateHoTen(s, taiKhoan).enqueue(new Callback<TaiKhoan>() {
+        TaiKhoan taiKhoan = new TaiKhoan(false, true, newHoTen);
+        ApiService.apiService.updateTaiKhoan(s, taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
             }
@@ -82,6 +103,24 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             }
         });
         btnXacNhanHoTen.setVisibility(View.INVISIBLE);
+        tvHoVaTen1.setEnabled(false);
+    }
+
+    private void updatePassword(String s) {
+        String newpass = tv_MatKhau.getText().toString();
+        TaiKhoan taiKhoan = new TaiKhoan(newpass);
+        ApiService.apiService.updateMatKHau(s, taiKhoan).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
+            }
+
+            @Override
+            public void onFailure(Call<TaiKhoan> call, Throwable t) {
+            }
+        });
+        btnXacNhanPass.setVisibility(View.INVISIBLE);
+        tv_MatKhau.setText(pass);
+        tv_MatKhau.setEnabled(false);
     }
 
     private void getThongTinTaiKhoan(String s) {
@@ -89,12 +128,13 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan = response.body();
-                user = taiKhoan;
                 if (taiKhoan != null && taiKhoan.isTrangThai()) {
-                    tvHoVaTen.setText(taiKhoan.getHoTen());
+                    tv_TaiKhoan.setText(taiKhoan.getTaiKhoan());
                     tvHoVaTen1.setText(taiKhoan.getHoTen());
                     tvEmail.setText(taiKhoan.getEmail());
                     tvEmail1.setText(taiKhoan.getEmail());
+                    tvEmail1.setText(taiKhoan.getEmail());
+                    tv_MatKhau.setText(pass);
                 }
             }
 
@@ -106,13 +146,18 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
     }
 
     public void init() {
-        tvHoVaTen = findViewById(R.id.ttcn_tv_HoVaTen);
+        tv_TaiKhoan = findViewById(R.id.ttcn_tv_TaiKhoan);
         tvHoVaTen1 = findViewById(R.id.ttcn_tv_HoVaTen1);
+        tv_MatKhau = findViewById(R.id.ttcn_tv_MatKhau);
         tvEmail = findViewById(R.id.ttcn_tv_Email);
         tvEmail1 = findViewById(R.id.ttcn_tv_Email1);
         tvCSHoTen = findViewById(R.id.ttcn_tv_ChinhSuaHoTen);
+        tvCSMatKhau = findViewById(R.id.ttcn_tv_ChinhSuaMK);
         btnXacNhanHoTen = findViewById(R.id.ttcn_btn_XacnhanHovaTen);
+        btnXacNhanPass = findViewById(R.id.ttcn_btn_XacnhanPass);
         btn_LogOut = findViewById(R.id.btn_LogOut);
         img_home = findViewById(R.id.img_home);
+        yeuthich = findViewById(R.id.ttcn_tv_YeuThich);
+        lichsu = findViewById(R.id.ttcn_tv_LichSu);
     }
 }

@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            card_view:ignore="UselessParent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,7 +48,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:gravity="center">
 
         <RelativeLayout
@@ -71,7 +71,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/ttcn_tv_HoVaTen"
+                        android:id="@+id/ttcn_tv_TaiKhoan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -127,6 +127,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/ttcn_lichsu"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -142,6 +143,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/ttcn_yeuthich"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -195,7 +197,8 @@
                             android:layout_alignParentStart="true"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:padding="1dp">
+                            android:padding="1dp"
+                            card_view:ignore="UselessParent">
 
                             <ImageView
                                 android:layout_width="35dp"
@@ -217,8 +220,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="70dp"
-                                android:text="Xac nhan"
-                                android:textSize="10dp"
+                                android:text="@string/submit"
+                                android:textSize="11sp"
                                 android:visibility="invisible" />
 
                             <ImageView
@@ -267,8 +270,9 @@
                                 android:enabled="false"
                                 android:text="@string/ttcn_levodongdien"
                                 android:textColor="@color/black"
-                                android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                card_view:ignore="Autofill,LabelFor,TextFields" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -301,7 +305,8 @@
                             android:layout_alignParentStart="true"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:padding="1dp">
+                            android:padding="1dp"
+                            card_view:ignore="UseCompoundDrawables,UselessParent">
 
                             <ImageView
                                 android:layout_width="35dp"
@@ -364,20 +369,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="-20dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:gravity="center"
-
                             android:orientation="horizontal"
-                            android:padding="1dp">
+                            android:padding="1dp"
+                            card_view:ignore="UselessParent">
 
                             <ImageView
                                 android:id="@+id/img_MK"
@@ -390,21 +395,28 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="5dp"
                                 android:layout_marginBottom="5dp"
-                                android:layout_toRightOf="@+id/img_MK"
                                 android:text="@string/ttcn_matkhau"
                                 android:textSize="12sp"
                                 android:textStyle="bold|normal" />
 
+
+                            <Button
+                                android:id="@+id/ttcn_btn_XacnhanPass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="70dp"
+                                android:text="@string/submit"
+                                android:textSize="11sp"
+                                android:visibility="invisible" />
+
                             <ImageView
                                 android:layout_width="37dp"
                                 android:layout_height="35dp"
-                                android:layout_marginStart="160dp"
-                                android:layout_toLeftOf="@+id/ttcn_tv_ChinhSuaMK"
+                                android:layout_marginStart="10dp"
                                 android:contentDescription="@string/img_chinhsua"
                                 android:padding="1dp"
                                 android:src="@drawable/ic_ttcn_setting" />
@@ -413,14 +425,12 @@
                                 android:id="@+id/ttcn_tv_ChinhSuaMK"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginRight="10sp"
+                                android:layout_margin="0dp"
                                 android:text="@string/ttcn_chinhsua"
                                 android:textColor="@color/deep_sky_blue"
                                 android:textSize="12sp"
                                 android:textStyle="bold|normal" />
-                        </RelativeLayout>
+                        </LinearLayout>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -442,15 +452,21 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="match_parent"
+                            <EditText
+                                android:id="@+id/ttcn_tv_MatKhau"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:enabled="false"
                                 android:textColor="@color/black"
-                                android:textSize="17sp"
-                                android:textStyle="bold" />
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                card_view:ignore="Autofill,LabelFor,TextFields" />
                         </LinearLayout>
                     </LinearLayout>
+
+
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>

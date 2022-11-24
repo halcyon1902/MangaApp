@@ -37,7 +37,6 @@
         tools:layout_height="133dp" />
 
 
-
     <TextView
         android:id="@+id/tv_tong_chapter"
         android:layout_width="wrap_content"
@@ -57,12 +56,12 @@
         android:id="@+id/tv_noi_dung_truyen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_margin="10dp"
+        android:layout_margin="10dp"
+        android:gravity="center|start"
+        android:justificationMode="inter_word"
         android:text="Mô tả"
         android:textColor="@color/white"
         android:textSize="15dp"
-        android:gravity="center|start"
-        android:justificationMode="inter_word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liiner1"
@@ -108,8 +107,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="tham tu lung danh co nan"
             android:gravity="center"
+            android:text="tham tu lung danh co nan"
             android:textColor="@color/goldenrod"
             android:textIsSelectable="false"
             android:textSize="22sp"
@@ -164,11 +163,12 @@
             app:drawableStartCompat="@drawable/ic_like" />
 
         <ImageView
+            android:id="@+id/btn_fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_dowload"
+            android:src="@drawable/ic_favorite_border_black"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 

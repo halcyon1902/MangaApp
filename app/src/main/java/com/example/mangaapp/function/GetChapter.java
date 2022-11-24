@@ -128,7 +128,7 @@ public class GetChapter extends AppCompatActivity {
     @NonNull
     private List<BinhLuan> getList() {
         List<BinhLuan> list = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < listTemp.size(); i++) {
             list.add(listTemp.get(i));
         }
         return list;

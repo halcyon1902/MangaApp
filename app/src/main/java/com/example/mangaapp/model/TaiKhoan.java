@@ -3,6 +3,7 @@ package com.example.mangaapp.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class TaiKhoan implements Serializable {
     private String _id;
@@ -12,8 +13,22 @@ public class TaiKhoan implements Serializable {
     private boolean PhanQuyen;
     private boolean TrangThai;
     private String[] BinhLuans;
+    private List YeuThich;
+    private List LichSu;
     private Date NgayTao;
     private String HoTen;
+
+    public TaiKhoan(String taiKhoan, String email, String hoTen) {
+        TaiKhoan = taiKhoan;
+        Email = email;
+        HoTen = hoTen;
+    }
+
+    public TaiKhoan(List yeuThich, List lichSu) {
+        YeuThich = yeuThich;
+        LichSu = lichSu;
+    }
+
 
     public TaiKhoan(String taiKhoan, String matKhau, String email, String hoTen) {
         TaiKhoan = taiKhoan;
@@ -21,11 +36,9 @@ public class TaiKhoan implements Serializable {
         Email = email;
         HoTen = hoTen;
     }
-
-    public TaiKhoan(String hoTen) {
-        HoTen = hoTen;
+    public TaiKhoan(String matKhau) {
+        MatKhau = matKhau;
     }
-
     public TaiKhoan() {
     }
 
@@ -35,11 +48,6 @@ public class TaiKhoan implements Serializable {
         HoTen = hoTen;
     }
 
-    public TaiKhoan(String taiKhoan, String matKhau, String email) {
-        TaiKhoan = taiKhoan;
-        MatKhau = matKhau;
-        Email = email;
-    }
 
     public TaiKhoan(String taiKhoan, String matKhau) {
         TaiKhoan = taiKhoan;
@@ -102,6 +110,22 @@ public class TaiKhoan implements Serializable {
         BinhLuans = binhLuans;
     }
 
+    public List getYeuThich() {
+        return YeuThich;
+    }
+
+    public void setYeuThich(List yeuThich) {
+        YeuThich = yeuThich;
+    }
+
+    public List getLichSu() {
+        return LichSu;
+    }
+
+    public void setLichSu(List lichSu) {
+        LichSu = lichSu;
+    }
+
     public Date getNgayTao() {
         return NgayTao;
     }
@@ -117,7 +141,6 @@ public class TaiKhoan implements Serializable {
     public void setHoTen(String hoTen) {
         HoTen = hoTen;
     }
-
     @Override
     public String toString() {
         return "TaiKhoan{" +
@@ -128,9 +151,11 @@ public class TaiKhoan implements Serializable {
                 ", PhanQuyen=" + PhanQuyen +
                 ", TrangThai=" + TrangThai +
                 ", BinhLuans=" + Arrays.toString(BinhLuans) +
-                ", NgayTao='" + NgayTao + '\'' +
+                ", YeuThich=" + YeuThich +
+                ", LichSu=" + LichSu +
+                ", NgayTao=" + NgayTao +
+                ", HoTen='" + HoTen + '\'' +
                 '}';
     }
-
 
 }

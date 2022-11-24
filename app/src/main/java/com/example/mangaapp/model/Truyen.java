@@ -18,6 +18,10 @@ public class Truyen implements Serializable {
     private String[] TacGias;
     private Chapter[] Chapters;
 
+    public Truyen(int luotThich) {
+        LuotThich = luotThich;
+    }
+
     public Truyen() {
     }
 
