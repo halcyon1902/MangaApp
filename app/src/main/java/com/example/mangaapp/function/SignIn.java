@@ -61,7 +61,10 @@ public class SignIn extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("value", taiKhoan1.get_id());
                     editor.apply();
-                    Dialog(taiKhoan1.get_id());
+                    Dialog();
+                }
+                else {
+                    Dialog2();
                 }
             }
 
@@ -73,17 +76,26 @@ public class SignIn extends AppCompatActivity {
     }
 
     //Tạo dialog thông báo
-    private void Dialog(String id) {
+    private void Dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Đăng nhập thàng công")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
             Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
-            intent.putExtra("lấy thông tin tài khoản", id);
             startActivity(intent);
             finish();
 
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void Dialog2() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tài khoản hay mật khẩu không đúng!!!")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
