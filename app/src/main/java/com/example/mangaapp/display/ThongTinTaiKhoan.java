@@ -32,7 +32,6 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
     private EditText tvHoVaTen1;
     private TextView tvEmail, tvEmail1, tvCSHoTen, tvCSMatKhau, lichsu, tv_TaiKhoan, yeuthich, tv_MatKhau;
     private ImageView img_home;
-    private TaiKhoan user;
     private Button btnXacNhanHoTen, btn_LogOut, btnXacNhanPass;
 
     @Override
@@ -43,42 +42,36 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
         init();
         SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
         id = sharedPreferences.getString("value", "");
-        Log.e("Lấy thông tin tài khoản", "" + id);
         getThongTinTaiKhoan(id);
         tvCSHoTen.setOnClickListener(v -> {
             btnXacNhanHoTen.setVisibility(View.VISIBLE);
             tvHoVaTen1.setEnabled(true);
         });
-        tvCSMatKhau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnXacNhanPass.setVisibility(View.VISIBLE);
-                tv_MatKhau.setEnabled(true);
-            }
+        tvCSMatKhau.setOnClickListener(v -> {
+            btnXacNhanPass.setVisibility(View.VISIBLE);
+            tv_MatKhau.setEnabled(true);
         });
         btnXacNhanHoTen.setOnClickListener(v -> ChinhSuaHoTen(id));
         btnXacNhanPass.setOnClickListener(v -> updatePassword(id));
         img_home.setOnClickListener(v -> {
             Intent intent = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
             startActivity(intent);
+            finish();
         });
         btn_LogOut.setOnClickListener(v -> {
             Intent intent = new Intent(ThongTinTaiKhoan.this, SignIn.class);
             startActivity(intent);
+            finish();
         });
-        lichsu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ThongTinTaiKhoan.this, LichSu.class);
-                startActivity(intent);
-            }
+        lichsu.setOnClickListener(v -> {
+            Intent intent = new Intent(ThongTinTaiKhoan.this, LichSu.class);
+            startActivity(intent);
+            finish();
         });
-        yeuthich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ThongTinTaiKhoan.this, Favorite.class);
-                startActivity(intent);
-            }
+        yeuthich.setOnClickListener(v -> {
+            Intent intent = new Intent(ThongTinTaiKhoan.this, Favorite.class);
+            startActivity(intent);
+            finish();
         });
 
     }
@@ -111,11 +104,11 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
         TaiKhoan taiKhoan = new TaiKhoan(newpass);
         ApiService.apiService.updateMatKHau(s, taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
-            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
             }
 
             @Override
-            public void onFailure(Call<TaiKhoan> call, Throwable t) {
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
             }
         });
         btnXacNhanPass.setVisibility(View.INVISIBLE);

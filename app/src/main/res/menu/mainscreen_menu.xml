@@ -13,5 +13,11 @@
             android:icon="@drawable/ic_favorite_yellow"
             android:iconTint="@color/goldenrod"
             android:title="@string/menu_YeuThich" />
+        <item
+            android:id="@+id/rank"
+            android:enabled="true"
+            android:icon="@drawable/ic_rate_yellow"
+            android:iconTint="@color/goldenrod"
+            android:title="@string/menu_rank" />
     </group>
 </menu>

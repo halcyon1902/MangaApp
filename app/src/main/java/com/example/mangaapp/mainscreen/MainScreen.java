@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.display.BXH;
+import com.example.mangaapp.display.Favorite;
 import com.example.mangaapp.display.ThongTinTaiKhoan;
 import com.example.mangaapp.function.GetAllTheLoai;
 import com.example.mangaapp.function.SearchTruyen;
@@ -36,11 +38,11 @@ public class MainScreen extends AppCompatActivity {
     private static final String MY_PREFERENCE_NAME = "USER_ID";
     DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
-    RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi, rcvDSTruyen;
+    RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi;
     TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;
     List<Truyen> mListTruyen, mListTruyenMoi, mlistTruyenHot;
     ImageView imgSearch, imgPhanLoai;
-    String id = null;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +72,21 @@ public class MainScreen extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.account:
-                    if (id != null) {
-                        Intent intent = new Intent(MainScreen.this, ThongTinTaiKhoan.class);
-                        intent.putExtra("lấy thông tin tài khoản", id);
-                        startActivity(intent);
-                    } else {
+                    if (id.equals("")) {
                         startActivity(new Intent(MainScreen.this, SignIn.class));
-                        finish();
+                    } else {
+                        startActivity(new Intent(MainScreen.this, ThongTinTaiKhoan.class));
                     }
+                    break;
                 case R.id.favorite:
+                    if (id.equals("")) {
+                        startActivity(new Intent(MainScreen.this, SignIn.class));
+                    } else {
+                        startActivity(new Intent(MainScreen.this, Favorite.class));
+                    }
+                    break;
+                case R.id.rank:
+                    startActivity(new Intent(MainScreen.this, BXH.class));
                     break;
             }
             return false;
@@ -111,22 +119,6 @@ public class MainScreen extends AppCompatActivity {
         rcvDSTruyenHot.setLayoutManager(gridLayoutManager2);
         rcvDSTruyenHot.setNestedScrollingEnabled(false);
         rcvDSTruyenHot.setFocusable(false);
-    }
-
-    private void GetTatCaTruyen() {
-        ApiService.apiService.GetTatCaTruyen().enqueue(new Callback<List<Truyen>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
-                mListTruyen = response.body();
-                truyenTranhAdapter = new TruyenTranhAdapter(MainScreen.this, mListTruyen);
-                rcvDSTruyen.setAdapter(truyenTranhAdapter);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
-
-            }
-        });
     }
 
     private void GetTruyenHot() {

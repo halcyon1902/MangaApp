@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mangaapp.PaginationScrollListener;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.BinhLuanAdapter;
 import com.example.mangaapp.adapter.LinkAnhAdapter;
@@ -39,7 +37,6 @@ import retrofit2.Response;
 public class GetChapter extends AppCompatActivity {
 
     private static final String MY_PREFERENCE_NAME = "USER_ID";
-    private List<BinhLuan> listCommet;
     private TextView tvChapter;
     private RecyclerView rcvLinkAnh;
     private RecyclerView rcvBinhLuan;
@@ -47,14 +44,9 @@ public class GetChapter extends AppCompatActivity {
     private Button btnThemBL;
     private Chapter chapter;
     private String id;
+    private List<String> listLinkAnh = new ArrayList<>();
+    private List<BinhLuan> listBinhLuan = new ArrayList<>();
     private BinhLuanAdapter binhLuanAdapter;
-    private boolean isLoading;
-    private List<BinhLuan> listTemp;
-    private boolean isLastPage;
-    private int totalPage;
-    private int currentPage = 1;
-    private LinearLayoutManager linearLayoutManager;
-    private LinearLayoutManager linearLayoutManager1;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -70,86 +62,49 @@ public class GetChapter extends AppCompatActivity {
         //lấy thông tin từ sharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
         id = sharedPreferences.getString("value", "");
-        //
-        List<String> listLinkAnh;
-        List<BinhLuan> listBinhLuan;
-        binhLuanAdapter = new BinhLuanAdapter();
-        //
-        linearLayoutManager = new LinearLayoutManager(this);
-        rcvLinkAnh.setLayoutManager(linearLayoutManager);
-        rcvLinkAnh.setHasFixedSize(true);
-        //
-        linearLayoutManager1 = new LinearLayoutManager(this);
-        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
-        rcvBinhLuan.setAdapter(binhLuanAdapter);
-        rcvBinhLuan.setHasFixedSize(true);
-
+        intiLinearLayout();
         itemDecoration();
         if (chapter != null && chapter.isTrangThai()) {
             tvChapter.setText(chapter.getTenChapter());
             listLinkAnh = new ArrayList<>(Arrays.asList(chapter.getLinkAnhs()));
             LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(listLinkAnh);
             rcvLinkAnh.setAdapter(linkAnhAdapter);
-            //
-            listBinhLuan = new ArrayList<>(Arrays.asList(chapter.getBinhLuans()));
-            listTemp = listBinhLuan;
-//            rcvBinhLuan.setAdapter(binhLuanAdapter);
-//            binhLuanAdapter.notifyDataSetChanged();
+            hienthiBinhLuan();
         }
-
-        rcvBinhLuan.addOnScrollListener(new PaginationScrollListener(linearLayoutManager1) {
-            @Override
-            public void loadItem() {
-                isLoading = true;
-                currentPage += 1;
-                loadNextPage();
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-        });
-        setFirstPage();
         btnThemBL.setOnClickListener(v -> clickThemBinhLuan());
     }
 
-    private void setFirstPage() {
-        listCommet = getList();
-        binhLuanAdapter.setData(listCommet);
-
-    }
-
-    @NonNull
-    private List<BinhLuan> getList() {
-        List<BinhLuan> list = new ArrayList<>();
-        for (int i = 0; i < listTemp.size(); i++) {
-            list.add(listTemp.get(i));
-        }
-        return list;
-    }
-
-    private void loadNextPage() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+    private void hienthiBinhLuan() {
+        ApiService.apiService.GetChapter(chapter.get_id()).enqueue(new Callback<Chapter>() {
             @Override
-            public void run() {
-                List<BinhLuan> list = getList();
-                listCommet.addAll(list);
-                binhLuanAdapter.notifyDataSetChanged();
-
-                isLoading = false;
-                if (currentPage == totalPage) {
-                    isLastPage = true;
+            public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
+                Chapter chapter = response.body();
+                if (chapter != null) {
+                    listBinhLuan = Arrays.asList(chapter.getBinhLuans());
+                    binhLuanAdapter = new BinhLuanAdapter(listBinhLuan);
+                    rcvBinhLuan.setAdapter(binhLuanAdapter);
                 }
+
             }
-        }, 2000);
+
+            @Override
+            public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
+
+            }
+        });
+
     }
+
+    private void intiLinearLayout() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvLinkAnh.setLayoutManager(linearLayoutManager);
+        rcvLinkAnh.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        rcvBinhLuan.setLayoutManager(linearLayoutManager1);
+        rcvBinhLuan.setAdapter(binhLuanAdapter);
+        rcvBinhLuan.setHasFixedSize(true);
+    }
+
 
     @SuppressLint("NotifyDataSetChanged")
     private void clickThemBinhLuan() {
@@ -166,7 +121,6 @@ public class GetChapter extends AppCompatActivity {
 
             }
         });
-        binhLuanAdapter.notifyDataSetChanged();
         Dialog();
     }
 

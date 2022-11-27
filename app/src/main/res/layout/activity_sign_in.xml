@@ -68,30 +68,11 @@
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:gravity="end">
-
-            <TextView
-                android:id="@+id/et_QuenMatKhau"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:importantForAutofill="no"
-                android:text="@string/dn_quenmatkhau"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
         <Button
             android:id="@+id/btn_DangNhap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/button"
             android:text="@string/dn_dangnhap"
             android:textColor="@color/orange"

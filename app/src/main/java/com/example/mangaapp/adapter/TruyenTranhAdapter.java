@@ -36,6 +36,7 @@ public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.
     @NonNull
     @Override
     public TruyenTranhViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //LayoutInflater inflater=LayoutInflater.from(context);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_truyen, parent, false);
         return new TruyenTranhViewHolder(view);
     }

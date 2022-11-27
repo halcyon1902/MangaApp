@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,11 +57,18 @@
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_binhluan"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+            android:layout_height="200dp"
+            android:fillViewport="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_binhluan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp" />
+        </androidx.core.widget.NestedScrollView>
+
 
         <EditText
             android:id="@+id/edt_ThemBinhLuan"

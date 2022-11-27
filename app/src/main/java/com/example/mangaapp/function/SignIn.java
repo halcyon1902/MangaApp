@@ -62,8 +62,7 @@ public class SignIn extends AppCompatActivity {
                     editor.putString("value", taiKhoan1.get_id());
                     editor.apply();
                     Dialog();
-                }
-                else {
+                } else {
                     Dialog2();
                 }
             }
@@ -90,6 +89,7 @@ public class SignIn extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     private void Dialog2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Tài khoản hay mật khẩu không đúng!!!")

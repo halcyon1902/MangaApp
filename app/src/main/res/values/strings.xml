@@ -28,6 +28,7 @@
     <!--    cho menu-->
     <string name="menu_TaiKhoan">Tài khoản</string>
     <string name="menu_YeuThich">Yêu thích</string>
+    <string name="menu_rank">BXH</string>
     <!--    cho thông tin tài khỏan-->
     <string name="ttcn_hovaten">Họ và tên</string>
     <string name="ttcn_email">Email</string>
