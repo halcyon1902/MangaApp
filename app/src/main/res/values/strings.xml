@@ -78,5 +78,9 @@
     <string name="add">Thêm</string>
     <string name="add_binh_luan">Nhập bình luận</string>
     <string name="submit">Xác nhận</string>
+    <!--   BXH-->
+    <string name="bxh_iv_truyen">Truyện ABC</string>
+    <string name="bxh_tv_truyen">Truyện ABC</string>
+    <string name="bxh_tv_tacgia">Tác giả ABC</string>
 
 </resources>
