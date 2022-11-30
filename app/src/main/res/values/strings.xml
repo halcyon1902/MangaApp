@@ -83,5 +83,8 @@
     <string name="bxh_tv_truyen">Truyện ABC</string>
     <string name="bxh_tv_tacgia">Tác giả ABC</string>
     <string name="bangxephang">Bảng xếp hạng</string>
+    <string name="bxh_tuan">Tuần</string>
+    <string name="bxh_thang">Tháng</string>
+    <string name="bxh_nam">Năm</string>
 
 </resources>
