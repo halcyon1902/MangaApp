@@ -142,14 +142,14 @@
 
 
         <TextView
-            android:id="@+id/tv_follow"
+            android:id="@+id/tv_luotxem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dp"
             android:text=""
             android:textColor="@color/white"
-            app:drawableStartCompat="@drawable/ic_follow" />
+            app:drawableStartCompat="@drawable/ic_eye_black" />
 
         <TextView
             android:id="@+id/tv_like"

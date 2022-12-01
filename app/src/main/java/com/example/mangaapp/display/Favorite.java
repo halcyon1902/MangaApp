@@ -1,5 +1,8 @@
 package com.example.mangaapp.display;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.adapter.TruyenTranhAdapter;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.TaiKhoan;
 import com.example.mangaapp.model.Truyen;
 
@@ -91,5 +95,20 @@ public class Favorite extends AppCompatActivity {
     private void setFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void Dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Chưa có truyện trang yêu thích! Quay về trang chủ")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            Intent intent = new Intent(((Dialog) dialog).getContext(), MainScreen.class);
+            startActivity(intent);
+            finish();
+
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

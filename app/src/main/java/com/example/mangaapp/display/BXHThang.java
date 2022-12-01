@@ -18,7 +18,6 @@ import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.Truyen;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,27 +25,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BXH extends AppCompatActivity {
+public class BXHThang extends AppCompatActivity {
     RecyclerView recyclerView;
     BXHAdapter adapter;
     List<Truyen> listTruyen;
     ImageView home;
-    TextView bxh_thang;
+    TextView bxh_tong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.activity_bxh);
+        setContentView(R.layout.activity_bxhthang);
         init();
         initGridView();
         getTruyen();
         home.setOnClickListener(v -> {
-            startActivity(new Intent(BXH.this, MainScreen.class));
+            startActivity(new Intent(BXHThang.this, MainScreen.class));
             finish();
         });
-        bxh_thang.setOnClickListener(v -> {
-            startActivity(new Intent(BXH.this, BXHThang.class));
+        bxh_tong.setOnClickListener(v -> {
+            startActivity(new Intent(BXHThang.this, BXH.class));
             finish();
         });
     }
@@ -62,8 +61,8 @@ public class BXH extends AppCompatActivity {
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
                 listTruyen = response.body();
                 if (listTruyen != null) {
-                    listTruyen.sort(Comparator.comparing(Truyen::getLuotXem).reversed());
-                    adapter = new BXHAdapter(BXH.this, listTruyen);
+                    listTruyen.sort(Comparator.comparing(Truyen::getLuotXemThang).reversed());
+                    adapter = new BXHAdapter(BXHThang.this, listTruyen);
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -76,15 +75,14 @@ public class BXH extends AppCompatActivity {
     }
 
     private void initGridView() {
-        listTruyen = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setFocusable(false);
     }
 
     public void init() {
-        recyclerView = findViewById(R.id.rcv_bxh);
-        home = findViewById(R.id.home);
-        bxh_thang = findViewById(R.id.bxh_thang);
+        recyclerView = findViewById(R.id.rcv_bxhthang);
+        home = findViewById(R.id.bxhthang_home);
+        bxh_tong = findViewById(R.id.bxhthang_tong);
     }
 }

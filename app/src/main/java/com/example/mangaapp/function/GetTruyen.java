@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -42,7 +41,7 @@ public class GetTruyen extends AppCompatActivity {
     private static final String MY_PREFERENCE_NAME = "USER_ID";
     private final Context context = this;
     String id = null;
-    private TextView tvTenTruyen, tvTinhTrang, tvFollow, tvLike, tvNoiDung, tvTongChuong;
+    private TextView tvTenTruyen, tvTinhTrang, tv_luotxem, tvLike, tvNoiDung, tvTongChuong;
     private ImageView imgAnhBia, imgAnhNen, fav;
     private RecyclerView rcvTheLoai, rcvTacGia, rcvChapter;
     private List<String> mListIDTheLoai, mListIDTacGia;
@@ -71,22 +70,19 @@ public class GetTruyen extends AppCompatActivity {
         hienThiTruyen(truyen);
         themLichSu(truyen);
         isFavorite(truyen);
-        fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isfav) {
-                    xoaYeuThich(truyen);
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
-                } else {
-                    themYeuThich(truyen);
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
-                }
-
+        fav.setOnClickListener(v -> {
+            if (isfav) {
+                xoaYeuThich(truyen);
+                Intent intent1 = getIntent();
+                finish();
+                startActivity(intent1);
+            } else {
+                themYeuThich(truyen);
+                Intent intent1 = getIntent();
+                finish();
+                startActivity(intent1);
             }
+
         });
     }
 
@@ -104,9 +100,7 @@ public class GetTruyen extends AppCompatActivity {
                         isfav = false;
                         fav.setBackgroundResource(R.drawable.ic_favorite_black);
                     }
-
                 }
-
             }
 
             @Override
@@ -171,7 +165,6 @@ public class GetTruyen extends AppCompatActivity {
                     }
                 });
             }
-
             //Hiển thị chapter
             Collections.reverse(mlistChapter);
             chapterAdapter = new ChapterAdapter(mlistChapter, context);
@@ -183,13 +176,24 @@ public class GetTruyen extends AppCompatActivity {
                 tvTinhTrang.setText("Tình trạng: Đang tiến thành");
             }
             luotThich = truyen.getLuotThich();
-            Log.e("lượt thích ", "" + luotThich);
             tvLike.setText("" + luotThich);
-            tvFollow.setText("" + truyen.getLuotXem());
             tvNoiDung.setText(truyen.getGioiThieu());
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
+
+            ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
+                @Override
+                public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                    assert response.body() != null;
+                    tv_luotxem.setText("" + response.body().getLuotXem());
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+
+                }
+            });
         }
     }
 
@@ -228,7 +232,7 @@ public class GetTruyen extends AppCompatActivity {
         });
     }
 
-    private void themYeuThich(Truyen truyen) {
+    private void themYeuThich(@NonNull Truyen truyen) {
         ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
@@ -264,18 +268,18 @@ public class GetTruyen extends AppCompatActivity {
         Truyen truyen1 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem());
         ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen1).enqueue(new Callback<Truyen>() {
             @Override
-            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
 
             }
 
             @Override
-            public void onFailure(Call<Truyen> call, Throwable t) {
+            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
 
             }
         });
     }
 
-    private void xoaYeuThich(Truyen truyen) {
+    private void xoaYeuThich(@NonNull Truyen truyen) {
         ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
@@ -314,12 +318,12 @@ public class GetTruyen extends AppCompatActivity {
         Truyen truyen1 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem());
         ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen1).enqueue(new Callback<Truyen>() {
             @Override
-            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
 
             }
 
             @Override
-            public void onFailure(Call<Truyen> call, Throwable t) {
+            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
 
             }
         });
@@ -341,7 +345,7 @@ public class GetTruyen extends AppCompatActivity {
         tvTenTruyen = findViewById(R.id.tv_ten_truyen);
         fav = findViewById(R.id.btn_fav);
         tvTinhTrang = findViewById(R.id.tv_tinhtrang_truyen);
-        tvFollow = findViewById(R.id.tv_follow);
+        tv_luotxem = findViewById(R.id.tv_luotxem);
         tvLike = findViewById(R.id.tv_like);
         tvNoiDung = findViewById(R.id.tv_noi_dung_truyen);
         tvTongChuong = findViewById(R.id.tv_tong_chapter);
