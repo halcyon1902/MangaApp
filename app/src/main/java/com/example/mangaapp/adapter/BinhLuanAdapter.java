@@ -1,6 +1,5 @@
 package com.example.mangaapp.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,9 @@ public class BinhLuanAdapter extends RecyclerView.Adapter<BinhLuanAdapter.BinhLu
     @Override
     public void onBindViewHolder(@NonNull BinhLuanApdaterViewHolder holder, int position) {
         BinhLuan binhLuan = listBinhLuan.get(position);
-        if (binhLuan == null)
+        if (binhLuan == null) {
             return;
+        }
         holder.tvTenTaiKhoan.setText(binhLuan.getTaiKhoan().getTaiKhoan()); // tai khoan dau la cua Binh Luan. tai khoan lan sau la ten dangnhap
         Date ngaynhap = binhLuan.getNgayNhap();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");

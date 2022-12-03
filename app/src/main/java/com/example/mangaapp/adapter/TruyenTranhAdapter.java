@@ -49,40 +49,10 @@ public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.
                 //Click vào chi tiết truyện
                 Intent intent = new Intent(context, GetTruyen.class);
                 intent.putExtra("clickTruyen", truyen);
-                //updateLuotXem(truyen);
                 context.startActivity(intent);
             });
         }
     }
-
-//    public void updateLuotXem(@NonNull Truyen truyen) {
-//        int luotxem = truyen.getLuotXem();
-//        int luotxemThang = truyen.getLuotXemThang();
-//        Date ngayXepHang = truyen.getNgayXepHang();
-//        int thang = ngayXepHang.getMonth() + 1;
-//        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-//        int currentMonth = calendar.get(Calendar.MONTH) + 1;
-//        Date currentTime = Calendar.getInstance().getTime();
-//        if (thang == currentMonth) {
-//            luotxemThang += 1;
-//        } else {
-//            luotxemThang = 1;
-//            ngayXepHang = currentTime;
-//        }
-//        luotxem += 1;
-//        Truyen truyen1 = new Truyen(truyen.isTrangThai(), truyen.isTinhTrang(), luotxem, luotxemThang, ngayXepHang);
-//        ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen1).enqueue(new Callback<Truyen>() {
-//            @Override
-//            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Truyen> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public void release() {
         context = null;

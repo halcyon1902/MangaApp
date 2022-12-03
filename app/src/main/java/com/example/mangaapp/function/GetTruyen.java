@@ -128,7 +128,6 @@ public class GetTruyen extends AppCompatActivity {
             mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
             mListIDTacGia = Arrays.asList(truyen.getTacGias());
             List<Chapter> mlistChapter = Arrays.asList(truyen.getChapters());
-
             //Hiển thị thể loại
             for (int i = 0; i < mListIDTheLoai.size(); i++) {
                 ApiService.apiService.GetTheLoai(mListIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
@@ -148,7 +147,6 @@ public class GetTruyen extends AppCompatActivity {
                     }
                 });
             }
-
             //Hiển thị tác giả
             for (int i = 0; i < mListIDTacGia.size(); i++) {
                 ApiService.apiService.GetTacGia(mListIDTacGia.get(i)).enqueue(new Callback<TacGia>() {
@@ -172,6 +170,7 @@ public class GetTruyen extends AppCompatActivity {
             Collections.reverse(mlistChapter);
             chapterAdapter = new ChapterAdapter(mlistChapter, context);
             rcvChapter.setAdapter(chapterAdapter);
+            //hiển thị thông tin truyện
             tvTenTruyen.setText(truyen.getTenTruyen());
             if (truyen.isTrangThai()) {
                 tvTinhTrang.setText("Tình trạng: Hoàn thành");
@@ -182,19 +181,24 @@ public class GetTruyen extends AppCompatActivity {
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
-            ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
-                @Override
-                public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-                    assert response.body() != null;
-                    tv_luotxem.setText("" + response.body().getLuotXem());
-                    tvLike.setText("" + response.body().getLuotThich());
-                }
-                @Override
-                public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-
-                }
-            });
+            update(truyen);
         }
+    }
+
+    private void update(@NonNull Truyen truyen) {
+        ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                assert response.body() != null;
+                tv_luotxem.setText("" + response.body().getLuotXem());
+                tvLike.setText("" + response.body().getLuotThich());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+
+            }
+        });
     }
 
     private void themLichSu(Truyen truyen) {
@@ -245,7 +249,6 @@ public class GetTruyen extends AppCompatActivity {
                     ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
                         @Override
                         public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-
                         }
 
                         @Override
@@ -259,6 +262,14 @@ public class GetTruyen extends AppCompatActivity {
             public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
+        update(truyen);
     }
 
     private void themLuotThich(Truyen truyen) {

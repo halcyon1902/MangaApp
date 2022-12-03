@@ -19,7 +19,10 @@ import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.Truyen;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +58,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);
+            intent.putExtra("clickitem", position);
             Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
             ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
                 @Override
@@ -76,15 +80,30 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
                 Truyen truyen1 = response.body();
                 if (truyen1 != null) {
-                    truyen1.setLuotXem(truyen1.getLuotXem() + 1);
-                    Truyen upTruyen = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), truyen1.getLuotXem());
-                    ApiService.apiService.UpdateTruyen(truyen, upTruyen).enqueue(new Callback<Truyen>() {
+                    int luotxem = truyen1.getLuotXem();
+                    int luotxemThang = truyen1.getLuotXemThang();
+                    Date ngayXepHang = truyen1.getNgayXepHang();
+                    int thang = ngayXepHang.getMonth() + 1;
+                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                    int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                    Date currentTime = Calendar.getInstance().getTime();
+                    if (thang == currentMonth) {
+                        luotxemThang += 1;
+                    } else {
+                        luotxemThang = 1;
+                        ngayXepHang = currentTime;
+                    }
+                    luotxem += 1;
+                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), luotxem, luotxemThang, ngayXepHang);
+                    ApiService.apiService.UpdateTruyen(truyen, truyen2).enqueue(new Callback<Truyen>() {
                         @Override
-                        public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                        public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+                        public void onFailure(Call<Truyen> call, Throwable t) {
+
                         }
                     });
                 }
