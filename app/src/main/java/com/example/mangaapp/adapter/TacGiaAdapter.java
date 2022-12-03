@@ -51,7 +51,6 @@ public class TacGiaAdapter extends RecyclerView.Adapter<TacGiaAdapter.TacGiaView
             public void onClick(View v) {
                 Intent intent = new Intent(context, SearchTruyen.class);
                 intent.putExtra("clickTenTacGia", tacGia.getTenTacGia());
-                Log.e("Sau khi click vào chapter: ", "" + tacGia.getTenTacGia());
                 context.startActivity(intent);
             }
         });

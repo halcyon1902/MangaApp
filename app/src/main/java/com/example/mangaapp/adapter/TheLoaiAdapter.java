@@ -53,7 +53,6 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
             public void onClick(View v) {
                 Intent intent = new Intent(context, SearchTruyen.class);
                 intent.putExtra("clickTenTheLoai", theLoai.getTenTheLoai());
-                Log.e("Sau khi click vào tenTheLoai: ", "" + theLoai.getTenTheLoai());
                 context.startActivity(intent);
             }
         });

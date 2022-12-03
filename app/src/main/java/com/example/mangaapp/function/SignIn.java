@@ -57,11 +57,15 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan1 = response.body();
                 if (taiKhoan1 != null) {
-                    SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("value", taiKhoan1.get_id());
-                    editor.apply();
-                    Dialog();
+                    if (taiKhoan1.isTrangThai()) {
+                        SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("value", taiKhoan1.get_id());
+                        editor.apply();
+                        Dialog();
+                    } else {
+                        Dialog3();
+                    }
                 } else {
                     Dialog2();
                 }
@@ -82,8 +86,8 @@ public class SignIn extends AppCompatActivity {
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
             Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
+            startActivity(intent);
             finish();
-
         });
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -92,6 +96,17 @@ public class SignIn extends AppCompatActivity {
     private void Dialog2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Tài khoản hay mật khẩu không đúng!!!")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void Dialog3() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tài khoản đã bị đóng băng")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {

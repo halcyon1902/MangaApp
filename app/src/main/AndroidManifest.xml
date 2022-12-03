@@ -50,20 +50,8 @@
             android:name=".function.SearchTruyen"
             android:exported="false" />
         <activity
-            android:name=".function.PostTruyen"
-            android:exported="false" />
-        <activity
             android:name=".display.ThongTinTaiKhoan"
             android:exported="false" />
-        <activity
-            android:name=".mainscreen.MainScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".function.SignUp"
             android:exported="false" />
@@ -76,6 +64,14 @@
         <activity
             android:name=".function.GetTruyen"
             android:exported="false" />
+        <activity
+            android:name=".mainscreen.MainScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

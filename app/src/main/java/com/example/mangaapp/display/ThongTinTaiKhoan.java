@@ -43,6 +43,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
         init();
         SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
         id = sharedPreferences.getString("value", "");
+        check(id);
         getThongTinTaiKhoan(id);
         tvCSHoTen.setOnClickListener(v -> {
             btnXacNhanHoTen.setVisibility(View.VISIBLE);
@@ -81,6 +82,24 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
 
     }
 
+    private void check(String id) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null && !taiKhoan.isTrangThai()) {
+                    startActivity(new Intent(ThongTinTaiKhoan.this, SignIn.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+                Log.e("Thông tin tài khoản: ", t.toString());
+            }
+        });
+    }
+
     //Full màn hình
     private void setFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -97,7 +116,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-                Log.e("lỗi ",""+t);
+                Log.e("lỗi ", "" + t);
             }
         });
         btnXacNhanHoTen.setVisibility(View.INVISIBLE);

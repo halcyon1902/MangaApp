@@ -2,7 +2,6 @@ package com.example.mangaapp.function;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -31,7 +30,7 @@ public class GetAllTheLoai extends AppCompatActivity {
     private ImageView imgBack, imgSearch;
     private RecyclerView rcvTheloai;
     private TheLoaiAdapter theLoaiAdapter;
-    private List<TheLoai> mlistTheLoai;
+    private List<TheLoai> listTheLoai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class GetAllTheLoai extends AppCompatActivity {
     }
 
     private void init() {
-        mlistTheLoai = new ArrayList<>();
+        listTheLoai = new ArrayList<>();
         rcvTheloai = findViewById(R.id.rcv_all_theloai);
         imgSearch = findViewById(R.id.img_search);
         imgBack = findViewById(R.id.img_back);
@@ -69,11 +68,17 @@ public class GetAllTheLoai extends AppCompatActivity {
         ApiService.apiService.GetTatCaTheLoai().enqueue(new Callback<List<TheLoai>>() {
             @Override
             public void onResponse(@NonNull Call<List<TheLoai>> call, @NonNull Response<List<TheLoai>> response) {
-                mlistTheLoai = response.body();
-                assert mlistTheLoai != null;
-                Log.e("mlisttheloai: ", mlistTheLoai.toString());
-                theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai, GetAllTheLoai.this);
-                rcvTheloai.setAdapter(theLoaiAdapter);
+                listTheLoai = response.body();
+                List<TheLoai> list = new ArrayList<>();
+                if (listTheLoai != null) {
+                    for (int i = 0; i < listTheLoai.size(); i++) {
+                        if (listTheLoai.get(i).isTrangThai()) {
+                            list.add(listTheLoai.get(i));
+                        }
+                    }
+                    theLoaiAdapter = new TheLoaiAdapter(list, GetAllTheLoai.this);
+                    rcvTheloai.setAdapter(theLoaiAdapter);
+                }
             }
 
             @Override

@@ -109,12 +109,10 @@ public class MainScreen extends AppCompatActivity {
         mListTruyen = new ArrayList<>();
         mlistTruyenHot = new ArrayList<>();
         mListTruyenMoi = new ArrayList<>();
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvDSTruyenMoi.setLayoutManager(gridLayoutManager);
         rcvDSTruyenMoi.setNestedScrollingEnabled(false);
         rcvDSTruyenMoi.setFocusable(false);
-
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 3);
         rcvDSTruyenHot.setLayoutManager(gridLayoutManager2);
         rcvDSTruyenHot.setNestedScrollingEnabled(false);

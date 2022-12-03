@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,9 +44,9 @@ public class GetTruyen extends AppCompatActivity {
     private TextView tvTenTruyen, tvTinhTrang, tv_luotxem, tvLike, tvNoiDung, tvTongChuong;
     private ImageView imgAnhBia, imgAnhNen, fav;
     private RecyclerView rcvTheLoai, rcvTacGia, rcvChapter;
-    private List<String> mListIDTheLoai, mListIDTacGia;
-    private List<TheLoai> mlistTheLoai;
-    private List<TacGia> mlistTacGia;
+    private List<String> listIDTheLoai, listIDTacGia;
+    private List<TheLoai> listTheLoai;
+    private List<TacGia> listTacGia;
     private ChapterAdapter chapterAdapter;
     private boolean isfav = true;
 
@@ -60,10 +61,10 @@ public class GetTruyen extends AppCompatActivity {
         Intent intent = getIntent();
         Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
         init();
-        mListIDTheLoai = new ArrayList<>();
-        mlistTheLoai = new ArrayList<>();
-        mListIDTacGia = new ArrayList<>();
-        mlistTacGia = new ArrayList<>();
+        listIDTheLoai = new ArrayList<>();
+        listTheLoai = new ArrayList<>();
+        listIDTacGia = new ArrayList<>();
+        listTacGia = new ArrayList<>();
         initLinearLayout();
         hienThiTruyen(truyen);
         themLichSu(truyen);
@@ -115,29 +116,29 @@ public class GetTruyen extends AppCompatActivity {
 
     private void initLinearLayout() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
-        rcvTheLoai.setLayoutManager(linearLayoutManager);
-        rcvTacGia.setLayoutManager(linearLayoutManager1);
+        rcvTheLoai.setLayoutManager(gridLayoutManager);
+        rcvTacGia.setLayoutManager(linearLayoutManager);
         rcvChapter.setLayoutManager(linearLayoutManager2);
     }
 
     @SuppressLint("SetTextI18n")
     private void hienThiTruyen(Truyen truyen) {
         if (truyen != null && truyen.isTrangThai()) {
-            mListIDTheLoai = Arrays.asList(truyen.getTheLoais());
-            mListIDTacGia = Arrays.asList(truyen.getTacGias());
+            listIDTheLoai = Arrays.asList(truyen.getTheLoais());
+            listIDTacGia = Arrays.asList(truyen.getTacGias());
             List<Chapter> mlistChapter = Arrays.asList(truyen.getChapters());
             //Hiển thị thể loại
-            for (int i = 0; i < mListIDTheLoai.size(); i++) {
-                ApiService.apiService.GetTheLoai(mListIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
+            for (int i = 0; i < listIDTheLoai.size(); i++) {
+                ApiService.apiService.GetTheLoai(listIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
                     @Override
                     public void onResponse(@NonNull Call<TheLoai> call, @NonNull Response<TheLoai> response) {
                         TheLoai theLoai = response.body();
                         if (theLoai != null && theLoai.isTrangThai()) {
-                            mlistTheLoai.add(theLoai);
+                            listTheLoai.add(theLoai);
                         }
-                        TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(mlistTheLoai, GetTruyen.this);
+                        TheLoaiAdapter theLoaiAdapter = new TheLoaiAdapter(listTheLoai, GetTruyen.this);
                         rcvTheLoai.setAdapter(theLoaiAdapter);
                     }
 
@@ -148,15 +149,15 @@ public class GetTruyen extends AppCompatActivity {
                 });
             }
             //Hiển thị tác giả
-            for (int i = 0; i < mListIDTacGia.size(); i++) {
-                ApiService.apiService.GetTacGia(mListIDTacGia.get(i)).enqueue(new Callback<TacGia>() {
+            for (int i = 0; i < listIDTacGia.size(); i++) {
+                ApiService.apiService.GetTacGia(listIDTacGia.get(i)).enqueue(new Callback<TacGia>() {
                     @Override
                     public void onResponse(@NonNull Call<TacGia> call, @NonNull Response<TacGia> response) {
                         TacGia tacGia = response.body();
                         if (tacGia != null && tacGia.isTrangThai()) {
-                            mlistTacGia.add(tacGia);
+                            listTacGia.add(tacGia);
                         }
-                        TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(mlistTacGia, context);
+                        TacGiaAdapter tacGiaAdapter = new TacGiaAdapter(listTacGia, context);
                         rcvTacGia.setAdapter(tacGiaAdapter);
                     }
 
