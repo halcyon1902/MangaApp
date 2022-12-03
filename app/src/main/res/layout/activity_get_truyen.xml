@@ -61,7 +61,7 @@
         android:justificationMode="inter_word"
         android:text="Mô tả"
         android:textColor="@color/white"
-        android:textSize="15dp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liiner1"
@@ -168,7 +168,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_favorite_border_black"
+            android:src="@drawable/ic_favorite_black"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 

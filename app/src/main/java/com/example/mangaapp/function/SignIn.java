@@ -82,7 +82,6 @@ public class SignIn extends AppCompatActivity {
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
             Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
-            startActivity(intent);
             finish();
 
         });

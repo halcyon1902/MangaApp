@@ -3,7 +3,6 @@ package com.example.mangaapp.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
+import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.function.GetChapter;
 import com.example.mangaapp.model.Chapter;
+import com.example.mangaapp.model.Truyen;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
     private final List<Chapter> mListChapter;
@@ -50,55 +55,46 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);
-//            Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
-//            ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
-//                @Override
-//                public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
-//                    Log.e("luot xem: ", "" + updateChap.getLuotXem());
-//                }
-//
-//                @Override
-//                public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
-//                    Log.e("luot xem: ", "fail");
-//                }
-//            });
-//            UpdateLuotXemTruyen(chapter.getTruyen());
+            Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
+            ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
+                @Override
+                public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
+                }
+            });
+            UpdateLuotXemTruyen(chapter.getTruyen());
             context.startActivity(intent);
         });
     }
 
-//    private void UpdateLuotXemTruyen(String truyen) {
-//        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
-//            @Override
-//            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-//                Truyen truyen1 = response.body();
-//                if (truyen1 == null) {
-//                    Log.e("chapter adapter: ", "truyện rỗng" );
-//                } else {
-//                    truyen1.setLuotXem(truyen1.getLuotXem() + 1);
-//                    Truyen upTruyen = new Truyen(truyen1.getLuotXem(),truyen1.isTrangThai(),truyen1.isTinhTrang());
-//                    ApiService.apiService.UpdateTruyen(truyen, upTruyen).enqueue(new Callback<Truyen>() {
-//                        @Override
-//                        public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-//                            Log.e("chapter adapter: ", "update truyện thành công" );
-//                        }
-//
-//                        @Override
-//                        public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-//                            Log.e("chapter adapter: ", "update truyện thất bại" );
-//                        }
-//                    });
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-//
-//            }
-//        });
-//    }
+    private void UpdateLuotXemTruyen(String truyen) {
+        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                Truyen truyen1 = response.body();
+                if (truyen1 != null) {
+                    truyen1.setLuotXem(truyen1.getLuotXem() + 1);
+                    Truyen upTruyen = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), truyen1.getLuotXem());
+                    ApiService.apiService.UpdateTruyen(truyen, upTruyen).enqueue(new Callback<Truyen>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+            }
+        });
+    }
 
     public void release() {
         context = null;

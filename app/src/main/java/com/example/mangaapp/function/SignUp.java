@@ -2,7 +2,9 @@ package com.example.mangaapp.function;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,7 +12,6 @@ import android.util.Patterns;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUp extends AppCompatActivity {
+    private static final String MY_PREFERENCE_NAME = "USER_ID";
     private Button dangky, quaylai;
     private TextInputEditText matkhau, tentaikhoan, nhaplaimatkhau, email, ten;
     private List<TaiKhoan> list;
@@ -39,7 +41,7 @@ public class SignUp extends AppCompatActivity {
         setFullScreen();
         setContentView(R.layout.activity_sign_up);
         init();
-        getTaiKhoan();//lấy danh sách các tài khoản
+        getTaiKhoan();
         quaylai.setOnClickListener(v -> clickQuayLai());
         dangky.setOnClickListener(v -> clickDangKy());
     }
@@ -55,14 +57,17 @@ public class SignUp extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                     TaiKhoan taiKhoan1 = response.body();
-                    if (taiKhoan1 != null)
-                        Log.e("", taiKhoan1.get_id());
-                    Dialog(taiKhoan1.get_id());
+                    if (taiKhoan1 != null) {
+                        SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("value", taiKhoan1.get_id());
+                        editor.apply();
+                        Dialog();
+                    }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-
                 }
             });
         }
@@ -151,14 +156,13 @@ public class SignUp extends AppCompatActivity {
         dangky = findViewById(R.id.btn_DangKy);
     }
 
-    private void Dialog(String id) {
+    private void Dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Tạo tài khoản thành công")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
             Intent intent = new Intent(((Dialog) dialog).getContext(), ThongTinTaiKhoan.class);
-            intent.putExtra("lấy thông tin tài khoản", id);
             startActivity(intent);
             finish();
         });
@@ -175,7 +179,7 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<TaiKhoan>> call, @NonNull Throwable t) {
-                Toast.makeText(SignUp.this, "Error", Toast.LENGTH_LONG).show();
+                Log.e("lỗi ở đăng ký", t.toString());
             }
         });
     }

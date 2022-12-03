@@ -1,5 +1,6 @@
 package com.example.mangaapp.display;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -59,6 +60,10 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             finish();
         });
         btn_LogOut.setOnClickListener(v -> {
+            SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("value", "");
+            editor.apply();
             Intent intent = new Intent(ThongTinTaiKhoan.this, SignIn.class);
             startActivity(intent);
             finish();
@@ -92,7 +97,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-
+                Log.e("lỗi ",""+t);
             }
         });
         btnXacNhanHoTen.setVisibility(View.INVISIBLE);

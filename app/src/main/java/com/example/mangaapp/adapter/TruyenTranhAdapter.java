@@ -3,7 +3,6 @@ package com.example.mangaapp.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaapp.R;
-import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.function.GetTruyen;
 import com.example.mangaapp.model.Truyen;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.TruyenTranhViewHolder> {
     private Context context;
@@ -58,43 +49,40 @@ public class TruyenTranhAdapter extends RecyclerView.Adapter<TruyenTranhAdapter.
                 //Click vào chi tiết truyện
                 Intent intent = new Intent(context, GetTruyen.class);
                 intent.putExtra("clickTruyen", truyen);
-                updateLuotXem(truyen);
+                //updateLuotXem(truyen);
                 context.startActivity(intent);
             });
         }
     }
 
-    public void updateLuotXem(@NonNull Truyen truyen) {
-        int luotxem = truyen.getLuotXem();
-        int luotxemThang = truyen.getLuotXemThang();
-        Date ngayXepHang = truyen.getNgayXepHang();
-        int thang = ngayXepHang.getMonth() + 1;
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        int currentMonth = calendar.get(Calendar.MONTH) + 1;
-        Date currentTime = Calendar.getInstance().getTime();
-        Log.e("tháng xếp hạng", "" + thang);
-        Log.e("tháng hiện tại", "" + currentMonth);
-
-        if (thang == currentMonth) {
-            luotxemThang += 1;
-        } else {
-            luotxemThang = 1;
-            ngayXepHang = currentTime;
-        }
-        luotxem += 1;
-        Truyen truyen1 = new Truyen(truyen.isTrangThai(), truyen.isTinhTrang(), luotxem, luotxemThang, ngayXepHang);
-        ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen1).enqueue(new Callback<Truyen>() {
-            @Override
-            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Truyen> call, Throwable t) {
-
-            }
-        });
-    }
+//    public void updateLuotXem(@NonNull Truyen truyen) {
+//        int luotxem = truyen.getLuotXem();
+//        int luotxemThang = truyen.getLuotXemThang();
+//        Date ngayXepHang = truyen.getNgayXepHang();
+//        int thang = ngayXepHang.getMonth() + 1;
+//        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+//        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+//        Date currentTime = Calendar.getInstance().getTime();
+//        if (thang == currentMonth) {
+//            luotxemThang += 1;
+//        } else {
+//            luotxemThang = 1;
+//            ngayXepHang = currentTime;
+//        }
+//        luotxem += 1;
+//        Truyen truyen1 = new Truyen(truyen.isTrangThai(), truyen.isTinhTrang(), luotxem, luotxemThang, ngayXepHang);
+//        ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen1).enqueue(new Callback<Truyen>() {
+//            @Override
+//            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Truyen> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
     public void release() {
         context = null;

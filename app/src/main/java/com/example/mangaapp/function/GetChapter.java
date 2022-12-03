@@ -84,12 +84,10 @@ public class GetChapter extends AppCompatActivity {
                     binhLuanAdapter = new BinhLuanAdapter(listBinhLuan);
                     rcvBinhLuan.setAdapter(binhLuanAdapter);
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
-
             }
         });
 
@@ -104,8 +102,7 @@ public class GetChapter extends AppCompatActivity {
         rcvBinhLuan.setAdapter(binhLuanAdapter);
         rcvBinhLuan.setHasFixedSize(true);
     }
-
-
+    
     @SuppressLint("NotifyDataSetChanged")
     private void clickThemBinhLuan() {
         String noiDung = edtNoiDung.getText().toString();
