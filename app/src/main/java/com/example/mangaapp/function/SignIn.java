@@ -106,7 +106,7 @@ public class SignIn extends AppCompatActivity {
 
     private void Dialog3() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Tài khoản đã bị đóng băng")
+        builder.setMessage("Tài khoản đã bị đóng băng! Xin liên hệ quản trị viên ")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {

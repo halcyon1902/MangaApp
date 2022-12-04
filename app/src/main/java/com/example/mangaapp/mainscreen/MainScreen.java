@@ -40,7 +40,7 @@ public class MainScreen extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi;
     TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;
-    List<Truyen> mListTruyen, mListTruyenMoi, mlistTruyenHot;
+    List<Truyen> listTruyenMoi, listTruyenHot;
     ImageView imgSearch, imgPhanLoai;
     String id;
 
@@ -106,9 +106,8 @@ public class MainScreen extends AppCompatActivity {
     }
 
     private void initGridView() {
-        mListTruyen = new ArrayList<>();
-        mlistTruyenHot = new ArrayList<>();
-        mListTruyenMoi = new ArrayList<>();
+        listTruyenHot = new ArrayList<>();
+        listTruyenMoi = new ArrayList<>();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvDSTruyenMoi.setLayoutManager(gridLayoutManager);
         rcvDSTruyenMoi.setNestedScrollingEnabled(false);
@@ -123,14 +122,22 @@ public class MainScreen extends AppCompatActivity {
         ApiService.apiService.GetTruyenHot().enqueue(new Callback<List<Truyen>>() {
             @Override
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
-                mlistTruyenHot = response.body();
-                truyenTranhHotAdapter = new TruyenTranhAdapter(MainScreen.this, mlistTruyenHot);
-                rcvDSTruyenHot.setAdapter(truyenTranhHotAdapter);
+                listTruyenHot = response.body();
+                List<Truyen> list = new ArrayList<>();
+                if (listTruyenHot != null) {
+                    for (int i = 0; i < listTruyenHot.size(); i++) {
+                        if (listTruyenHot.get(i).isTrangThai()) {
+                            list.add(listTruyenHot.get(i));
+                        }
+                    }
+                    truyenTranhHotAdapter = new TruyenTranhAdapter(MainScreen.this, list);
+                    rcvDSTruyenHot.setAdapter(truyenTranhHotAdapter);
+                }
+
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
-
             }
         });
     }
@@ -139,25 +146,23 @@ public class MainScreen extends AppCompatActivity {
         ApiService.apiService.GetTruyenMoi().enqueue(new Callback<List<Truyen>>() {
             @Override
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
-                mListTruyenMoi = response.body();
-                truyenTranhMoiAdapter = new TruyenTranhAdapter(MainScreen.this, mListTruyenMoi);
-                rcvDSTruyenMoi.setAdapter(truyenTranhMoiAdapter);
+                listTruyenMoi = response.body();
+                List<Truyen> list = new ArrayList<>();
+                if (listTruyenMoi != null) {
+                    for (int i = 0; i < listTruyenMoi.size(); i++) {
+                        if (listTruyenMoi.get(i).isTrangThai()) {
+                            list.add(listTruyenMoi.get(i));
+                        }
+                    }
+                    truyenTranhMoiAdapter = new TruyenTranhAdapter(MainScreen.this, list);
+                    rcvDSTruyenMoi.setAdapter(truyenTranhMoiAdapter);
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Truyen>> call, @NonNull Throwable t) {
-
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override

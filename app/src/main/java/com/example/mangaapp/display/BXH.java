@@ -61,9 +61,15 @@ public class BXH extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
                 listTruyen = response.body();
+                List<Truyen> list = new ArrayList<>();
                 if (listTruyen != null) {
-                    listTruyen.sort(Comparator.comparing(Truyen::getLuotXem).reversed());
-                    adapter = new BXHAdapter(BXH.this, listTruyen);
+                    for (int i = 0; i < listTruyen.size(); i++) {
+                        if (listTruyen.get(i).isTrangThai()) {
+                            list.add(listTruyen.get(i));
+                        }
+                    }
+                    list.sort(Comparator.comparing(Truyen::getLuotXem).reversed());
+                    adapter = new BXHAdapter(BXH.this, list);
                     recyclerView.setAdapter(adapter);
                 }
             }

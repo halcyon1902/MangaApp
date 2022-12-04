@@ -43,12 +43,33 @@ public class Favorite extends AppCompatActivity {
         setContentView(R.layout.activity_favorite);
         SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
         id = sharedPreferences.getString("value", "");
+        check(id);
         init();
-        GetTruyen();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(Favorite.this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setFocusable(false);
+    }
+
+    private void check(String id) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null) {
+                    if (!taiKhoan.isTrangThai()) {
+                        Dialog3();
+                    } else {
+                        GetTruyen();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+                Log.e("Thông tin tài khoản: ", t.toString());
+            }
+        });
     }
 
     private void init() {
@@ -72,6 +93,9 @@ public class Favorite extends AppCompatActivity {
                                         list.add(listTruyen.get(i));
                                     }
                                 }
+                            }
+                            if (list.size() == 0) {
+                                Dialog();
                             }
                             truyenTranhAdapter = new TruyenTranhAdapter(Favorite.this, list);
                             recyclerView.setAdapter(truyenTranhAdapter);
@@ -99,14 +123,27 @@ public class Favorite extends AppCompatActivity {
 
     private void Dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Chưa có truyện trang yêu thích! Quay về trang chủ")
+        builder.setMessage("Chưa có truyện yêu thích! Quay về trang chủ")
                 .setIcon(R.drawable.ic_notifications_red)
                 .setTitle("Thông báo");
         builder.setPositiveButton("OK", (dialog, which) -> {
             Intent intent = new Intent(((Dialog) dialog).getContext(), MainScreen.class);
             startActivity(intent);
             finish();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
+    private void Dialog3() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tài khoản đã bị đóng băng! Xin liên hệ quản trị viên ")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            Intent intent = new Intent(((Dialog) dialog).getContext(), MainScreen.class);
+            startActivity(intent);
+            finish();
         });
         AlertDialog dialog = builder.create();
         dialog.show();

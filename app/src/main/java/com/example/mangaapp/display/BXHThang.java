@@ -18,6 +18,7 @@ import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.Truyen;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -60,8 +61,14 @@ public class BXHThang extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<Truyen>> call, @NonNull Response<List<Truyen>> response) {
                 listTruyen = response.body();
+                List<Truyen> list = new ArrayList<>();
                 if (listTruyen != null) {
-                    listTruyen.sort(Comparator.comparing(Truyen::getLuotXemThang).reversed());
+                    for (int i = 0; i < listTruyen.size(); i++) {
+                        if (listTruyen.get(i).isTrangThai()) {
+                            list.add(listTruyen.get(i));
+                        }
+                    }
+                    list.sort(Comparator.comparing(Truyen::getLuotXemThang).reversed());
                     adapter = new BXHAdapter(BXHThang.this, listTruyen);
                     recyclerView.setAdapter(adapter);
                 }

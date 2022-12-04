@@ -1,10 +1,13 @@
 package com.example.mangaapp.function;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -49,6 +52,7 @@ public class GetTruyen extends AppCompatActivity {
     private List<TacGia> listTacGia;
     private ChapterAdapter chapterAdapter;
     private boolean isfav = true;
+    private boolean isID = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,23 +74,49 @@ public class GetTruyen extends AppCompatActivity {
         themLichSu(truyen);
         isFavorite(truyen);
         fav.setOnClickListener(v -> {
-            if (isfav) {
-                xoaYeuThich(truyen);
-                XoaLuotThich(truyen);
-                Intent intent1 = getIntent();
-                finish();
-                startActivity(intent1);
-            } else {
-                themYeuThich(truyen);
-                themLuotThich(truyen);
-                Intent intent1 = getIntent();
-                finish();
-                startActivity(intent1);
+            check(id);
+            if (isID) {
+                if (isfav) {
+                    xoaYeuThich(truyen);
+                    Intent intent1 = getIntent();
+                    finish();
+                    startActivity(intent1);
+                } else {
+                    themYeuThich(truyen);
+                    Intent intent1 = getIntent();
+                    finish();
+                    startActivity(intent1);
+                }
             }
-
         });
     }
 
+    private void check(String id) {
+        if (id.equals("")) {
+            Dialog();
+            isID = false;
+        } else {
+            ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+                @Override
+                public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                    TaiKhoan taiKhoan = response.body();
+                    if (taiKhoan != null) {
+                        if (!taiKhoan.isTrangThai()) {
+                            Dialog3();
+                            isID = false;
+                        } else {
+                            isID = true;
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+                    Log.e("Thông tin tài khoản: ", t.toString());
+                }
+            });
+        }
+    }
 
     private void isFavorite(Truyen truyen) {
         ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
@@ -144,7 +174,6 @@ public class GetTruyen extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<TheLoai> call, @NonNull Throwable t) {
-
                     }
                 });
             }
@@ -190,14 +219,17 @@ public class GetTruyen extends AppCompatActivity {
         ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
             @Override
             public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-                assert response.body() != null;
-                tv_luotxem.setText("" + response.body().getLuotXem());
-                tvLike.setText("" + response.body().getLuotThich());
+                Truyen truyen1 = response.body();
+                if (truyen1 != null && truyen1.isTrangThai()) {
+                    String luotxem = String.valueOf(truyen1.getLuotXem());
+                    String luotthich = String.valueOf(truyen1.getLuotThich());
+                    tv_luotxem.setText(luotxem);
+                    tvLike.setText(luotthich);
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-
             }
         });
     }
@@ -207,7 +239,7 @@ public class GetTruyen extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan = response.body();
-                if (taiKhoan != null) {
+                if (taiKhoan != null && taiKhoan.isTrangThai()) {
                     List LichSu = taiKhoan.getLichSu();
                     List YeuThich = taiKhoan.getYeuThich();
                     if (!LichSu.contains(truyen.get_id())) {
@@ -263,6 +295,7 @@ public class GetTruyen extends AppCompatActivity {
             public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
             }
         });
+        themLuotThich(truyen);
     }
 
     @Override
@@ -273,7 +306,7 @@ public class GetTruyen extends AppCompatActivity {
         update(truyen);
     }
 
-    private void themLuotThich(Truyen truyen) {
+    private void themLuotThich(@NonNull Truyen truyen) {
         ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
             @Override
             public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
@@ -333,10 +366,11 @@ public class GetTruyen extends AppCompatActivity {
 
             }
         });
+        xoaLuotThich(truyen);
 
     }
 
-    private void XoaLuotThich(Truyen truyen) {
+    private void xoaLuotThich(@NonNull Truyen truyen) {
         ApiService.apiService.GetTruyen(truyen.get_id()).enqueue(new Callback<Truyen>() {
             @Override
             public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
@@ -389,5 +423,30 @@ public class GetTruyen extends AppCompatActivity {
         rcvTheLoai = findViewById(R.id.rcv_The_Loai);
         rcvTacGia = findViewById(R.id.rcv_tac_gia);
         rcvChapter = findViewById(R.id.rcv_chapter);
+    }
+
+    private void Dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tài khoản chưa đăng nhập")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            Intent intent = new Intent(((Dialog) dialog).getContext(), SignIn.class);
+            startActivity(intent);
+            finish();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void Dialog3() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tài khoản đã bị đóng băng! Xin liên hệ quản trị viên ")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

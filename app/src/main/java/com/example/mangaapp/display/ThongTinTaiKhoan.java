@@ -65,7 +65,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("value", "");
             editor.apply();
-            Intent intent = new Intent(ThongTinTaiKhoan.this, SignIn.class);
+            Intent intent = new Intent(ThongTinTaiKhoan.this, MainScreen.class);
             startActivity(intent);
             finish();
         });
@@ -88,6 +88,10 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan = response.body();
                 if (taiKhoan != null && !taiKhoan.isTrangThai()) {
+                    SharedPreferences sharedPref = getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("value", "");
+                    editor.apply();
                     startActivity(new Intent(ThongTinTaiKhoan.this, SignIn.class));
                     finish();
                 }
@@ -98,6 +102,22 @@ public class ThongTinTaiKhoan extends AppCompatActivity {
                 Log.e("Thông tin tài khoản: ", t.toString());
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
+        check(id);
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_NAME, MODE_PRIVATE);
+        id = sharedPreferences.getString("value", "");
+        check(id);
+        super.onResume();
     }
 
     //Full màn hình
