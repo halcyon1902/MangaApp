@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -133,7 +133,6 @@ public class MainScreen extends AppCompatActivity {
                     truyenTranhHotAdapter = new TruyenTranhAdapter(MainScreen.this, list);
                     rcvDSTruyenHot.setAdapter(truyenTranhHotAdapter);
                 }
-
             }
 
             @Override

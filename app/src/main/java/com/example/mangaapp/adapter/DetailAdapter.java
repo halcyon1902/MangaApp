@@ -79,12 +79,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
                 ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
                     @Override
                     public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
-
                     }
 
                     @Override
                     public void onFailure(Call<PostBinhLuan> call, Throwable t) {
-
                     }
                 });
                 Dialog();

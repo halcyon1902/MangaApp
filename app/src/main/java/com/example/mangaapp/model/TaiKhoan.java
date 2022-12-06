@@ -18,6 +18,7 @@ public class TaiKhoan implements Serializable {
     private Date NgayTao;
     private String HoTen;
 
+
     public TaiKhoan(boolean trangThai, List yeuThich, List lichSu) {
         TrangThai = trangThai;
         YeuThich = yeuThich;

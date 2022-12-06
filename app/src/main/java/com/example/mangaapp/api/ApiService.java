@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,11 +24,13 @@ import retrofit2.http.Path;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+    OkHttpClient http = new OkHttpClient().newBuilder().callTimeout(15, TimeUnit.SECONDS).build();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.7:8000/")
+            .baseUrl("http://192.168.1.6:8000/")
             //.baseUrl("https://navy-talented-floor.glitch.me/")
             //.baseUrl("https://manga.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(http)
             .build()
             .create(ApiService.class);
 
