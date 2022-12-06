@@ -86,5 +86,9 @@
     <string name="bxh_tong">Tổng</string>
     <string name="bxh_thang">Tháng</string>
     <string name="bxh_nam">Năm</string>
+    <!--   Thong tin lien he-->
+    <string name="thongtinlienhe">Thông tin liên hệ</string>
+    <string name="sodienthoaihotro">Số điện thoại quản trị viên: 0921436587</string>
+    <string name="logottlh">Logo thông tin liên hệ</string>
 
 </resources>

@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mangaapp.R;
+import com.example.mangaapp.ThongTinLienHe;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.display.ThongTinTaiKhoan;
 import com.example.mangaapp.model.TaiKhoan;
@@ -32,6 +35,7 @@ public class SignIn extends AppCompatActivity {
     private Button btnDangNhap;
     private TextInputEditText matkhau, tentaikhoan;
     private TextView dangky;
+    private ImageView phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,13 @@ public class SignIn extends AppCompatActivity {
         init();
         btnDangNhap.setOnClickListener(v -> clickDangNhap());
         dangky.setOnClickListener(v -> clickDangKy());
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, ThongTinLienHe.class));
+                finish();
+            }
+        });
     }
 
     private void clickDangKy() {
@@ -125,5 +136,6 @@ public class SignIn extends AppCompatActivity {
         matkhau = findViewById(R.id.edt_MatKhau);
         btnDangNhap = findViewById(R.id.btn_DangNhap);
         dangky = findViewById(R.id.et_DangKy);
+        phone = findViewById(R.id.img_phone);
     }
 }
