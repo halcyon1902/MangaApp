@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,14 @@ import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.PostBinhLuan;
+import com.example.mangaapp.model.Truyen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +36,7 @@ import retrofit2.Response;
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder> {
     private static final String MY_PREFERENCE_NAME = "USER_ID";
     private final List<Chapter> listChapter;
+    private List<Chapter> listAllChapter;
     private Context context;
 
     public DetailAdapter(List<Chapter> listChapter, Context context) {
@@ -69,6 +73,18 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
         holder.rcv_binhluan.setAdapter(binhLuanAdapter);
         holder.rcv_binhluan.setLayoutManager(linearLayoutManager1);
         //
+        Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
+        ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
+            @Override
+            public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
+            }
+        });
+        updateLuotXem(chapter.getTruyen());
+        //
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences(MY_PREFERENCE_NAME, holder.itemView.getContext().MODE_PRIVATE);
         String id = sharedPreferences.getString("value", "");
         holder.btn_ThemBinhLuan.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +102,66 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
                     }
                 });
                 Dialog();
+            }
+        });
+    }
+
+    private void updateLuotXem(String truyen) {
+        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+                Truyen truyen1 = response.body();
+                List<Chapter> listChapter = Arrays.asList(truyen1.getChapters());
+                int sum = 0;
+                for (int i = 0; i < listChapter.size(); i++) {
+                    sum += listChapter.get(i).getLuotXem();
+                }
+                UpdateLuotXemTruyen(truyen, sum);
+            }
+
+            @Override
+            public void onFailure(Call<Truyen> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void UpdateLuotXemTruyen(String truyen, int sum) {
+        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+                Truyen truyen1 = response.body();
+                if (truyen1 != null) {
+                    int luotxemThang = truyen1.getLuotXemThang();
+                    Date ngayXepHang = truyen1.getNgayXepHang();
+                    int thang = ngayXepHang.getMonth() + 1;
+                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                    int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                    Date currentTime = Calendar.getInstance().getTime();
+                    if (thang == currentMonth) {
+                        luotxemThang += 1;
+                    } else {
+                        luotxemThang = 1;
+                        ngayXepHang = currentTime;
+                    }
+                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), sum, luotxemThang, ngayXepHang);
+                    ApiService.apiService.UpdateTruyen(truyen1.get_id(), truyen2).enqueue(new Callback<Truyen>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Truyen> call, Throwable t) {
+
             }
         });
 

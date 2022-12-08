@@ -373,12 +373,15 @@ public class GetTruyen extends AppCompatActivity {
         Truyen truyen = (Truyen) intent.getSerializableExtra("clickTruyen");
         update(truyen);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (chapterAdapter != null)
             chapterAdapter.release();
     }
+
+
 
     private void setFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);

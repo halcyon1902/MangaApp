@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -51,10 +52,12 @@ public class GetChapter extends AppCompatActivity {
         ApiService.apiService.GetTruyen(chapter.getTruyen()).enqueue(new Callback<Truyen>() {
             @Override
             public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-                list = Arrays.asList(response.body().getChapters());
-                Collections.reverse(list);
-                viewPager2.setAdapter(new DetailAdapter(list, GetChapter.this));
-                viewPager2.setCurrentItem(position, false);
+                if (response.body() != null) {
+                    list = Arrays.asList(response.body().getChapters());
+                    Collections.reverse(list);
+                    viewPager2.setAdapter(new DetailAdapter(list, GetChapter.this));
+                    viewPager2.setCurrentItem(position, false);
+                }
             }
 
             @Override

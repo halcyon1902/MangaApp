@@ -36,7 +36,6 @@ import retrofit2.Response;
 
 public class MainScreen extends AppCompatActivity {
     private static final String MY_PREFERENCE_NAME = "USER_ID";
-    DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
     RecyclerView rcvDSTruyenHot, rcvDSTruyenMoi;
     TruyenTranhAdapter truyenTranhHotAdapter, truyenTranhMoiAdapter, truyenTranhAdapter;

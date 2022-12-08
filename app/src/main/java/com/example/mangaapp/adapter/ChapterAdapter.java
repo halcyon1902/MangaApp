@@ -50,68 +50,31 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = mListChapter.get(position);
-        if (chapter == null)
+        if (chapter == null) {
             return;
+        }
         holder.tvTenChapter.setText(chapter.getTenChapter());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        holder.tvNgayNhap.setText("Ngày đăng: " + simpleDateFormat.format(chapter.getNgayNhap()));
+        holder.tvNgayNhap.setText("" + simpleDateFormat.format(chapter.getNgayNhap()));
+        ApiService.apiService.GetChapter(chapter.get_id()).enqueue(new Callback<Chapter>() {
+            @Override
+            public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
+                Chapter chapter1 = response.body();
+                if (chapter1 != null) {
+                    holder.tvXem.setText("" + chapter1.getLuotXem());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
+
+            }
+        });
         holder.cvChapter.setOnClickListener(v -> {
             Intent intent = new Intent(context, GetChapter.class);
             intent.putExtra("clickchapter", chapter);
             intent.putExtra("clickitem", position);
-            Chapter updateChap = new Chapter((chapter.getLuotXem() + 1), true);
-            ApiService.apiService.UpdateChapter(chapter.get_id(), updateChap).enqueue(new Callback<Chapter>() {
-                @Override
-                public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
-                }
-            });
-            UpdateLuotXemTruyen(chapter.getTruyen());
             context.startActivity(intent);
-        });
-    }
-
-    private void UpdateLuotXemTruyen(String truyen) {
-        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
-            @Override
-            public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-                Truyen truyen1 = response.body();
-                if (truyen1 != null) {
-                    int luotxem = truyen1.getLuotXem();
-                    int luotxemThang = truyen1.getLuotXemThang();
-                    Date ngayXepHang = truyen1.getNgayXepHang();
-                    int thang = ngayXepHang.getMonth() + 1;
-                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                    int currentMonth = calendar.get(Calendar.MONTH) + 1;
-                    Date currentTime = Calendar.getInstance().getTime();
-                    if (thang == currentMonth) {
-                        luotxemThang += 1;
-                    } else {
-                        luotxemThang = 1;
-                        ngayXepHang = currentTime;
-                    }
-                    luotxem += 1;
-                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), luotxem, luotxemThang, ngayXepHang);
-                    ApiService.apiService.UpdateTruyen(truyen, truyen2).enqueue(new Callback<Truyen>() {
-                        @Override
-                        public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<Truyen> call, Throwable t) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-            }
         });
     }
 
@@ -128,6 +91,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvTenChapter;
+        private final TextView tvXem;
         private final TextView tvNgayNhap;
         private final CardView cvChapter;
 
@@ -136,6 +100,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             tvTenChapter = itemView.findViewById(R.id.tv_item_ten_chapter);
             tvNgayNhap = itemView.findViewById(R.id.tv_ngay_dang_chapter);
             cvChapter = itemView.findViewById(R.id.cv_chapter);
+            tvXem = itemView.findViewById(R.id.tv_luot_xem);
         }
     }
 }
