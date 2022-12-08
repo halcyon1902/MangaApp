@@ -24,11 +24,9 @@ import retrofit2.http.Path;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-    OkHttpClient http = new OkHttpClient().newBuilder().callTimeout(15, TimeUnit.SECONDS).build();
+    OkHttpClient http = new OkHttpClient().newBuilder().build();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
-            //.baseUrl("https://navy-talented-floor.glitch.me/")
-            //.baseUrl("https://manga.herokuapp.com/")
+            .baseUrl("https://manga.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(http)
             .build()
