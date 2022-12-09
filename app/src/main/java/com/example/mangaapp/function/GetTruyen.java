@@ -212,7 +212,7 @@ public class GetTruyen extends AppCompatActivity {
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
-//            updateLuotXem(truyen.get_id());
+            updateLuotXem(truyen.get_id());
             update(truyen);
         }
     }
