@@ -50,6 +50,8 @@ public class GetTruyen extends AppCompatActivity {
     private List<String> listIDTheLoai, listIDTacGia;
     private List<TheLoai> listTheLoai;
     private List<TacGia> listTacGia;
+    private List YeuThich;
+    private List LichSu;
     private ChapterAdapter chapterAdapter;
     private boolean isfav = true;
     private boolean isID = true;
@@ -79,14 +81,8 @@ public class GetTruyen extends AppCompatActivity {
             if (isID) {
                 if (isfav) {
                     xoaYeuThich(truyen);
-                    Intent intent1 = getIntent();
-                    finish();
-                    startActivity(intent1);
                 } else {
                     themYeuThich(truyen);
-                    Intent intent1 = getIntent();
-                    finish();
-                    startActivity(intent1);
                 }
             }
         });
@@ -107,6 +103,8 @@ public class GetTruyen extends AppCompatActivity {
                             isID = false;
                         } else {
                             isID = true;
+                            LichSu = taiKhoan.getLichSu();
+                            YeuThich = taiKhoan.getYeuThich();
                         }
                     }
                 }
@@ -273,8 +271,8 @@ public class GetTruyen extends AppCompatActivity {
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
                 TaiKhoan taiKhoan = response.body();
                 if (taiKhoan != null && taiKhoan.isTrangThai()) {
-                    List LichSu = taiKhoan.getLichSu();
-                    List YeuThich = taiKhoan.getYeuThich();
+                    LichSu = taiKhoan.getLichSu();
+                    YeuThich = taiKhoan.getYeuThich();
                     if (!LichSu.contains(truyen.get_id())) {
                         LichSu.add(truyen.get_id());
                     }
@@ -301,34 +299,18 @@ public class GetTruyen extends AppCompatActivity {
     }
 
     private void themYeuThich(@NonNull Truyen truyen) {
-        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+        if (!YeuThich.contains(truyen.get_id())) {
+            YeuThich.add(truyen.get_id());
+        }
+        TaiKhoan taiKhoan = new TaiKhoan(true, YeuThich, LichSu);
+        ApiService.apiService.updateTaiKhoan(id, taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
-            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                TaiKhoan taiKhoan = response.body();
-                if (taiKhoan != null && taiKhoan.isTrangThai()) {
-                    List LichSu = taiKhoan.getLichSu();
-                    List YeuThich = taiKhoan.getYeuThich();
-                    if (!YeuThich.contains(truyen.get_id())) {
-                        YeuThich.add(truyen.get_id());
-                    }
-                    TaiKhoan taiKhoan1 = new TaiKhoan(taiKhoan.isTrangThai(), YeuThich, LichSu);
-                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
-                        @Override
-                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-
-                        }
-                    });
-                }
+            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+            public void onFailure(Call<TaiKhoan> call, Throwable t) {
 
             }
         });
@@ -344,15 +326,17 @@ public class GetTruyen extends AppCompatActivity {
                     int temp = truyen1.getLuotThich();
                     temp += 1;
                     Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
+                    Log.e("", "" + truyen2.getLuotThich());
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-
+                            Intent intent1 = getIntent();
+                            finish();
+                            startActivity(intent1);
                         }
                     });
                 }
@@ -360,40 +344,26 @@ public class GetTruyen extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-
+                Intent intent1 = getIntent();
+                finish();
+                startActivity(intent1);
             }
         });
     }
 
     private void xoaYeuThich(@NonNull Truyen truyen) {
-        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+        if (YeuThich.contains(truyen.get_id())) {
+            YeuThich.remove(truyen.get_id());
+        }
+        TaiKhoan taiKhoan = new TaiKhoan(true, YeuThich, LichSu);
+        ApiService.apiService.updateTaiKhoan(id, taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
-            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-                TaiKhoan taiKhoan = response.body();
-                if (taiKhoan != null && taiKhoan.isTrangThai()) {
-                    List LichSu = taiKhoan.getLichSu();
-                    List YeuThich = taiKhoan.getYeuThich();
-                    if (YeuThich.contains(truyen.get_id())) {
-                        YeuThich.remove(truyen.get_id());
-                    }
-                    TaiKhoan taiKhoan1 = new TaiKhoan(taiKhoan.isTrangThai(), YeuThich, LichSu);
-                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
-                        @Override
-                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-
-                        }
-                    });
-                }
+            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+            public void onFailure(Call<TaiKhoan> call, Throwable t) {
 
             }
         });
@@ -409,14 +379,21 @@ public class GetTruyen extends AppCompatActivity {
                     int temp = truyen1.getLuotThich();
                     temp -= 1;
                     Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
+                    Log.e("xoa", "" + truyen2.getLuotThich());
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
+                            Intent intent1 = getIntent();
+                            finish();
+                            startActivity(intent1);
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-
+                            Log.e("", "" + t);
+                            Intent intent1 = getIntent();
+                            finish();
+                            startActivity(intent1);
                         }
                     });
                 }

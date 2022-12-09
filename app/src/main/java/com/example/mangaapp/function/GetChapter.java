@@ -69,7 +69,6 @@ public class GetChapter extends AppCompatActivity {
 
     private void init() {
         viewPager2 = findViewById(R.id.detail_view_pager);
-
     }
 
     private void setFullScreen() {

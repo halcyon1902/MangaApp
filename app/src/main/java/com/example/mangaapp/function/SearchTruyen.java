@@ -29,13 +29,11 @@ import retrofit2.Response;
 
 public class SearchTruyen extends AppCompatActivity {
 
-
     private RecyclerView rcvDSTruyenTimKiem;
     private TruyenTranhAdapter truyenTranhAdapter;
     private List<Truyen> listTruyen;
     private EditText edtTimKiem;
     private ImageView imgSearch, refresh;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
