@@ -53,8 +53,7 @@ public class GetTruyen extends AppCompatActivity {
     private ChapterAdapter chapterAdapter;
     private boolean isfav = true;
     private boolean isID = true;
-    private List<String> listYeuThich = new ArrayList<>();
-    private List<String> listLichSu = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +107,6 @@ public class GetTruyen extends AppCompatActivity {
                             isID = false;
                         } else {
                             isID = true;
-                            listYeuThich = taiKhoan.getYeuThich();
                         }
                     }
                 }
@@ -229,7 +227,7 @@ public class GetTruyen extends AppCompatActivity {
                 for (int i = 0; i < listChapter.size(); i++) {
                     sum = sum + listChapter.get(i).getLuotXem();
                 }
-                Truyen truyen2 = new Truyen(true, true, sum, truyen1.getLuotXemThang(), truyen1.getNgayXepHang());
+                Truyen truyen2 = new Truyen(true, true, truyen1.getLuotThich(), sum, truyen1.getLuotXemThang(), truyen1.getNgayXepHang());
                 ApiService.apiService.UpdateTruyen(truyen, truyen2).enqueue(new Callback<Truyen>() {
                     @Override
                     public void onResponse(Call<Truyen> call, Response<Truyen> response) {
@@ -280,7 +278,39 @@ public class GetTruyen extends AppCompatActivity {
                     if (!LichSu.contains(truyen.get_id())) {
                         LichSu.add(truyen.get_id());
                     }
-                    listLichSu = LichSu;
+                    TaiKhoan taiKhoan1 = new TaiKhoan(taiKhoan.isTrangThai(), YeuThich, LichSu);
+                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void themYeuThich(@NonNull Truyen truyen) {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
+            @Override
+            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null && taiKhoan.isTrangThai()) {
+                    List LichSu = taiKhoan.getLichSu();
+                    List YeuThich = taiKhoan.getYeuThich();
+                    if (!YeuThich.contains(truyen.get_id())) {
+                        YeuThich.add(truyen.get_id());
+                    }
                     TaiKhoan taiKhoan1 = new TaiKhoan(taiKhoan.isTrangThai(), YeuThich, LichSu);
                     ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
                         @Override
@@ -302,22 +332,6 @@ public class GetTruyen extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void themYeuThich(@NonNull Truyen truyen) {
-        if (!listYeuThich.contains(truyen.get_id())) {
-            listYeuThich.add(truyen.get_id());
-        }
-        TaiKhoan taiKhoan1 = new TaiKhoan(true, listYeuThich, listLichSu);
-        ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
-            @Override
-            public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
-            }
-        });
         themLuotThich(truyen);
     }
 
@@ -329,7 +343,7 @@ public class GetTruyen extends AppCompatActivity {
                 if (truyen1 != null) {
                     int temp = truyen1.getLuotThich();
                     temp += 1;
-                    Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem());
+                    Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
@@ -352,13 +366,29 @@ public class GetTruyen extends AppCompatActivity {
     }
 
     private void xoaYeuThich(@NonNull Truyen truyen) {
-        if (listYeuThich.contains(truyen.get_id())) {
-            listYeuThich.remove(truyen.get_id());
-        }
-        TaiKhoan taiKhoan1 = new TaiKhoan(true, listYeuThich, listLichSu);
-        ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+        ApiService.apiService.thongtintaikhoan(id).enqueue(new Callback<TaiKhoan>() {
             @Override
             public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+                TaiKhoan taiKhoan = response.body();
+                if (taiKhoan != null && taiKhoan.isTrangThai()) {
+                    List LichSu = taiKhoan.getLichSu();
+                    List YeuThich = taiKhoan.getYeuThich();
+                    if (YeuThich.contains(truyen.get_id())) {
+                        YeuThich.remove(truyen.get_id());
+                    }
+                    TaiKhoan taiKhoan1 = new TaiKhoan(taiKhoan.isTrangThai(), YeuThich, LichSu);
+                    ApiService.apiService.updateTaiKhoan(id, taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TaiKhoan> call, @NonNull Response<TaiKhoan> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<TaiKhoan> call, @NonNull Throwable t) {
+
+                        }
+                    });
+                }
 
             }
 
@@ -378,7 +408,7 @@ public class GetTruyen extends AppCompatActivity {
                 if (truyen1 != null) {
                     int temp = truyen1.getLuotThich();
                     temp -= 1;
-                    Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem());
+                    Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {

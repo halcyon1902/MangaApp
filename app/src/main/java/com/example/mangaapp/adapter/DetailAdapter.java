@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
+import com.example.mangaapp.function.SignIn;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.PostBinhLuan;
 import com.example.mangaapp.model.Truyen;
@@ -91,18 +92,23 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
         holder.btn_ThemBinhLuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = holder.edt_ThemBinhLuan.getText().toString().trim();
-                PostBinhLuan postBinhLuan = new PostBinhLuan(text, true, chapter.get_id(), id);
-                ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
-                    @Override
-                    public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
-                    }
+                if (id.equals("")) {
+                    Dialog1();
+                } else {
+                    String text = holder.edt_ThemBinhLuan.getText().toString().trim();
+                    PostBinhLuan postBinhLuan = new PostBinhLuan(text, true, chapter.get_id(), id);
+                    ApiService.apiService.ThemBinhLuan(postBinhLuan).enqueue(new Callback<PostBinhLuan>() {
+                        @Override
+                        public void onResponse(Call<PostBinhLuan> call, Response<PostBinhLuan> response) {
+                        }
 
-                    @Override
-                    public void onFailure(Call<PostBinhLuan> call, Throwable t) {
-                    }
-                });
-                Dialog();
+                        @Override
+                        public void onFailure(Call<PostBinhLuan> call, Throwable t) {
+                        }
+                    });
+                    Dialog();
+                }
+
             }
         });
     }
@@ -154,6 +160,22 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
             return listChapter.size();
         }
         return 0;
+    }
+
+    private void Dialog1() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Bạn chưa đăng nhập! Chuyển đến trang đăng nhập")
+                .setIcon(R.drawable.ic_notifications_red)
+                .setTitle("Thông báo");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            Intent intent = new Intent(context, SignIn.class);
+            context.startActivity(intent);
+            ((Activity) context).finish();
+        });
+        builder.setNegativeButton("CANCEL", (dialog, which) -> {
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void Dialog() {
