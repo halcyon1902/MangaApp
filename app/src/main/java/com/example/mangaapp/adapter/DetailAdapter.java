@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaapp.R;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.function.SignIn;
+import com.example.mangaapp.model.BinhLuan;
 import com.example.mangaapp.model.Chapter;
 import com.example.mangaapp.model.PostBinhLuan;
 import com.example.mangaapp.model.Truyen;
@@ -61,16 +62,22 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context);
         List anh = new ArrayList();
-        List binhluan = new ArrayList();
+        List<BinhLuan> binhluan = new ArrayList();
+        List<BinhLuan> binhluan1 = new ArrayList();
         anh = Arrays.asList(chapter.getLinkAnhs());
         binhluan = Arrays.asList(chapter.getBinhLuans());
+        for (int i = 0; i < binhluan.size(); i++) {
+            if(binhluan.get(i).isTrangThai()){
+                binhluan1.add(binhluan.get(i));
+            }
+        }
         holder.tv_chapter.setText(chapter.getTenChapter());
         //
         LinkAnhAdapter linkAnhAdapter = new LinkAnhAdapter(anh);
         holder.rcv_anh.setAdapter(linkAnhAdapter);
         holder.rcv_anh.setLayoutManager(linearLayoutManager);
         //
-        BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(binhluan);
+        BinhLuanAdapter binhLuanAdapter = new BinhLuanAdapter(binhluan1);
         holder.rcv_binhluan.setAdapter(binhLuanAdapter);
         holder.rcv_binhluan.setLayoutManager(linearLayoutManager1);
         //
@@ -131,7 +138,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
                         luotxemThang = 1;
                         ngayXepHang = currentTime;
                     }
-                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), truyen1.getLuotXem(), luotxemThang, ngayXepHang);
+                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), truyen1.getLuotThich(), (truyen1.getLuotXem()+1), luotxemThang, ngayXepHang);
                     ApiService.apiService.UpdateTruyen(truyen1.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {

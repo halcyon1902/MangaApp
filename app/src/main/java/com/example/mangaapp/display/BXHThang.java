@@ -2,6 +2,7 @@ package com.example.mangaapp.display;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -66,10 +67,11 @@ public class BXHThang extends AppCompatActivity {
                     for (int i = 0; i < listTruyen.size(); i++) {
                         if (listTruyen.get(i).isTrangThai()) {
                             list.add(listTruyen.get(i));
+                            Log.e("list", ""+list);
                         }
                     }
                     list.sort(Comparator.comparing(Truyen::getLuotXemThang).reversed());
-                    adapter = new BXHAdapter(BXHThang.this, listTruyen);
+                    adapter = new BXHAdapter(BXHThang.this, list);
                     recyclerView.setAdapter(adapter);
                 }
             }

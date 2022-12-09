@@ -56,6 +56,8 @@ public class GetTruyen extends AppCompatActivity {
     private boolean isfav = true;
     private boolean isID = true;
 
+    List<Chapter> mlistChapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,9 +131,9 @@ public class GetTruyen extends AppCompatActivity {
                         fav.setBackgroundResource(R.drawable.ic_favorite_red);
                         isfav = true;
                     } else {
-                        isfav = false;
                         fav.setImageResource(R.drawable.ic_favorite_black);
                         fav.setBackgroundResource(R.drawable.ic_favorite_black);
+                        isfav = false;
                     }
                 }
             }
@@ -157,7 +159,7 @@ public class GetTruyen extends AppCompatActivity {
         if (truyen != null && truyen.isTrangThai()) {
             listIDTheLoai = Arrays.asList(truyen.getTheLoais());
             listIDTacGia = Arrays.asList(truyen.getTacGias());
-            List<Chapter> mlistChapter = Arrays.asList(truyen.getChapters());
+            mlistChapter = Arrays.asList(truyen.getChapters());
             //Hiển thị thể loại
             for (int i = 0; i < listIDTheLoai.size(); i++) {
                 ApiService.apiService.GetTheLoai(listIDTheLoai.get(i)).enqueue(new Callback<TheLoai>() {
@@ -210,7 +212,7 @@ public class GetTruyen extends AppCompatActivity {
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
-            updateLuotXem(truyen.get_id());
+//            updateLuotXem(truyen.get_id());
             update(truyen);
         }
     }
@@ -302,6 +304,7 @@ public class GetTruyen extends AppCompatActivity {
         if (!YeuThich.contains(truyen.get_id())) {
             YeuThich.add(truyen.get_id());
         }
+        Log.e("trung: ", "vao if"+ YeuThich);
         TaiKhoan taiKhoan = new TaiKhoan(true, YeuThich, LichSu);
         ApiService.apiService.updateTaiKhoan(id, taiKhoan).enqueue(new Callback<TaiKhoan>() {
             @Override
@@ -325,8 +328,9 @@ public class GetTruyen extends AppCompatActivity {
                 if (truyen1 != null) {
                     int temp = truyen1.getLuotThich();
                     temp += 1;
+
+                    int finalTemp = temp;
                     Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
-                    Log.e("", "" + truyen2.getLuotThich());
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
@@ -334,12 +338,15 @@ public class GetTruyen extends AppCompatActivity {
 
                         @Override
                         public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-                            Intent intent1 = getIntent();
-                            finish();
-                            startActivity(intent1);
+                            String luotthich = String.valueOf(finalTemp);
+                            tvLike.setText(luotthich);
                         }
                     });
                 }
+                fav.setImageResource(R.drawable.ic_favorite_red);
+                fav.setBackgroundResource(R.drawable.ic_favorite_red);
+                isfav = true;
+
             }
 
             @Override
@@ -380,23 +387,24 @@ public class GetTruyen extends AppCompatActivity {
                     temp -= 1;
                     Truyen truyen2 = new Truyen(true, truyen.isTinhTrang(), temp, truyen.getLuotXem(), truyen.getLuotXemThang(), truyen.getNgayXepHang());
                     Log.e("xoa", "" + truyen2.getLuotThich());
+                    int finalTemp = temp;
                     ApiService.apiService.UpdateTruyen(truyen.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {
-                            Intent intent1 = getIntent();
-                            finish();
-                            startActivity(intent1);
+                            String luotthich = String.valueOf(finalTemp);
+                            tvLike.setText(luotthich);
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Truyen> call, @NonNull Throwable t) {
-                            Log.e("", "" + t);
-                            Intent intent1 = getIntent();
-                            finish();
-                            startActivity(intent1);
+                            String luotthich = String.valueOf(finalTemp);
+                            tvLike.setText(luotthich);
                         }
                     });
                 }
+                fav.setImageResource(R.drawable.ic_favorite_black);
+                fav.setBackgroundResource(R.drawable.ic_favorite_black);
+                isfav = false;
             }
 
             @Override
