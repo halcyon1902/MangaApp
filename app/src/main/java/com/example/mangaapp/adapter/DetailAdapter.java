@@ -83,7 +83,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
             public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
             }
         });
-        updateLuotXem(chapter.getTruyen());
+        UpdateLuotXemTruyen(chapter.getTruyen());
+        //updateLuotXem(chapter.getTruyen());
         //
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences(MY_PREFERENCE_NAME, holder.itemView.getContext().MODE_PRIVATE);
         String id = sharedPreferences.getString("value", "");
@@ -106,27 +107,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
         });
     }
 
-    private void updateLuotXem(String truyen) {
-        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
-            @Override
-            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
-                Truyen truyen1 = response.body();
-                List<Chapter> listChapter = Arrays.asList(truyen1.getChapters());
-                int sum = 0;
-                for (int i = 0; i < listChapter.size(); i++) {
-                    sum += listChapter.get(i).getLuotXem();
-                }
-                UpdateLuotXemTruyen(truyen, sum);
-            }
-
-            @Override
-            public void onFailure(Call<Truyen> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void UpdateLuotXemTruyen(String truyen, int sum) {
+    private void UpdateLuotXemTruyen(String truyen) {
         ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
             @Override
             public void onResponse(Call<Truyen> call, Response<Truyen> response) {
@@ -144,7 +125,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
                         luotxemThang = 1;
                         ngayXepHang = currentTime;
                     }
-                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), sum, luotxemThang, ngayXepHang);
+                    Truyen truyen2 = new Truyen(truyen1.isTrangThai(), truyen1.isTinhTrang(), truyen1.getLuotXem(), luotxemThang, ngayXepHang);
                     ApiService.apiService.UpdateTruyen(truyen1.get_id(), truyen2).enqueue(new Callback<Truyen>() {
                         @Override
                         public void onResponse(@NonNull Call<Truyen> call, @NonNull Response<Truyen> response) {

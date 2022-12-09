@@ -55,9 +55,6 @@ public interface ApiService {
     @GET("Chapter/{id}")
     Call<Chapter> GetChapter(@Path("id") String ChapterID);
 
-    @GET("Chapter")
-    Call<List<Chapter>> GetAllChapter();
-
     @PUT("Chapter/{id}")
     Call<Chapter> UpdateChapter(@Path("id") String ChapterID, @Body Chapter chapter);
 

@@ -214,8 +214,40 @@ public class GetTruyen extends AppCompatActivity {
             tvTongChuong.setText("Tổng chapter: " + mlistChapter.size());
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhBia);
             Picasso.get().load(truyen.getAnhBia()).into(imgAnhNen);
+            updateLuotXem(truyen.get_id());
             update(truyen);
         }
+    }
+
+    private void updateLuotXem(String truyen) {
+        ApiService.apiService.GetTruyen(truyen).enqueue(new Callback<Truyen>() {
+            @Override
+            public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+                Truyen truyen1 = response.body();
+                List<Chapter> listChapter = Arrays.asList(truyen1.getChapters());
+                int sum = 0;
+                for (int i = 0; i < listChapter.size(); i++) {
+                    sum = sum + listChapter.get(i).getLuotXem();
+                }
+                Truyen truyen2 = new Truyen(true, true, sum, truyen1.getLuotXemThang(), truyen1.getNgayXepHang());
+                ApiService.apiService.UpdateTruyen(truyen, truyen2).enqueue(new Callback<Truyen>() {
+                    @Override
+                    public void onResponse(Call<Truyen> call, Response<Truyen> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Truyen> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Truyen> call, Throwable t) {
+
+            }
+        });
     }
 
     private void update(@NonNull Truyen truyen) {
@@ -380,7 +412,6 @@ public class GetTruyen extends AppCompatActivity {
         if (chapterAdapter != null)
             chapterAdapter.release();
     }
-
 
 
     private void setFullScreen() {
