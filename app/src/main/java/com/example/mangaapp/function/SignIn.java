@@ -21,6 +21,7 @@ import com.example.mangaapp.R;
 import com.example.mangaapp.ThongTinLienHe;
 import com.example.mangaapp.api.ApiService;
 import com.example.mangaapp.display.ThongTinTaiKhoan;
+import com.example.mangaapp.mainscreen.MainScreen;
 import com.example.mangaapp.model.TaiKhoan;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -32,10 +33,11 @@ import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
     private static final String MY_PREFERENCE_NAME = "USER_ID";
+    private static final String MY_PREFERENCE_PASS = "USER_PASS";
     private Button btnDangNhap;
     private TextInputEditText matkhau, tentaikhoan;
     private TextView dangky;
-    private ImageView phone;
+    private ImageView phone, home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,13 @@ public class SignIn extends AppCompatActivity {
         init();
         btnDangNhap.setOnClickListener(v -> clickDangNhap());
         dangky.setOnClickListener(v -> clickDangKy());
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, MainScreen.class));
+                finish();
+            }
+        });
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +82,11 @@ public class SignIn extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("value", taiKhoan1.get_id());
                         editor.apply();
+                        //share password
+                        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFERENCE_PASS, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString("value", pass);
+                        edit.apply();
                         Dialog();
                     } else {
                         Dialog3();
@@ -132,6 +146,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void init() {
+        home = findViewById(R.id.img_home);
         tentaikhoan = findViewById(R.id.edt_TenTaiKhoan);
         matkhau = findViewById(R.id.edt_MatKhau);
         btnDangNhap = findViewById(R.id.btn_DangNhap);

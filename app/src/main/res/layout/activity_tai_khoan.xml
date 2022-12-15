@@ -425,39 +425,6 @@
                                 android:textStyle="bold|normal" />
                         </LinearLayout>
                     </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginStart="10dp"
-                            android:contentDescription="@string/img_sora"
-                            android:padding="2dp"
-                            android:src="@drawable/ic_ttcn_hovaten1"
-                            app:tint="@color/black" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <EditText
-                                android:id="@+id/ttcn_tv_MatKhau"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:enabled="false"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                card_view:ignore="Autofill,LabelFor,TextFields" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
