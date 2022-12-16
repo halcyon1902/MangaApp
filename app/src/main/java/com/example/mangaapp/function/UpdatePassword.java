@@ -57,32 +57,37 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private void update(TaiKhoan user) {
-        Validation();
-        String old = pass.getText().toString().trim();
-        TaiKhoan taiKhoan = new TaiKhoan(user.getTaiKhoan(), old);
-        ApiService.apiService.Login(taiKhoan).enqueue(new Callback<TaiKhoan>() {
-            @Override
-            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
-                String newp = newpass.getText().toString().trim();
-                TaiKhoan taiKhoan1 = new TaiKhoan(newp);
-                ApiService.apiService.updateMatKHau(user.get_id(), taiKhoan1).enqueue(new Callback<TaiKhoan>() {
-                    @Override
-                    public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
+        if (Validation()) {
+            String old = pass.getText().toString().trim();
+            TaiKhoan taiKhoan = new TaiKhoan(user.getTaiKhoan(), old);
+            ApiService.apiService.Login(taiKhoan).enqueue(new Callback<TaiKhoan>() {
+                @Override
+                public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
+                    if (response.body() != null) {
+                        String newp = newpass.getText().toString().trim();
+                        TaiKhoan taiKhoan1 = new TaiKhoan(newp);
+                        ApiService.apiService.updateMatKHau(user.get_id(), taiKhoan1).enqueue(new Callback<TaiKhoan>() {
+                            @Override
+                            public void onResponse(Call<TaiKhoan> call, Response<TaiKhoan> response) {
 
+                            }
+
+                            @Override
+                            public void onFailure(Call<TaiKhoan> call, Throwable t) {
+                                Dialog();
+                            }
+                        });
+                    } else {
+                        Dialog2();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<TaiKhoan> call, Throwable t) {
-                        Dialog();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Call<TaiKhoan> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<TaiKhoan> call, Throwable t) {
-                Dialog2();
-            }
-        });
+                }
+            });
+        }
     }
 
     private boolean Validation() {
